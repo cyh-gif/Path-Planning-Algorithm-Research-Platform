@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsDialog</class>
+ <widget class="QDialog" name="SettingsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>460</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>设置</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background: #f3f6fb;
+}
+QWidget {
+    color: #1f2937;
+    font-family: &quot;Microsoft YaHei UI&quot;;
+    font-size: 13px;
+}
+QGroupBox {
+    background: #ffffff;
+    border: 1px solid #d8e0ec;
+    border-radius: 10px;
+    margin-top: 14px;
+    padding-top: 10px;
+    font-weight: 600;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 12px;
+    padding: 0 4px;
+    color: #334155;
+}
+QLineEdit, QComboBox, QDateTimeEdit, QDoubleSpinBox, QSpinBox {
+    background: #fbfdff;
+    border: 1px solid #cfd8e6;
+    border-radius: 7px;
+    padding: 5px 8px;
+    min-height: 22px;
+}
+QLineEdit:focus, QComboBox:focus, QDateTimeEdit:focus, QDoubleSpinBox:focus, QSpinBox:focus {
+    border: 1px solid #2f7cf6;
+}
+QPushButton {
+    background: #f7f9fe;
+    border: 1px solid #cfd8e6;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-weight: 600;
+}
+QPushButton:hover {
+    background: #eef4ff;
+}
+QPushButton#pushButtonOkSettings {
+    background: #2563eb;
+    border: 1px solid #1d4ed8;
+    color: #ffffff;
+}
+QPushButton#pushButtonOkSettings:hover {
+    background: #1d4ed8;
+}
+QLabel#labelPresetTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+}
+QLabel#labelPresetHint {
+    background: #ffffff;
+    border: 1px solid #d8e0ec;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #475569;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayoutRoot">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
+    <number>12</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="labelPresetTitle">
+     <property name="font">
+      <font>
+       <pointsize>11</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>性能-精度预设</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxPreset">
+     <property name="title">
+      <string>预设开关</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayoutPreset">
+      <item>
+       <widget class="QRadioButton" name="radioButtonPresetFast">
+        <property name="text">
+         <string>快速</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButtonPresetBalanced">
+        <property name="text">
+         <string>平衡</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="radioButtonPresetFine">
+        <property name="text">
+         <string>精细</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacerPreset">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelPresetHint">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>当前预设说明</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxAdvanced">
+     <property name="title">
+      <string>高级参数</string>
+     </property>
+     <layout class="QFormLayout" name="formLayoutAdvanced">
+      <property name="labelAlignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+      <property name="horizontalSpacing">
+       <number>8</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>8</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelMaxPathsPerStrategy">
+        <property name="text">
+         <string>每策略候选路径数</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="spinBoxMaxPathsPerStrategy">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>3</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelUseTmcs">
+        <property name="text">
+         <string>TMCS细粒度折线</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBoxUseTmcs">
+        <property name="text">
+         <string>启用</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="labelDensifyThreshold">
+        <property name="text">
+         <string>折线加密阈值(米)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxDensifyMaxSegmentM">
+        <property name="minimum">
+         <double>0.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>500.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>10.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="labelEnableDivergence">
+        <property name="text">
+         <string>启用候选发散</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="checkBoxEnableDivergence">
+        <property name="text">
+         <string>启用</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="labelAnchorRatio1">
+        <property name="text">
+         <string>锚点1比例(%)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxAnchorRatio1Pct">
+        <property name="minimum">
+         <double>5.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>95.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>35.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="labelAnchorRatio2">
+        <property name="text">
+         <string>锚点2比例(%)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxAnchorRatio2Pct">
+        <property name="minimum">
+         <double>5.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>95.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>65.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="labelOffsetDistance1">
+        <property name="text">
+         <string>偏移距离1(米)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxOffsetDistance1M">
+        <property name="minimum">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>3000.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>300.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="labelOffsetDistance2">
+        <property name="text">
+         <string>偏移距离2(米)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QDoubleSpinBox" name="doubleSpinBoxOffsetDistance2M">
+        <property name="minimum">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="maximum">
+         <double>3000.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="value">
+         <double>600.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayoutButtons">
+     <item>
+      <spacer name="horizontalSpacerButtons">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonApplySettings">
+       <property name="text">
+        <string>应用</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonOkSettings">
+       <property name="text">
+        <string>确定</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonCancelSettings">
+       <property name="text">
+        <string>取消</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

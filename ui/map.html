@@ -1,0 +1,280 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>水果运输路径可视化</title>
+  <style>
+    html, body, #map {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f4f7fb;
+      font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+    }
+
+    .status-card {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 10;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #dbe5f0;
+      box-shadow: 0 6px 20px rgba(32, 55, 88, 0.15);
+      font-size: 13px;
+      line-height: 1.5;
+      color: #2a3b52;
+      min-width: 300px;
+    }
+
+    .status-title {
+      font-weight: 700;
+      color: #1e2d40;
+      margin-bottom: 4px;
+    }
+
+    .endpoint-marker {
+      position: relative;
+      width: 28px;
+      height: 34px;
+      transform: translate(-14px, -30px);
+      pointer-events: none;
+    }
+
+    .endpoint-marker .tag {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      padding: 1px 6px;
+      border-radius: 2px;
+      border: 1px solid #245dff;
+      background: #ffffff;
+      color: #153269;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(10, 35, 82, 0.2);
+    }
+
+    .endpoint-marker .dot {
+      position: absolute;
+      left: 10px;
+      bottom: 2px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2f54eb;
+      border: 2px solid #ffffff;
+      box-shadow: 0 0 0 1px rgba(47, 84, 235, 0.5);
+    }
+
+    .endpoint-marker.end .dot {
+      background: #f5222d;
+      box-shadow: 0 0 0 1px rgba(245, 34, 45, 0.55);
+    }
+  </style>
+
+  <script>
+    window._AMapSecurityConfig = {
+      securityJsCode: "__AMAP_SECURITY_JS_CODE__"
+    };
+  </script>
+  <script src="https://webapi.amap.com/loader.js"></script>
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="status-card">
+    <div class="status-title">地图状态</div>
+    <div id="statusText">地图初始化中...</div>
+  </div>
+
+  <script>
+    const DEFAULT_CENTER = [104.195397, 35.86166];
+    const AMapConfig = {
+      key: "__AMAP_KEY__",
+      version: "2.0",
+      plugins: ["AMap.ToolBar", "AMap.Scale"]
+    };
+
+    let mapInstance = null;
+    let routePolyline = null;
+    let startMarker = null;
+    let endMarker = null;
+    let pyBridge = null;
+    let isMapReady = false;
+
+    function setStatus(text) {
+      const el = document.getElementById("statusText");
+      if (el) {
+        el.textContent = text;
+      }
+    }
+
+    function logToPython(message) {
+      if (pyBridge && typeof pyBridge.logMessage === "function") {
+        pyBridge.logMessage(String(message));
+      } else {
+        console.log(message);
+      }
+    }
+
+    function clearRoute() {
+      if (!mapInstance) return;
+      if (routePolyline) {
+        mapInstance.remove(routePolyline);
+        routePolyline = null;
+      }
+      if (startMarker) {
+        mapInstance.remove(startMarker);
+        startMarker = null;
+      }
+      if (endMarker) {
+        mapInstance.remove(endMarker);
+        endMarker = null;
+      }
+    }
+
+    function buildEndpointMarkerContent(text, kind) {
+      const safeText = String(text || "");
+      const cls = kind === "end" ? "endpoint-marker end" : "endpoint-marker start";
+      return `<div class="${cls}"><span class="tag">${safeText}</span><span class="dot"></span></div>`;
+    }
+
+    function createEndpointMarker(position, text, kind) {
+      return new AMap.Marker({
+        position: position,
+        title: String(text || ""),
+        anchor: "bottom-center",
+        zIndex: 150,
+        content: buildEndpointMarkerContent(text, kind)
+      });
+    }
+
+    function renderRoute(points, meta) {
+      if (!mapInstance || !Array.isArray(points)) return;
+      if (points.length < 2) {
+        setStatus("路径点不足，无法渲染。");
+        return;
+      }
+
+      clearRoute();
+
+      routePolyline = new AMap.Polyline({
+        path: points,
+        strokeColor: "#f5222d",
+        strokeOpacity: 0.95,
+        strokeWeight: 6,
+        showDir: true,
+        lineJoin: "round",
+        lineCap: "round"
+      });
+
+      startMarker = createEndpointMarker(points[0], "起点", "start");
+      endMarker = createEndpointMarker(points[points.length - 1], "终点", "end");
+
+      mapInstance.add([routePolyline, startMarker, endMarker]);
+      mapInstance.setFitView([routePolyline, startMarker, endMarker], false, [60, 60, 60, 60]);
+
+      const start = meta && meta.start ? meta.start : "未知起点";
+      const end = meta && meta.end ? meta.end : "未知终点";
+      const algo = meta && meta.algorithm ? meta.algorithm : "未知策略";
+      setStatus(`已渲染路径: ${start} -> ${end} (${algo})`);
+      logToPython(`地图完成渲染，点数=${points.length}`);
+    }
+
+    function handleRoutePayload(payload) {
+      try {
+        const parsed = typeof payload === "string" ? JSON.parse(payload) : payload;
+        const points = parsed && parsed.points ? parsed.points : [];
+        const meta = parsed && parsed.meta ? parsed.meta : {};
+        renderRoute(points, meta);
+      } catch (error) {
+        const msg = `路径数据解析失败: ${error}`;
+        setStatus(msg);
+        logToPython(msg);
+      }
+    }
+
+    function setupWebChannel() {
+      if (typeof qt === "undefined") {
+        setStatus("未检测到 Qt WebChannel，仅支持地图展示。");
+        return;
+      }
+
+      new QWebChannel(qt.webChannelTransport, function (channel) {
+        pyBridge = channel.objects.pyBridge;
+        if (!pyBridge) {
+          setStatus("WebChannel 已连接，但 pyBridge 不存在。");
+          return;
+        }
+
+        if (pyBridge.routeDataChanged) {
+          pyBridge.routeDataChanged.connect(function (payload) {
+            handleRoutePayload(payload);
+          });
+        }
+
+        if (isMapReady && typeof pyBridge.notifyMapReady === "function") {
+          pyBridge.notifyMapReady();
+        }
+
+        logToPython("WebChannel 已连接。");
+      });
+    }
+
+    async function initMap() {
+      try {
+        if (!AMapConfig.key || AMapConfig.key.startsWith("__")) {
+          const msg = "未配置高德 Key，请在环境变量或配置文件中设置。";
+          setStatus(msg);
+          logToPython(msg);
+          return;
+        }
+        if (!window._AMapSecurityConfig || !window._AMapSecurityConfig.securityJsCode ||
+            String(window._AMapSecurityConfig.securityJsCode).startsWith("__")) {
+          const msg = "未配置高德安全密钥，请在环境变量或配置文件中设置。";
+          setStatus(msg);
+          logToPython(msg);
+          return;
+        }
+
+        const AMap = await AMapLoader.load(AMapConfig);
+        mapInstance = new AMap.Map("map", {
+          center: DEFAULT_CENTER,
+          zoom: 4.8,
+          resizeEnable: true,
+          mapStyle: "amap://styles/normal"
+        });
+
+        mapInstance.addControl(new AMap.ToolBar());
+        mapInstance.addControl(new AMap.Scale());
+
+        isMapReady = true;
+        setStatus("地图已就绪，等待路径数据。");
+        logToPython("地图初始化完成。");
+
+        if (pyBridge && typeof pyBridge.notifyMapReady === "function") {
+          pyBridge.notifyMapReady();
+        }
+      } catch (error) {
+        const msg = `地图初始化失败: ${error}`;
+        setStatus(msg);
+        logToPython(msg);
+      }
+    }
+
+    window.clearRoute = clearRoute;
+    window.renderRoute = renderRoute;
+
+    setupWebChannel();
+    initMap();
+  </script>
+</body>
+</html>

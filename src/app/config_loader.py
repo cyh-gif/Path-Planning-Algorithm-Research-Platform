@@ -1,0 +1,455 @@
+﻿from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any
+import os
+
+
+@dataclass(slots=True)
+class UiConfig:
+    file: str = "ui/主界面.ui"
+    map_html: str = "ui/map.html"
+
+
+@dataclass(slots=True)
+class AMapConfig:
+    js_key: str = ""
+    security_js_code: str = ""
+    web_service_key: str = ""
+    timeout_s: float = 1.2
+    retry: int = 1
+    cache_ttl_s: int = 45
+
+
+@dataclass(slots=True)
+class RoutingConfig:
+    default_strategy: str = "速度优先"
+    amap_strategy_map: dict[str, int] | None = None
+    custom_algorithm_map: dict[str, str] | None = None
+    custom_candidate_strategy_codes: list[int] | None = None
+    custom_candidate_max_paths_per_strategy: int = 2
+    custom_candidate_use_tmcs: bool = True
+    custom_candidate_densify_max_segment_m: float = 80.0
+    custom_candidate_enable_divergence: bool = False
+    custom_candidate_divergence_anchor_ratios: list[float] | None = None
+    custom_candidate_divergence_offsets_m: list[float] | None = None
+
+
+@dataclass(slots=True)
+class CustomTimeDependentConfig:
+    peak_hours: list[int]
+    peak_multiplier: float = 1.35
+
+
+@dataclass(slots=True)
+class FreshnessConfig:
+    target: float = 100.0
+    base_loss_per_hour: float = 2.0
+    max_detour_ratio: float = 1.35
+    arbitration_scope: str = "amap_only"
+    amap_compare_strategy_codes: list[int] | None = None
+    amap_compare_max_paths_per_strategy: int = 3
+    arbitration_time_budget_s: float = 9.0
+    fruit_profile_json: str = "data/processed/fruit_profiles.json"
+    transport_mode_multipliers: dict[str, float] | None = None
+    road_class_multipliers: dict[str, float] | None = None
+    tmcs_status_multipliers: dict[str, float] | None = None
+
+
+@dataclass(slots=True)
+class LoggingConfig:
+    level: str = "INFO"
+    file: str = "results/logs/app.log"
+
+
+@dataclass(slots=True)
+class AppConfig:
+    ui: UiConfig
+    amap: AMapConfig
+    routing: RoutingConfig
+    custom_time_dependent: CustomTimeDependentConfig
+    freshness: FreshnessConfig
+    logging: LoggingConfig
+
+
+def _parse_scalar(raw: str) -> Any:
+    text = raw.strip()
+    if not text:
+        return ""
+    if text.startswith(('"', "'")) and text.endswith(('"', "'")):
+        return text[1:-1]
+
+    low = text.lower()
+    if low == "true":
+        return True
+    if low == "false":
+        return False
+
+    try:
+        if "." in text:
+            return float(text)
+        return int(text)
+    except ValueError:
+        return text
+
+
+def _load_simple_yaml(path: Path) -> dict[str, Any]:
+    """轻量 YAML 解析器，仅支持 key/value 与缩进字典。"""
+    if not path.exists():
+        return {}
+
+    root: dict[str, Any] = {}
+    stack: list[tuple[int, dict[str, Any]]] = [(0, root)]
+
+    for line in path.read_text(encoding="utf-8").splitlines():
+        clean_line = line.lstrip("\ufeff")
+        if not clean_line.strip() or clean_line.strip().startswith("#"):
+            continue
+
+        if ":" not in clean_line:
+            continue
+
+        indent = len(clean_line) - len(clean_line.lstrip(" "))
+        key, raw_value = clean_line.strip().split(":", 1)
+
+        while len(stack) > 1 and indent < stack[-1][0]:
+            stack.pop()
+
+        current = stack[-1][1]
+        value = raw_value.strip()
+
+        if value == "":
+            child: dict[str, Any] = {}
+            current[key] = child
+            stack.append((indent + 2, child))
+        else:
+            current[key] = _parse_scalar(value)
+
+    return root
+
+
+def _deep_get(data: dict[str, Any], path: list[str], default: Any) -> Any:
+    current: Any = data
+    for key in path:
+        if not isinstance(current, dict) or key not in current:
+            return default
+        current = current[key]
+    return current
+
+
+def _pick_non_empty_env(env_names: list[str], fallback: str) -> str:
+    for env_name in env_names:
+        raw = os.getenv(env_name)
+        if raw is None:
+            continue
+        value = raw.strip()
+        if value:
+            return value
+    return fallback
+
+
+def _default_amap_strategy_map() -> dict[str, int]:
+    return {
+        "速度优先": 0,
+        "费用优先": 1,
+        "常规最快": 2,
+        "躲避拥堵": 12,
+        "不走高速": 13,
+        "少走高速": 6,
+        "避免收费": 14,
+        "综合推荐(多路径)": 10,
+        "躲避拥堵且不走高速": 15,
+        "避免收费且不走高速": 16,
+        "躲避拥堵且避免收费": 17,
+        "躲避拥堵且避免收费且不走高速": 18,
+        "高速优先": 19,
+        "高速优先且躲避拥堵": 20,
+    }
+
+
+def _default_custom_algorithm_map() -> dict[str, str]:
+    return {
+        "自研-Dijkstra": "static_dijkstra",
+        "自研-时变Dijkstra": "time_dependent_dijkstra",
+        "自研-A*": "a_star",
+        "贪心算法": "greedy_best_first",
+        "土豪算法": "tycoon_longest_route",
+        "保鲜优先算法": "freshness_first",
+        "保鲜优先算法-迪杰斯特拉算法改进版": "freshness_dijkstra_improved",
+    }
+
+
+def _parse_int_map(raw_mapping: Any) -> dict[str, int]:
+    if not isinstance(raw_mapping, dict):
+        return {}
+    parsed: dict[str, int] = {}
+    for key, value in raw_mapping.items():
+        name = str(key).strip()
+        if not name:
+            continue
+        try:
+            parsed[name] = int(value)
+        except (TypeError, ValueError):
+            continue
+    return parsed
+
+
+def _parse_str_map(raw_mapping: Any) -> dict[str, str]:
+    if not isinstance(raw_mapping, dict):
+        return {}
+    parsed: dict[str, str] = {}
+    for key, value in raw_mapping.items():
+        name = str(key).strip()
+        val = str(value).strip()
+        if not name or not val:
+            continue
+        parsed[name] = val
+    return parsed
+
+
+def _parse_float_map(raw_mapping: Any) -> dict[str, float]:
+    if not isinstance(raw_mapping, dict):
+        return {}
+    parsed: dict[str, float] = {}
+    for key, value in raw_mapping.items():
+        name = str(key).strip()
+        if not name:
+            continue
+        try:
+            parsed[name] = float(value)
+        except (TypeError, ValueError):
+            continue
+    return parsed
+
+
+def _parse_peak_hours(csv_text: str) -> list[int]:
+    result: list[int] = []
+    for token in csv_text.split(","):
+        token = token.strip()
+        if not token.isdigit():
+            continue
+        value = int(token)
+        if 0 <= value <= 23:
+            result.append(value)
+    return result
+
+
+def _parse_strategy_codes(csv_text: str) -> list[int]:
+    result: list[int] = []
+    seen: set[int] = set()
+    for token in csv_text.split(","):
+        token = token.strip()
+        if not token.isdigit():
+            continue
+        value = int(token)
+        if value < 0 or value > 99:
+            continue
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
+
+
+def _parse_ratio_list(csv_text: str, max_count: int = 2) -> list[float]:
+    result: list[float] = []
+    seen: set[float] = set()
+    for token in csv_text.split(","):
+        token = token.strip()
+        if not token:
+            continue
+        try:
+            value = float(token)
+        except ValueError:
+            continue
+        value = round(min(max(value, 0.05), 0.95), 3)
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+        if len(result) >= max_count:
+            break
+    return sorted(result)
+
+
+def _parse_offset_list(csv_text: str, max_count: int = 2) -> list[float]:
+    result: list[float] = []
+    seen: set[float] = set()
+    for token in csv_text.split(","):
+        token = token.strip()
+        if not token:
+            continue
+        try:
+            value = float(token)
+        except ValueError:
+            continue
+        value = round(min(max(value, 50.0), 3000.0), 1)
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+        if len(result) >= max_count:
+            break
+    return sorted(result)
+
+
+def _parse_bool(raw_value: Any, default: bool) -> bool:
+    if isinstance(raw_value, bool):
+        return raw_value
+    if isinstance(raw_value, str):
+        text = raw_value.strip().lower()
+        if text in {"true", "1", "yes", "y", "on"}:
+            return True
+        if text in {"false", "0", "no", "n", "off"}:
+            return False
+    return default
+
+
+def load_app_config(project_root: Path) -> AppConfig:
+    data = _load_simple_yaml(project_root / "configs" / "app.yaml")
+
+    ui = UiConfig(
+        file=str(_deep_get(data, ["ui", "file"], "ui/主界面.ui")),
+        map_html=str(_deep_get(data, ["ui", "map_html"], "ui/map.html")),
+    )
+
+    js_key = _pick_non_empty_env(
+        ["AMAP_JS_KEY", "AMAP_KEY"],
+        str(_deep_get(data, ["amap", "js_key"], "")),
+    )
+    security_js_code = _pick_non_empty_env(
+        ["AMAP_SECURITY_JS_CODE"],
+        str(_deep_get(data, ["amap", "security_js_code"], "")),
+    )
+    web_service_key = _pick_non_empty_env(
+        ["AMAP_WEB_SERVICE_KEY", "AMAP_WS_KEY", "AMAP_KEY"],
+        str(_deep_get(data, ["amap", "web_service_key"], "")),
+    )
+
+    amap_cfg = AMapConfig(
+        js_key=js_key,
+        security_js_code=security_js_code,
+        web_service_key=web_service_key or js_key,
+        timeout_s=float(_deep_get(data, ["amap", "timeout_s"], 1.2)),
+        retry=int(_deep_get(data, ["amap", "retry"], 1)),
+        cache_ttl_s=int(_deep_get(data, ["amap", "cache_ttl_s"], 45)),
+    )
+
+    legacy_amap_map = _deep_get(data, ["routing", "strategy_map"], {})
+    amap_map = _parse_int_map(_deep_get(data, ["routing", "amap_strategy_map"], legacy_amap_map))
+    if not amap_map:
+        amap_map = _default_amap_strategy_map()
+
+    custom_algo_map = _parse_str_map(_deep_get(data, ["routing", "custom_algorithm_map"], {}))
+    if not custom_algo_map:
+        custom_algo_map = _default_custom_algorithm_map()
+
+    default_strategy = str(
+        _deep_get(data, ["routing", "default_strategy"], "速度优先")
+    ).strip() or "速度优先"
+    if default_strategy not in amap_map and default_strategy not in custom_algo_map:
+        default_strategy = next(iter(amap_map.keys()))
+
+    routing_cfg = RoutingConfig(
+        default_strategy=default_strategy,
+        amap_strategy_map=amap_map,
+        custom_algorithm_map=custom_algo_map,
+        custom_candidate_strategy_codes=_parse_strategy_codes(
+            str(
+                _deep_get(
+                    data,
+                    ["routing", "custom_candidate_strategy_codes_csv"],
+                    "0,12,13,14,19",
+                )
+            )
+        ),
+        custom_candidate_max_paths_per_strategy=int(
+            _deep_get(data, ["routing", "custom_candidate_max_paths_per_strategy"], 2)
+        ),
+        custom_candidate_use_tmcs=_parse_bool(
+            _deep_get(data, ["routing", "custom_candidate_use_tmcs"], True),
+            True,
+        ),
+        custom_candidate_densify_max_segment_m=float(
+            _deep_get(data, ["routing", "custom_candidate_densify_max_segment_m"], 80.0)
+        ),
+        custom_candidate_enable_divergence=_parse_bool(
+            _deep_get(data, ["routing", "custom_candidate_enable_divergence"], False),
+            False,
+        ),
+        custom_candidate_divergence_anchor_ratios=_parse_ratio_list(
+            str(
+                _deep_get(
+                    data,
+                    ["routing", "custom_candidate_divergence_anchor_ratios_csv"],
+                    "0.35,0.65",
+                )
+            ),
+            max_count=2,
+        ),
+        custom_candidate_divergence_offsets_m=_parse_offset_list(
+            str(
+                _deep_get(
+                    data,
+                    ["routing", "custom_candidate_divergence_offsets_m_csv"],
+                    "300,600",
+                )
+            ),
+            max_count=2,
+        ),
+    )
+
+    peak_csv = str(
+        _deep_get(data, ["custom_time_dependent", "peak_hours_csv"], "7,8,9,17,18,19")
+    )
+    peak_hours = _parse_peak_hours(peak_csv)
+    if not peak_hours:
+        peak_hours = [7, 8, 9, 17, 18, 19]
+
+    custom_td_cfg = CustomTimeDependentConfig(
+        peak_hours=peak_hours,
+        peak_multiplier=float(_deep_get(data, ["custom_time_dependent", "peak_multiplier"], 1.35)),
+    )
+
+    freshness_cfg = FreshnessConfig(
+        target=float(_deep_get(data, ["freshness", "target"], 100.0)),
+        base_loss_per_hour=float(_deep_get(data, ["freshness", "base_loss_per_hour"], 2.0)),
+        max_detour_ratio=float(_deep_get(data, ["freshness", "max_detour_ratio"], 1.35)),
+        arbitration_scope=str(_deep_get(data, ["freshness", "arbitration_scope"], "amap_only")),
+        amap_compare_strategy_codes=_parse_strategy_codes(
+            str(_deep_get(data, ["freshness", "amap_compare_strategy_codes_csv"], ""))
+        ),
+        amap_compare_max_paths_per_strategy=int(
+            _deep_get(data, ["freshness", "amap_compare_max_paths_per_strategy"], 3)
+        ),
+        arbitration_time_budget_s=float(
+            _deep_get(data, ["freshness", "arbitration_time_budget_s"], 9.0)
+        ),
+        fruit_profile_json=str(
+            _deep_get(data, ["freshness", "fruit_profile_json"], "data/processed/fruit_profiles.json")
+        ),
+        transport_mode_multipliers=_parse_float_map(
+            _deep_get(data, ["freshness", "transport_mode_multipliers"], {})
+        ),
+        road_class_multipliers=_parse_float_map(
+            _deep_get(data, ["freshness", "road_class_multipliers"], {})
+        ),
+        tmcs_status_multipliers=_parse_float_map(
+            _deep_get(data, ["freshness", "tmcs_status_multipliers"], {})
+        ),
+    )
+
+    logging_cfg = LoggingConfig(
+        level=str(_deep_get(data, ["logging", "level"], "INFO")),
+        file=str(_deep_get(data, ["logging", "file"], "results/logs/app.log")),
+    )
+
+    return AppConfig(
+        ui=ui,
+        amap=amap_cfg,
+        routing=routing_cfg,
+        custom_time_dependent=custom_td_cfg,
+        freshness=freshness_cfg,
+        logging=logging_cfg,
+    )

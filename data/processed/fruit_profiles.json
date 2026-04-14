@@ -1,0 +1,44 @@
+[
+  {
+    "id": "apple",
+    "name": "苹果",
+    "freshness_init": 100.0,
+    "decay_multiplier": 0.85
+  },
+  {
+    "id": "banana",
+    "name": "香蕉",
+    "freshness_init": 118.0,
+    "decay_multiplier": 0.95
+  },
+  {
+    "id": "citrus",
+    "name": "柑橘",
+    "freshness_init": 100.0,
+    "decay_multiplier": 0.9
+  },
+  {
+    "id": "grape",
+    "name": "葡萄",
+    "freshness_init": 100.0,
+    "decay_multiplier": 1.15
+  },
+  {
+    "id": "strawberry",
+    "name": "草莓",
+    "freshness_init": 100.0,
+    "decay_multiplier": 1.6
+  },
+  {
+    "id": "lychee",
+    "name": "荔枝",
+    "freshness_init": 100.0,
+    "decay_multiplier": 1.95
+  },
+  {
+    "id": "mango",
+    "name": "芒果",
+    "freshness_init": 112.0,
+    "decay_multiplier": 1.05
+  }
+]

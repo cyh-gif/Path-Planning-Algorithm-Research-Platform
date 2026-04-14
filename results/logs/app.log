@@ -1,0 +1,1099 @@
+2026-04-10 17:36:32 | INFO | src.app.controller | 未配置高德 Key/安全码，地图底图可能无法加载。
+2026-04-10 17:36:32 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 17:36:32 | INFO | src.app.main | 应用启动完成
+2026-04-10 17:36:33 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 17:36:33 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:16:20 | INFO | src.app.controller | 未配置高德 Key/安全码，地图底图可能无法加载。
+2026-04-10 18:16:20 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:16:20 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:16:20 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:16:20 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:26:56 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:26:56 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:26:56 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:26:56 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:29:45 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:29:45 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:29:45 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:29:45 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:29:51 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:29:51 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:29:51 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:29:51 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:32:13 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:32:13 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:32:13 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:32:13 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:32:19 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:32:19 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:32:20 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:32:20 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:36:05 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:36:05 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:36:05 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:36:05 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:37:19 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:37:19 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:37:20 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:37:20 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-10 18:37:20 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-10 18:37:20 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:39:04 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-10 18:39:04 | INFO | src.app.main | 应用启动完成
+2026-04-10 18:39:04 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-10 18:39:04 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-10 18:39:04 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-10 18:39:05 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-10 18:39:29 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-10 18:39:29 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:29 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:29 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:39:43 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=A*, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-10 18:39:43 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:43 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:43 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:39:45 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=A*, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-10 18:39:45 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:45 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:45 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:39:50 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=Floyd-Warshall, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-10 18:39:50 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:50 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:50 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:39:53 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=Floyd-Warshall, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-10 18:39:53 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:53 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:54 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:39:56 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=Floyd-Warshall, 水果=苹果, 运输=多式联运, 载重=5.0吨
+2026-04-10 18:39:56 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:39:56 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:39:56 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:40:06 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=双向 Dijkstra, 水果=苹果, 运输=多式联运, 载重=5.0吨
+2026-04-10 18:40:06 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-10 18:40:06 | INFO | src.app.controller | 规划成功（未配置可用 PostGIS 连接，已使用演示图数据。）
+2026-04-10 18:40:06 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5
+2026-04-10 18:40:53 | INFO | src.app.controller | 参数已重置。
+2026-04-11 10:46:17 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 10:46:17 | INFO | src.app.main | 应用启动完成
+2026-04-11 10:46:17 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 10:46:18 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 10:46:18 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 10:46:18 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 10:57:59 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 10:57:59 | INFO | src.app.main | 应用启动完成
+2026-04-11 10:58:00 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 10:58:00 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 10:58:00 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 10:58:00 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 11:44:24 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 11:44:24 | INFO | src.app.main | 应用启动完成
+2026-04-11 11:44:24 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 11:44:24 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 11:44:24 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 11:44:25 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 11:44:55 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 11:45:21 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 11:45:21 | INFO | src.app.controller | 规划成功
+2026-04-11 11:45:21 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=7699
+2026-04-11 11:45:48 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=A*, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 11:46:15 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 11:46:15 | INFO | src.app.controller | 规划成功
+2026-04-11 11:46:15 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=7699
+2026-04-11 11:46:27 | INFO | src.app.controller | 开始规划: 北京朝阳区 -> 上海浦东新区, 算法=双向 Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 11:46:54 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 11:46:54 | INFO | src.app.controller | 规划成功
+2026-04-11 11:46:54 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=7699
+2026-04-11 11:48:23 | INFO | src.app.controller | 参数已重置。
+2026-04-11 11:59:54 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 11:59:54 | INFO | src.app.main | 应用启动完成
+2026-04-11 11:59:54 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 11:59:54 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 11:59:54 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 11:59:55 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 12:13:19 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 12:13:19 | INFO | src.app.main | 应用启动完成
+2026-04-11 12:13:20 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 12:13:20 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 12:13:20 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 12:13:20 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 12:13:41 | INFO | src.app.controller | 开始规划: 北京  [本地] -> 上海  [本地], 算法=Dijkstra, 水果=香蕉, 运输=铁路联运, 载重=5.0吨
+2026-04-11 12:14:07 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:14:07 | INFO | src.app.controller | 规划成功
+2026-04-11 12:14:07 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=7699
+2026-04-11 12:21:31 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 12:21:31 | INFO | src.app.main | 应用启动完成
+2026-04-11 12:21:31 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 12:21:32 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 12:21:32 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 12:21:32 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 12:22:21 | INFO | src.app.controller | 开始规划: 石家庄  [本地] -> 天津  [本地], 算法=Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:22:34 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:22:34 | INFO | src.app.controller | 规划成功
+2026-04-11 12:22:34 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1040
+2026-04-11 12:22:44 | INFO | src.app.controller | 开始规划: 石家庄  [本地] -> 天津  [本地], 算法=A*, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:22:57 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:22:57 | INFO | src.app.controller | 规划成功
+2026-04-11 12:22:57 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1040
+2026-04-11 12:23:07 | INFO | src.app.controller | 开始规划: 石家庄  [本地] -> 天津  [本地], 算法=A*, 水果=苹果, 运输=多式联运, 载重=5.0吨
+2026-04-11 12:23:20 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:23:20 | INFO | src.app.controller | 规划成功
+2026-04-11 12:23:20 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1040
+2026-04-11 12:23:32 | INFO | src.app.controller | 开始规划: 石家庄  [本地] -> 北京  [本地], 算法=A*, 水果=苹果, 运输=多式联运, 载重=5.0吨
+2026-04-11 12:23:38 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 12:23:38 | INFO | src.app.controller | 规划成功
+2026-04-11 12:24:50 | INFO | src.app.controller | 开始规划: 广西 -> 北京  [本地], 算法=A*, 水果=苹果, 运输=多式联运, 载重=5.0吨
+2026-04-11 12:24:56 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 12:24:56 | INFO | src.app.controller | 规划成功
+2026-04-11 12:49:06 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 12:49:06 | INFO | src.app.main | 应用启动完成
+2026-04-11 12:49:06 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 12:49:07 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 12:49:07 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 12:49:07 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 12:49:25 | INFO | src.app.controller | 开始规划: 上海 -> 北京, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:49:25 | WARNING | src.services.route_planning_service | 高德路径规划失败: 高德接口返回错误: USERKEY_PLAT_NOMATCH
+2026-04-11 12:49:25 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 12:56:25 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 12:56:25 | INFO | src.app.main | 应用启动完成
+2026-04-11 12:56:25 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 12:56:26 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 12:56:26 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 12:56:26 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 12:56:38 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:38 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:38 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:38 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:46 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:46 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:46 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:46 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:48 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:48 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:48 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:48 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:49 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:49 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:49 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:49 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:49 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:49 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:50 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:50 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:50 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:50 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:51 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:51 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:52 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:53 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:53 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:53 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:53 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:53 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:53 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:53 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:53 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:54 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:54 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:54 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:54 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:56:59 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:56:59 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:56:59 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:56:59 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:00 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:00 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:00 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:00 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:00 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:00 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:00 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:00 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:00 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:00 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:00 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:00 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:00 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:00 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:00 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:00 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:00 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:01 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:01 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:01 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:01 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:01 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:01 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:01 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:02 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:02 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:02 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:02 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:02 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:02 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:02 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:02 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:03 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:04 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:04 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:04 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:04 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:04 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:06 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:06 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:06 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:06 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:06 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:06 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:06 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:06 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:12 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:12 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:12 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:12 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:12 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:12 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:12 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:12 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:13 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:13 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:13 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:13 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:13 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:13 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:13 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:13 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:14 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:14 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:14 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:14 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:14 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:14 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:14 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:14 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:14 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:14 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:14 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:14 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:15 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:15 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:15 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:15 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:18 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=躲避拥堵, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:19 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:19 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:19 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:19 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=躲避拥堵, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:19 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:19 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:19 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:23 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:24 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:24 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:24 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:24 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:24 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:24 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:24 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:25 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:25 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:25 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:25 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:26 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:26 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:26 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:26 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:26 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:27 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:27 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:27 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 12:57:29 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 上海市闵行区上海虹桥站  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 12:57:29 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 12:57:29 | INFO | src.app.controller | 规划成功（策略: 閫熷害浼樺厛）
+2026-04-11 12:57:29 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 13:04:11 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 13:04:11 | INFO | src.app.main | 应用启动完成
+2026-04-11 13:04:11 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 13:04:11 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 13:04:11 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 13:04:12 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 13:04:30 | INFO | src.app.controller | 开始规划: 石家庄站  [高德] -> 河北省邢台市邢台市  [高德], 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:04:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:04:31 | INFO | src.app.controller | 规划成功（策略: 速度优先）
+2026-04-11 13:04:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1096
+2026-04-11 13:04:37 | INFO | src.app.controller | 开始规划: 石家庄站  [高德] -> 河北省邢台市邢台市  [高德], 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:04:37 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:04:37 | INFO | src.app.controller | 规划成功（策略: 费用优先）
+2026-04-11 13:04:37 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1241
+2026-04-11 13:04:41 | INFO | src.app.controller | 开始规划: 石家庄站  [高德] -> 河北省邢台市邢台市  [高德], 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:04:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:04:41 | INFO | src.app.controller | 规划成功（策略: 不走高速）
+2026-04-11 13:04:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1096
+2026-04-11 13:50:12 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 13:50:12 | INFO | src.app.main | 应用启动完成
+2026-04-11 13:50:12 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 13:50:12 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 13:50:12 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 13:50:13 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 13:50:30 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:31 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:50:37 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:37 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:37 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:50:39 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:39 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:39 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:50:42 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:42 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:42 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:50:43 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:43 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:43 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:50:47 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:47 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:47 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:50:48 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:48 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:48 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:50:54 | INFO | src.app.controller | 开始规划: 北京南站  [高德] -> 天津市东丽区天津滨海国际机场  [高德], 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:50:54 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:50:54 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:51:24 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 13:51:24 | INFO | src.app.main | 应用启动完成
+2026-04-11 13:51:24 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 13:51:25 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 13:51:25 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 13:51:25 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 13:51:48 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 河北省邢台市襄都区邢台站  [高德], 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:51:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:51:49 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-11 13:51:49 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 13:51:54 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 河北省邢台市襄都区邢台站  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:51:54 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:51:54 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:51:56 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场  [高德] -> 河北省邢台市襄都区邢台站  [高德], 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:51:56 | INFO | src.app.controller | 路径点不足，跳过地图渲染。
+2026-04-11 13:51:56 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:52:59 | INFO | src.app.controller | 参数已重置。
+2026-04-11 13:57:05 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 13:57:05 | INFO | src.app.main | 应用启动完成
+2026-04-11 13:57:05 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 13:57:06 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 13:57:06 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 13:57:06 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 13:57:18 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:57:19 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:57:19 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra）
+2026-04-11 13:57:19 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3
+2026-04-11 13:57:29 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:57:29 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:57:29 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:57:29 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3
+2026-04-11 13:57:31 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:57:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:57:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:57:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3
+2026-04-11 13:57:35 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 13:57:35 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 13:57:35 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra）
+2026-04-11 13:57:35 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3
+2026-04-11 14:14:47 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 14:14:47 | INFO | src.app.main | 应用启动完成
+2026-04-11 14:14:48 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 14:14:48 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 14:14:48 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 14:14:48 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 14:15:09 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:11 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:11 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:15:11 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3392
+2026-04-11 14:15:20 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:20 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:20 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 距离优先）
+2026-04-11 14:15:20 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:23 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=躲避拥堵, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:23 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:23 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 躲避拥堵）
+2026-04-11 14:15:23 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:25 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=躲避拥堵, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:25 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:25 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 躲避拥堵）
+2026-04-11 14:15:25 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:29 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=距离优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:29 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:29 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 距离优先）
+2026-04-11 14:15:29 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:32 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:33 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:33 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:15:33 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3392
+2026-04-11 14:15:37 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:37 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:37 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 14:15:37 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5021
+2026-04-11 14:15:41 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=不走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:41 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 不走高速）
+2026-04-11 14:15:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:46 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=少走高速, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:46 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:46 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 少走高速）
+2026-04-11 14:15:46 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3394
+2026-04-11 14:15:51 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:15:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:15:51 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 14:15:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=5021
+2026-04-11 14:15:59 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 邢台站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:16:00 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:16:00 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:16:00 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3392
+2026-04-11 14:17:23 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0吨
+2026-04-11 14:17:26 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:26 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:17:26 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 14:17:33 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:34 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:34 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:17:34 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 14:17:37 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=少走高速, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:37 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:37 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 少走高速）
+2026-04-11 14:17:37 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 14:17:40 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-Dijkstra, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:17:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 14:17:44 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=费用优先, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:44 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:44 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 14:17:44 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11928
+2026-04-11 14:17:48 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=不走高速, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:48 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:48 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 不走高速）
+2026-04-11 14:17:48 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9050
+2026-04-11 14:17:52 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路常温, 载重=5.0吨
+2026-04-11 14:17:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 14:17:52 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径）
+2026-04-11 14:17:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 14:59:17 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 14:59:17 | INFO | src.app.main | 应用启动完成
+2026-04-11 14:59:18 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 14:59:18 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 14:59:18 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 14:59:18 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 15:11:56 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 15:11:56 | INFO | src.app.main | 应用启动完成
+2026-04-11 15:11:56 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 15:11:56 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 15:11:56 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 15:11:57 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 15:12:16 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 15:12:18 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-04-11 15:12:20 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 15:12:23 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 天津市东丽区天津滨海国际机场, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:12:26 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:12:26 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:12:26 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1368
+2026-04-11 15:12:56 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 天津市东丽区天津滨海国际机场, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:12:58 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:12:58 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:12:58 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1368
+2026-04-11 15:13:02 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 天津市东丽区天津滨海国际机场, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:13:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:13:03 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:13:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1368
+2026-04-11 15:13:08 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 天津市东丽区天津滨海国际机场, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:13:08 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:13:08 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:13:08 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1368
+2026-04-11 15:21:29 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 15:21:29 | INFO | src.app.main | 应用启动完成
+2026-04-11 15:21:29 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 15:21:29 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 15:21:29 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 15:21:29 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 15:22:08 | INFO | src.app.controller | 开始规划: 北京大兴国际机场 -> 上海市闵行区上海虹桥站, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:22:09 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:22:09 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-11 15:22:09 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8781
+2026-04-11 15:22:13 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 15:22:16 | INFO | src.app.controller | 开始规划: 北京大兴国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:22:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:22:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，数据源: 高德候选路径）
+2026-04-11 15:22:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8781
+2026-04-11 15:22:39 | INFO | src.app.controller | 开始规划: 北京大兴国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:22:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:22:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:22:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8781
+2026-04-11 15:22:47 | INFO | src.app.controller | 开始规划: 北京大兴国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:22:50 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:22:50 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，数据源: 高德候选路径）
+2026-04-11 15:22:50 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8781
+2026-04-11 15:22:56 | INFO | src.app.controller | 开始规划: 北京大兴国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:22:59 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:22:59 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:22:59 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8781
+2026-04-11 15:35:58 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 15:35:58 | INFO | src.app.main | 应用启动完成
+2026-04-11 15:35:58 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 15:35:59 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 15:35:59 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 15:35:59 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 15:36:15 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 15:36:17 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:36:34 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:36:34 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，数据源: 高德候选路径）
+2026-04-11 15:36:34 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 15:36:46 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:36:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:36:51 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，数据源: 高德候选路径）
+2026-04-11 15:36:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 15:36:57 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:37:02 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:37:02 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，数据源: 高德候选路径，动态边权命中: 0）
+2026-04-11 15:37:02 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 15:37:10 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:37:27 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:37:27 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，数据源: 高德候选路径）
+2026-04-11 15:37:27 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9048
+2026-04-11 15:41:40 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-04-11 15:41:48 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=高德策略, 策略=综合推荐(多路径), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:41:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:41:49 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 综合推荐(多路径)）
+2026-04-11 15:41:49 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9115
+2026-04-11 15:45:26 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 15:45:26 | INFO | src.app.main | 应用启动完成
+2026-04-11 15:45:26 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 15:45:26 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 15:45:26 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 15:45:26 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 15:45:40 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 15:45:42 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:46:01 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:46:01 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 15:46:01 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8948
+2026-04-11 15:46:07 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:46:16 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:46:16 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 15:46:16 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8948
+2026-04-11 15:46:25 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:46:35 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:46:35 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 78802）
+2026-04-11 15:46:35 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9194
+2026-04-11 15:49:44 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-04-11 15:52:12 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:52:13 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:52:13 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 15:52:13 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11961
+2026-04-11 15:52:16 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:52:16 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:52:16 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 15:52:16 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11961
+2026-04-11 15:52:17 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:52:17 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:52:17 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-11 15:52:17 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11961
+2026-04-11 15:52:22 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=常规最快, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:52:23 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:52:23 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 常规最快）
+2026-04-11 15:52:23 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=8948
+2026-04-11 15:52:29 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=避免收费, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 15:52:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 15:52:31 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 避免收费）
+2026-04-11 15:52:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11961
+2026-04-11 16:30:10 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 16:30:10 | INFO | src.app.main | 应用启动完成
+2026-04-11 16:30:12 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 16:30:13 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 16:30:13 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 16:30:13 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 16:30:33 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 16:30:37 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:30:45 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:30:45 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 16:30:45 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:03 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:05 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:05 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 47992）
+2026-04-11 16:31:05 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:09 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:11 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:11 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 16:31:11 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:16 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:18 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:18 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 16:31:18 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:22 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:23 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:23 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 47992）
+2026-04-11 16:31:23 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:28 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:37 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:37 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 16:31:37 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:31:42 | INFO | src.app.controller | 开始规划: 北京市朝阳区北京首都国际机场 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 16:31:44 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 16:31:44 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 16:31:44 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=11998
+2026-04-11 16:32:02 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 16:32:02 | INFO | src.app.main | 应用启动完成
+2026-04-11 16:32:02 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 16:32:02 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 16:32:02 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 16:32:03 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 16:39:10 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 16:39:10 | INFO | src.app.main | 应用启动完成
+2026-04-11 16:39:10 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 16:39:11 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 16:39:11 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 16:39:11 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 16:57:40 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 16:57:40 | INFO | src.app.main | 应用启动完成
+2026-04-11 16:57:40 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 16:57:41 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 16:57:41 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 16:57:41 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 16:58:10 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m
+2026-04-11 16:58:11 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m
+2026-04-11 19:44:26 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 19:44:26 | INFO | src.app.main | 应用启动完成
+2026-04-11 19:44:26 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 19:44:26 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 19:44:26 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 19:44:27 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 19:45:04 | INFO | src.app.controller | 开始规划: 中国 -> 日本沙迪克, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:45:05 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:45:05 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-11 19:45:05 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=17282
+2026-04-11 19:45:23 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 19:45:30 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m
+2026-04-11 19:45:32 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m
+2026-04-11 19:45:35 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:45:38 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:45:38 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 56609）
+2026-04-11 19:45:38 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3766
+2026-04-11 19:45:43 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:45:45 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:45:45 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 19:45:45 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3766
+2026-04-11 19:45:49 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:45:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:45:51 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 56609）
+2026-04-11 19:45:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3766
+2026-04-11 19:50:52 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 19:50:52 | INFO | src.app.main | 应用启动完成
+2026-04-11 19:50:52 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 19:50:52 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 19:50:52 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 19:50:53 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 19:51:05 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 19:51:09 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:51:21 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:51:21 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 19:51:21 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 19:51:28 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:51:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:51:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 19:51:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 19:51:42 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:51:45 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:51:45 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 19:51:46 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 19:51:51 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:51:55 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:51:55 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 19:51:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 19:51:59 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:52:11 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:52:11 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 131989）
+2026-04-11 19:52:11 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12155
+2026-04-11 19:52:31 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:52:33 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:52:33 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 19:52:33 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 19:52:39 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:52:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:52:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 131989）
+2026-04-11 19:52:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12155
+2026-04-11 19:52:48 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 19:52:58 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 19:52:58 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 19:52:58 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:07:19 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 20:07:19 | INFO | src.app.main | 应用启动完成
+2026-04-11 20:07:20 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 20:07:20 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 20:07:20 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 20:07:20 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 20:07:37 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 20:07:39 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津南站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:07:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:07:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 20:07:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2172
+2026-04-11 20:07:47 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津南站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:07:48 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:07:48 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 9674）
+2026-04-11 20:07:48 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2172
+2026-04-11 20:07:50 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津南站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:07:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:07:51 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:07:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2172
+2026-04-11 20:07:54 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津南站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:07:54 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:07:54 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:07:54 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2172
+2026-04-11 20:07:55 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津南站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:07:55 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:07:55 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:07:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2172
+2026-04-11 20:08:05 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:13 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:13 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:08:13 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:08:19 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:21 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:21 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 20:08:21 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:08:28 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:30 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:30 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 47996）
+2026-04-11 20:08:30 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:08:34 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:36 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:36 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 47996）
+2026-04-11 20:08:36 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:08:40 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:42 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:42 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:08:42 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:08:50 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:08:58 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:08:58 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 47996）
+2026-04-11 20:08:58 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:09:03 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:09:05 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:09:05 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:09:05 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:09:09 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:09:11 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:09:11 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 20:09:11 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:09:15 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:09:17 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:09:17 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-11 20:09:17 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:09:20 | INFO | src.app.controller | 开始规划: 北京南站 -> 上海站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:09:22 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:09:22 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 20:09:22 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-11 20:11:21 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 20:11:21 | INFO | src.app.main | 应用启动完成
+2026-04-11 20:11:21 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 20:11:21 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 20:11:21 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 20:11:22 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 20:17:31 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 20:17:31 | INFO | src.app.main | 应用启动完成
+2026-04-11 20:17:31 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 20:17:32 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 20:17:32 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 20:17:32 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 20:17:34 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 20:17:52 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津站, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:17:55 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:17:55 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-11 20:17:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2603
+2026-04-11 20:18:02 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津站, 来源=自研算法, 策略=土豪算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:18:02 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:18:02 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 13）
+2026-04-11 20:18:02 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2686
+2026-04-11 20:18:10 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-11 20:18:10 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-11 20:18:16 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津站, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:18:25 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:18:25 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-11 20:18:25 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=2689
+2026-04-11 20:18:31 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津站, 来源=自研算法, 策略=土豪算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:18:35 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:18:35 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 14）
+2026-04-11 20:18:35 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1864
+2026-04-11 20:18:42 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 天津站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 20:18:46 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 20:18:46 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 20:18:46 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1337
+2026-04-11 20:48:47 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 20:48:47 | INFO | src.app.main | 应用启动完成
+2026-04-11 20:48:47 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 20:48:48 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 20:48:48 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 20:48:48 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 21:13:52 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 21:13:52 | INFO | src.app.main | 应用启动完成
+2026-04-11 21:13:52 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 21:13:53 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 21:13:53 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 21:13:53 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-11 21:14:09 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-11 21:14:16 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津滨海国际机场, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 21:14:17 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 21:14:17 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-11 21:14:17 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1094
+2026-04-11 21:14:22 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-11 21:14:23 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 21:14:33 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 21:14:33 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-11 21:14:33 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1094
+2026-04-11 21:14:39 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 21:14:44 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 21:14:44 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-11 21:14:44 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1681
+2026-04-11 21:14:50 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津滨海国际机场, 来源=自研算法, 策略=土豪算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-11 21:14:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-11 21:14:52 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 12）
+2026-04-11 21:14:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=4756
+2026-04-11 21:18:43 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-11 21:18:43 | INFO | src.app.main | 应用启动完成
+2026-04-11 21:18:43 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-11 21:18:44 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-11 21:18:44 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-11 21:18:44 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-12 17:08:58 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-12 17:08:58 | INFO | src.app.main | 应用启动完成
+2026-04-12 17:08:59 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-12 17:08:59 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-12 17:08:59 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-12 17:08:59 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-12 17:09:18 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:09:19 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:09:19 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-12 17:09:19 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9091
+2026-04-12 17:09:25 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-12 17:09:28 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:09:34 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:09:34 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选池最优，候选策略编码: 12）
+2026-04-12 17:09:34 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:09:40 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:09:42 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:09:42 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-12 17:09:42 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:09:46 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:09:48 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:09:48 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-12 17:09:48 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:09:54 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路常温, 载重=5.0 吨
+2026-04-12 17:09:56 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:09:56 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-12 17:09:56 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:10:01 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=贪心算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:10:03 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:10:03 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-12 17:10:03 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:10:58 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-12 17:10:58 | INFO | src.app.main | 应用启动完成
+2026-04-12 17:10:58 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-12 17:10:58 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-12 17:10:58 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-12 17:10:59 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-12 17:11:01 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-12 17:22:36 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-12 17:22:36 | INFO | src.app.main | 应用启动完成
+2026-04-12 17:22:36 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-12 17:22:36 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-12 17:22:36 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-12 17:22:36 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-12 17:22:49 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-12 17:22:55 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:23:01 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:23:01 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选池最优，候选策略编码: 12）
+2026-04-12 17:23:01 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:23:23 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:23:25 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:23:25 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-12 17:23:25 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:23:51 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:23:59 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:23:59 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-12 17:23:59 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:24:07 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=土豪算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:24:07 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:24:07 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 13）
+2026-04-12 17:24:07 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:24:18 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:24:18 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:24:18 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选池最优，候选策略编码: 12）
+2026-04-12 17:24:18 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:24:30 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:24:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:24:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选池最优，候选策略编码: 19）
+2026-04-12 17:24:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:24:39 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:24:47 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:24:47 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 107991）
+2026-04-12 17:24:47 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:36:46 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-12 17:36:46 | INFO | src.app.main | 应用启动完成
+2026-04-12 17:36:46 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-12 17:36:46 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-12 17:36:46 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-12 17:36:47 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-12 17:37:03 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-12 17:37:06 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:15 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:15 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选图搜索校正）
+2026-04-12 17:37:15 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:27 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:29 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:29 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-12 17:37:29 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:32 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:34 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:34 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-12 17:37:34 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:39 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-时变Dijkstra, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-时变Dijkstra，目标: 时间代价(时变)，数据源: 高德候选路径，动态边权命中: 107991）
+2026-04-12 17:37:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:43 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:45 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:45 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选图搜索校正）
+2026-04-12 17:37:45 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:51 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=保鲜优先算法, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:37:53 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:37:53 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，候选图搜索校正）
+2026-04-12 17:37:53 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:37:57 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-Dijkstra, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:38:05 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:38:05 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-Dijkstra，目标: 距离代价，数据源: 高德候选路径）
+2026-04-12 17:38:05 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:38:10 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=贪心算法, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:38:12 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:38:12 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 贪心算法，目标: 贪心启发式(直线距离)，数据源: 高德候选路径）
+2026-04-12 17:38:12 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 17:38:17 | INFO | src.app.controller | 开始规划: 北京市丰台区北京南站 -> 上海市闵行区上海虹桥站, 来源=自研算法, 策略=自研-A*, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-04-12 17:38:19 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-12 17:38:19 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-12 17:38:19 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-04-12 19:51:10 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-12 19:51:10 | INFO | src.app.main | 应用启动完成
+2026-04-12 19:51:10 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-12 19:51:10 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-12 19:51:10 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-12 19:51:11 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-14 16:27:24 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-14 16:27:24 | INFO | src.app.main | 应用启动完成
+2026-04-14 16:27:25 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-14 16:27:25 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-14 16:27:25 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-14 16:27:25 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-14 16:27:42 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:27:43 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:27:43 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-14 16:27:43 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1212
+2026-04-14 16:27:52 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=高德策略, 策略=费用优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:27:52 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:27:52 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 费用优先）
+2026-04-14 16:27:52 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1568
+2026-04-14 16:28:03 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-14 16:28:04 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-14 16:28:09 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-14 16:28:13 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=自研算法, 策略=土豪算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:28:21 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:28:21 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 14）
+2026-04-14 16:28:21 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1864
+2026-04-14 16:28:40 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=自研算法, 策略=保鲜优先算法, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:28:49 | INFO | src.services.route_planning_service | 保鲜优先算法达到时间预算，采用当前最优路线返回: budget_cutoff=true, compared_strategies=8
+2026-04-14 16:28:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:28:49 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法，目标: 最小化|保鲜度-100|，高德策略仲裁胜出: 躲避拥堵(编码:12)，比较策略数: 8，参与排序路线: 24/总候选: 51，绕路阈值: 1.35，budget_cutoff=true）
+2026-04-14 16:28:49 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3780
+2026-04-14 16:40:53 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=自研算法, 策略=自研-A*, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:41:02 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:41:02 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 自研-A*，目标: 时间代价(A*)，数据源: 高德候选路径）
+2026-04-14 16:41:02 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3868
+2026-04-14 16:44:51 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-14 16:44:51 | INFO | src.app.main | 应用启动完成
+2026-04-14 16:44:51 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-14 16:44:52 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-14 16:44:52 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-14 16:44:52 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-14 16:44:58 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-14 16:45:00 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-04-14 16:45:20 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-04-14 16:45:28 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=自研算法, 策略=保鲜优先算法-迪杰斯特拉算法改进版, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:45:38 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:45:38 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 保鲜优先算法-迪杰斯特拉算法改进版，目标: 最小化|保鲜度-100|(改进Dijkstra)，数据源: 高德候选路径）
+2026-04-14 16:45:38 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=3868
+2026-04-14 16:45:48 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-04-14 16:45:50 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:45:50 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:45:50 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-04-14 16:45:50 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1212
+2026-04-14 16:45:55 | INFO | src.app.controller | 开始规划: 北京南站 -> 天津站, 来源=高德策略, 策略=躲避拥堵, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-04-14 16:45:55 | INFO | src.app.controller | 路径已发送到地图。
+2026-04-14 16:45:55 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 躲避拥堵）
+2026-04-14 16:45:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1212
+2026-04-14 17:12:46 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-14 17:12:46 | INFO | src.app.main | 应用启动完成
+2026-04-14 17:12:47 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-14 17:12:47 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-14 17:12:47 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-14 17:12:47 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-04-14 17:15:34 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-04-14 17:15:34 | INFO | src.app.main | 应用启动完成
+2026-04-14 17:15:34 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-04-14 17:15:35 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-04-14 17:15:35 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-04-14 17:15:35 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。

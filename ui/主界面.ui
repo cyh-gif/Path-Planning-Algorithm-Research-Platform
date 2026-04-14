@@ -1,0 +1,784 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1620</width>
+    <height>940</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>水果运输最短路径研究平台</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background: #f3f6fb;
+}
+QWidget {
+    color: #1f2937;
+    font-family: &quot;Microsoft YaHei UI&quot;;
+    font-size: 13px;
+}
+QGroupBox {
+    background: #ffffff;
+    border: 1px solid #d8e0ec;
+    border-radius: 10px;
+    margin-top: 14px;
+    padding-top: 10px;
+    font-weight: 600;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 12px;
+    padding: 0 4px;
+    color: #334155;
+}
+QLabel {
+    color: #334155;
+}
+QLineEdit, QComboBox, QDateTimeEdit, QDoubleSpinBox, QPlainTextEdit {
+    background: #fbfdff;
+    border: 1px solid #cfd8e6;
+    border-radius: 7px;
+    padding: 6px 8px;
+    min-height: 22px;
+}
+QComboBox {
+    padding-right: 24px;
+}
+QComboBox::drop-down, QDateTimeEdit::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 20px;
+    border: none;
+    background: transparent;
+    margin-right: 2px;
+}
+QComboBox::drop-down:hover, QDateTimeEdit::drop-down:hover {
+    background: #eef4ff;
+    border-radius: 6px;
+}
+QComboBox::down-arrow, QDateTimeEdit::down-arrow {
+    width: 9px;
+    height: 9px;
+}
+QDoubleSpinBox::up-button, QDoubleSpinBox::down-button {
+    subcontrol-origin: border;
+    width: 18px;
+    border: none;
+    background: transparent;
+}
+QDoubleSpinBox::up-button:hover, QDoubleSpinBox::down-button:hover {
+    background: #eef4ff;
+    border-radius: 5px;
+}
+QDoubleSpinBox::up-arrow, QDoubleSpinBox::down-arrow {
+    width: 8px;
+    height: 8px;
+}
+QLineEdit:focus, QComboBox:focus, QDateTimeEdit:focus, QDoubleSpinBox:focus, QPlainTextEdit:focus {
+    border: 1px solid #2f7cf6;
+}
+QPushButton {
+    background: #f7f9fe;
+    border: 1px solid #cfd8e6;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-weight: 600;
+}
+QPushButton:hover {
+    background: #eef4ff;
+}
+QPushButton#pushButtonRun {
+    background: #2563eb;
+    border: 1px solid #1d4ed8;
+    color: #ffffff;
+}
+QPushButton#pushButtonRun:hover {
+    background: #1d4ed8;
+}
+QPushButton#pushButtonReset {
+    background: #ffffff;
+}
+QProgressBar {
+    min-height: 14px;
+    border-radius: 7px;
+    border: 1px solid #d7ddea;
+    background: #edf2fa;
+    text-align: center;
+}
+QProgressBar::chunk {
+    border-radius: 6px;
+    background: #2f7cf6;
+}
+QLabel#labelMapTitle {
+    font-size: 12px;
+    font-weight: 600;
+    color: #334155;
+}
+QStatusBar {
+    background: #ffffff;
+    border-top: 1px solid #d8e0ec;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout_root">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
+    <number>12</number>
+   </property>
+    <item>
+     <widget class="QSplitter" name="splitterMain">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     <property name="childrenCollapsible">
+       <bool>false</bool>
+      </property>
+      <property name="handleWidth">
+       <number>8</number>
+      </property>
+      <widget class="QGroupBox" name="groupInputParams">
+       <property name="minimumSize">
+        <size>
+         <width>340</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>输入参数</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_inputRoot">
+        <property name="spacing">
+         <number>8</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayoutTopActions">
+          <item>
+           <widget class="QPushButton" name="pushButtonSettings">
+            <property name="minimumSize">
+             <size>
+              <width>88</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>设置</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacerTopActions">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_inputs">
+          <property name="labelAlignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="horizontalSpacing">
+           <number>8</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>10</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelStartPoint">
+            <property name="text">
+             <string>起点</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditStartPoint">
+            <property name="placeholderText">
+             <string>例如：北京朝阳区</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelEndPoint">
+            <property name="text">
+             <string>终点</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEditEndPoint">
+            <property name="placeholderText">
+             <string>例如：上海浦东新区</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelStrategySource">
+            <property name="text">
+             <string>策略来源</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="comboBoxStrategySource">
+            <item>
+             <property name="text">
+              <string>高德策略</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>自研算法</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelAlgorithmType">
+            <property name="text">
+             <string>具体策略</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="comboBoxAlgorithmType"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelFruitType">
+            <property name="text">
+             <string>水果类型</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QComboBox" name="comboBoxFruitType">
+            <item>
+             <property name="text">
+              <string>苹果</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>香蕉</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>柑橘</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>葡萄</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>草莓</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>荔枝</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>芒果</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelTransportMode">
+            <property name="text">
+             <string>运输方式</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QComboBox" name="comboBoxTransportMode">
+            <item>
+             <property name="text">
+              <string>公路冷链</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>公路常温</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>铁路联运</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>多式联运</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelDepartTime">
+            <property name="text">
+             <string>出发时间</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QDateTimeEdit" name="dateTimeEditDepartTime">
+            <property name="calendarPopup">
+             <bool>true</bool>
+            </property>
+            <property name="displayFormat">
+             <string>yyyy-MM-dd HH:mm</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelLoadWeight">
+            <property name="text">
+             <string>载重(吨)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QDoubleSpinBox" name="doubleSpinBoxLoadWeight">
+            <property name="maximum">
+             <double>1000.000000000000000</double>
+            </property>
+            <property name="singleStep">
+             <double>0.500000000000000</double>
+            </property>
+            <property name="value">
+             <double>5.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_inputButtons">
+          <item>
+           <widget class="QPushButton" name="pushButtonRun">
+            <property name="text">
+             <string>开始计算</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButtonReset">
+            <property name="text">
+             <string>清空参数</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacerInput">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="widgetCenterMap">
+       <property name="minimumSize">
+        <size>
+         <width>760</width>
+         <height>0</height>
+        </size>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_mapRoot">
+        <property name="spacing">
+         <number>6</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="labelMapTitle">
+         <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>中国地图</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frameMapContainer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>1</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_mapContent">
+          <property name="leftMargin">
+            <number>4</number>
+          </property>
+          <property name="topMargin">
+            <number>4</number>
+          </property>
+          <property name="rightMargin">
+            <number>4</number>
+          </property>
+          <property name="bottomMargin">
+            <number>4</number>
+          </property>
+           <item>
+            <widget class="QWebEngineView" name="webEngineViewChinaMap">
+             <property name="minimumSize">
+             <size>
+               <width>0</width>
+               <height>560</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frameComputeProgress">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_computeProgress">
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="topMargin">
+            <number>8</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <property name="bottomMargin">
+            <number>8</number>
+           </property>
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="labelComputeProgressTitle">
+             <property name="text">
+              <string>计算进度（模拟）</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QProgressBar" name="progressBarCompute">
+             <property name="value">
+              <number>0</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutComputeEstimate">
+             <item>
+              <widget class="QLabel" name="labelEstimatedComputeTitle">
+               <property name="text">
+                <string>预计计算时间：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="labelEstimatedComputeValue">
+               <property name="text">
+                <string>待计算</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacerComputeEstimate">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QGroupBox" name="groupOutputParams">
+       <property name="minimumSize">
+        <size>
+         <width>360</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>输出参数</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_outputRoot">
+        <property name="spacing">
+         <number>8</number>
+        </property>
+        <item>
+         <layout class="QFormLayout" name="formLayout_outputs">
+          <property name="labelAlignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="horizontalSpacing">
+           <number>8</number>
+          </property>
+          <property name="verticalSpacing">
+           <number>10</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelEstimatedTravelTime">
+            <property name="text">
+             <string>所需时间</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditEstimatedTravelTime">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：14小时20分</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelComputeElapsed">
+            <property name="text">
+             <string>计算用时</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEditComputeElapsed">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：128 ms</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelTotalDistance">
+            <property name="text">
+             <string>总里程</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEditTotalDistance">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：1265 km</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="labelEstimatedCost">
+            <property name="text">
+             <string>预计成本</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="lineEditEstimatedCost">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：¥ 3850.00</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="labelPathNodes">
+            <property name="text">
+             <string>路径节点数</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QLineEdit" name="lineEditPathNodes">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="labelPathEdges">
+            <property name="text">
+             <string>路径边数</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QLineEdit" name="lineEditPathEdges">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="0">
+           <widget class="QLabel" name="labelFreshnessAtArrival">
+            <property name="text">
+             <string>到达保鲜度</string>
+            </property>
+           </widget>
+          </item>
+          <item row="6" column="1">
+           <widget class="QLineEdit" name="lineEditFreshnessAtArrival">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：98.3</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="0">
+           <widget class="QLabel" name="labelFreshnessDeltaTo100">
+            <property name="text">
+             <string>距100偏差</string>
+            </property>
+           </widget>
+          </item>
+          <item row="7" column="1">
+           <widget class="QLineEdit" name="lineEditFreshnessDeltaTo100">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>例如：1.7</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="0">
+           <widget class="QLabel" name="labelResultStatus">
+            <property name="text">
+             <string>结果状态</string>
+            </property>
+           </widget>
+          </item>
+          <item row="8" column="1">
+           <widget class="QLineEdit" name="lineEditResultStatus">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>等待计算</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBoxLog">
+          <property name="title">
+           <string>运行日志</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_log">
+           <item>
+            <widget class="QPlainTextEdit" name="plainTextEditRunLog">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>这里显示算法执行过程、错误提示和统计信息。</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header>PySide6.QtWebEngineWidgets</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

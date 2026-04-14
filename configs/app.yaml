@@ -1,0 +1,84 @@
+﻿ui:
+  file: ui/主界面.ui
+  map_html: ui/map.html
+
+amap:
+  js_key: "5692c855785ba33d0cb40529e51e838c"
+  security_js_code: "20d95ea94d50509dcbb52a0dbd5e39a8"
+  web_service_key: "331809b838206006e3facfa346be7bf6"
+  timeout_s: 1.2
+  retry: 1
+  cache_ttl_s: 45
+
+routing:
+  default_strategy: 速度优先
+  #候选拼图策略池配置（对应高德api）
+  custom_candidate_strategy_codes_csv: 0,12,13,14,19
+  #每个策略取前几条候选路径（建议2~3）
+  custom_candidate_max_paths_per_strategy: 2
+  #候选路径解析时优先使用tmcs更细分路段
+  custom_candidate_use_tmcs: true
+  #折线加密阈值（米）：相邻点超过该距离会插值补点
+  custom_candidate_densify_max_segment_m: 80
+  #是否启用候选路径发散（锚点偏移经由点）
+  custom_candidate_enable_divergence: false
+  #候选路径发散锚点比例（0~1）
+  custom_candidate_divergence_anchor_ratios_csv: 0.35,0.65
+  #候选路径发散偏移距离（米）
+  custom_candidate_divergence_offsets_m_csv: 300,600
+  amap_strategy_map:
+    速度优先: 0
+    费用优先: 1
+    常规最快: 2
+    躲避拥堵: 12
+    不走高速: 13
+    少走高速: 6
+    避免收费: 14
+    综合推荐(多路径): 10
+    躲避拥堵且不走高速: 15
+    避免收费且不走高速: 16
+    躲避拥堵且避免收费: 17
+    躲避拥堵且避免收费且不走高速: 18
+    高速优先: 19
+    高速优先且躲避拥堵: 20
+  custom_algorithm_map:
+    自研-Dijkstra: static_dijkstra
+    自研-时变Dijkstra: time_dependent_dijkstra
+    自研-A*: a_star
+    贪心算法: greedy_best_first
+    土豪算法: tycoon_longest_route
+    保鲜优先算法: freshness_first
+    保鲜优先算法-迪杰斯特拉算法改进版: freshness_dijkstra_improved
+
+custom_time_dependent:
+  peak_hours_csv: 7,8,9,17,18,19
+  peak_multiplier: 1.6
+
+freshness:
+  target: 100
+  base_loss_per_hour: 2.0
+  max_detour_ratio: 1.35
+  arbitration_scope: amap_only
+  amap_compare_strategy_codes_csv: ""
+  amap_compare_max_paths_per_strategy: 3
+  arbitration_time_budget_s: 9
+  fruit_profile_json: data/processed/fruit_profiles.json
+  transport_mode_multipliers:
+    公路冷链: 0.72
+    公路常温: 1.0
+    铁路联运: 0.88
+    多式联运: 0.95
+  road_class_multipliers:
+    normal: 1.0
+    traffic_avoid: 0.95
+    no_highway: 1.15
+  tmcs_status_multipliers:
+    smooth: 0.95
+    slow: 1.05
+    congested: 1.18
+    severe_congested: 1.32
+    unknown: 1.0
+
+logging:
+  level: INFO
+  file: results/logs/app.log
