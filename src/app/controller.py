@@ -2,6 +2,7 @@
 
 from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass
+import json
 import logging
 from pathlib import Path
 import re
@@ -134,6 +135,7 @@ class MainWindowController:
         self.ui_path = self.project_root / self.app_config.ui.file
         self.map_html_path = self.project_root / self.app_config.ui.map_html
         self.settings_ui_path = self.project_root / "ui" / "设置界面.ui"
+        self.ui_settings_path = self.project_root / "data" / "cache" / "ui_settings.json"
 
         # 联想请求放到后台线程，避免输入卡顿。
         self._suggest_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="place_suggest")
@@ -474,6 +476,7 @@ class MainWindowController:
         self.map_bridge.jsLog.connect(self._on_js_log)
 
     def _init_ui_state(self) -> None:
+        self._restore_persisted_settings()
         self._init_strategy_options()
         self.datetime_depart.setDateTime(QDateTime.currentDateTime())
         self._clear_outputs()
@@ -481,6 +484,112 @@ class MainWindowController:
         self._apply_main_layout_ratio()
         self._load_map_html()
         self._append_log("界面已启动，等待输入。")
+
+    def _restore_persisted_settings(self) -> None:
+        """启动时恢复本地保存的设置参数。"""
+        payload = self._load_persisted_settings_payload()
+        if not payload:
+            return
+
+        options = payload.get("candidate_options")
+        if not isinstance(options, dict):
+            return
+
+        restored = self._coerce_candidate_options(options)
+        self._apply_runtime_candidate_settings(
+            max_paths_per_strategy=restored["max_paths_per_strategy"],
+            use_tmcs=restored["use_tmcs"],
+            densify_max_segment_m=restored["densify_max_segment_m"],
+            enable_divergence=restored["enable_divergence"],
+            anchor_ratio_1=restored["anchor_ratio_1"],
+            anchor_ratio_2=restored["anchor_ratio_2"],
+            offset_distance_1_m=restored["offset_distance_1_m"],
+            offset_distance_2_m=restored["offset_distance_2_m"],
+            source_tag="启动恢复",
+            persist=False,
+            show_feedback=False,
+        )
+        self._append_log("已恢复上次设置参数。")
+
+    def _load_persisted_settings_payload(self) -> dict[str, object]:
+        if not self.ui_settings_path.exists():
+            return {}
+        try:
+            payload = json.loads(self.ui_settings_path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            LOGGER.warning("读取本地设置失败: %s", exc)
+            return {}
+        if not isinstance(payload, dict):
+            return {}
+        return payload
+
+    def _coerce_candidate_options(self, raw: dict[str, object]) -> dict[str, float | int | bool]:
+        current = self.route_service.get_custom_candidate_options()
+        current_anchor = current.get("divergence_anchor_ratios", [0.35, 0.65])
+        if not isinstance(current_anchor, list) or len(current_anchor) < 2:
+            current_anchor = [0.35, 0.65]
+        current_offset = current.get("divergence_offsets_m", [300.0, 600.0])
+        if not isinstance(current_offset, list) or len(current_offset) < 2:
+            current_offset = [300.0, 600.0]
+
+        def _to_int(value: object, default: int) -> int:
+            try:
+                return int(value)
+            except (TypeError, ValueError):
+                return default
+
+        def _to_float(value: object, default: float) -> float:
+            try:
+                return float(value)
+            except (TypeError, ValueError):
+                return default
+
+        return {
+            "max_paths_per_strategy": _to_int(
+                raw.get("max_paths_per_strategy"),
+                int(current.get("max_paths_per_strategy", 2)),
+            ),
+            "use_tmcs": bool(raw.get("use_tmcs", bool(current.get("use_tmcs", True)))),
+            "densify_max_segment_m": _to_float(
+                raw.get("densify_max_segment_m"),
+                float(current.get("densify_max_segment_m", 80.0)),
+            ),
+            "enable_divergence": bool(raw.get("enable_divergence", bool(current.get("enable_divergence", False)))),
+            "anchor_ratio_1": _to_float(raw.get("anchor_ratio_1"), float(current_anchor[0])),
+            "anchor_ratio_2": _to_float(raw.get("anchor_ratio_2"), float(current_anchor[1])),
+            "offset_distance_1_m": _to_float(raw.get("offset_distance_1_m"), float(current_offset[0])),
+            "offset_distance_2_m": _to_float(raw.get("offset_distance_2_m"), float(current_offset[1])),
+        }
+
+    def _save_persisted_settings(self) -> None:
+        options = self.route_service.get_custom_candidate_options()
+        anchor_ratios = options.get("divergence_anchor_ratios", [0.35, 0.65])
+        if not isinstance(anchor_ratios, list) or len(anchor_ratios) < 2:
+            anchor_ratios = [0.35, 0.65]
+        offsets = options.get("divergence_offsets_m", [300.0, 600.0])
+        if not isinstance(offsets, list) or len(offsets) < 2:
+            offsets = [300.0, 600.0]
+
+        payload = {
+            "candidate_options": {
+                "max_paths_per_strategy": int(options.get("max_paths_per_strategy", 2)),
+                "use_tmcs": bool(options.get("use_tmcs", True)),
+                "densify_max_segment_m": float(options.get("densify_max_segment_m", 80.0)),
+                "enable_divergence": bool(options.get("enable_divergence", False)),
+                "anchor_ratio_1": float(anchor_ratios[0]),
+                "anchor_ratio_2": float(anchor_ratios[1]),
+                "offset_distance_1_m": float(offsets[0]),
+                "offset_distance_2_m": float(offsets[1]),
+            }
+        }
+        try:
+            self.ui_settings_path.parent.mkdir(parents=True, exist_ok=True)
+            self.ui_settings_path.write_text(
+                json.dumps(payload, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except Exception as exc:
+            LOGGER.warning("保存本地设置失败: %s", exc)
 
     def _apply_main_layout_ratio(self) -> None:
         """统一三栏布局比例，保证地图区优先展示。"""
@@ -548,6 +657,8 @@ class MainWindowController:
         offset_distance_1_m: float,
         offset_distance_2_m: float,
         source_tag: str,
+        persist: bool = True,
+        show_feedback: bool = True,
     ) -> None:
         self.route_service.set_custom_candidate_options(
             max_paths_per_strategy=max_paths_per_strategy,
@@ -574,15 +685,19 @@ class MainWindowController:
             self.route_service.custom_candidate_divergence_offsets_m
         )
 
-        self.window.statusBar().showMessage("设置已应用")
-        self._append_log(
-            f"设置已应用({source_tag}): 每策略候选={self.route_service.custom_candidate_max_paths_per_strategy}, "
-            f"TMCS={'开' if self.route_service.custom_candidate_use_tmcs else '关'}, "
-            f"加密阈值={self.route_service.custom_candidate_densify_max_segment_m:.1f}m, "
-            f"候选发散={'开' if self.route_service.custom_candidate_enable_divergence else '关'}, "
-            f"锚点={self.route_service.custom_candidate_divergence_anchor_ratios}, "
-            f"偏移={self.route_service.custom_candidate_divergence_offsets_m}"
-        )
+        if persist:
+            self._save_persisted_settings()
+
+        if show_feedback:
+            self.window.statusBar().showMessage("设置已应用")
+            self._append_log(
+                f"设置已应用({source_tag}): 每策略候选={self.route_service.custom_candidate_max_paths_per_strategy}, "
+                f"TMCS={'开' if self.route_service.custom_candidate_use_tmcs else '关'}, "
+                f"加密阈值={self.route_service.custom_candidate_densify_max_segment_m:.1f}m, "
+                f"候选发散={'开' if self.route_service.custom_candidate_enable_divergence else '关'}, "
+                f"锚点={self.route_service.custom_candidate_divergence_anchor_ratios}, "
+                f"偏移={self.route_service.custom_candidate_divergence_offsets_m}"
+            )
 
     def on_settings_clicked(self) -> None:
         dialog = self._load_dialog_ui(self.settings_ui_path)
