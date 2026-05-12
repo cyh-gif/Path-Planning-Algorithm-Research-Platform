@@ -64,12 +64,24 @@ class LoggingConfig:
 
 
 @dataclass(slots=True)
+class AssistantConfig:
+    name: str = "芒小果"
+    provider: str = "tongyi"
+    api_key: str = ""
+    endpoint: str = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"
+    model: str = "qwen-plus"
+    timeout_s: float = 20.0
+    retry: int = 1
+
+
+@dataclass(slots=True)
 class AppConfig:
     ui: UiConfig
     amap: AMapConfig
     routing: RoutingConfig
     custom_time_dependent: CustomTimeDependentConfig
     freshness: FreshnessConfig
+    assistant: AssistantConfig
     logging: LoggingConfig
 
 
@@ -444,6 +456,25 @@ def load_app_config(project_root: Path) -> AppConfig:
         level=str(_deep_get(data, ["logging", "level"], "INFO")),
         file=str(_deep_get(data, ["logging", "file"], "results/logs/app.log")),
     )
+    assistant_api_key = _pick_non_empty_env(
+        ["TONGYI_API_KEY", "DASHSCOPE_API_KEY"],
+        str(_deep_get(data, ["assistant", "api_key"], "")),
+    )
+    assistant_cfg = AssistantConfig(
+        name=str(_deep_get(data, ["assistant", "name"], "芒小果")),
+        provider=str(_deep_get(data, ["assistant", "provider"], "tongyi")),
+        api_key=assistant_api_key,
+        endpoint=str(
+            _deep_get(
+                data,
+                ["assistant", "endpoint"],
+                "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+            )
+        ),
+        model=str(_deep_get(data, ["assistant", "model"], "qwen-plus")),
+        timeout_s=float(_deep_get(data, ["assistant", "timeout_s"], 20.0)),
+        retry=int(_deep_get(data, ["assistant", "retry"], 1)),
+    )
 
     return AppConfig(
         ui=ui,
@@ -451,5 +482,6 @@ def load_app_config(project_root: Path) -> AppConfig:
         routing=routing_cfg,
         custom_time_dependent=custom_td_cfg,
         freshness=freshness_cfg,
+        assistant=assistant_cfg,
         logging=logging_cfg,
     )

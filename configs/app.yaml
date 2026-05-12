@@ -82,3 +82,12 @@ freshness:
 logging:
   level: INFO
   file: results/logs/app.log
+
+assistant:
+  name: 芒小果
+  provider: tongyi
+  api_key: "sk-822b377728944d45b520a64236fe3c06"
+  endpoint: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
+  model: qwen-plus
+  timeout_s: 20
+  retry: 1

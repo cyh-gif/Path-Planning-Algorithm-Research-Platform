@@ -1,0 +1,12 @@
+{
+  "candidate_options": {
+    "max_paths_per_strategy": 3,
+    "use_tmcs": true,
+    "densify_max_segment_m": 40.0,
+    "enable_divergence": true,
+    "anchor_ratio_1": 0.3,
+    "anchor_ratio_2": 0.7,
+    "offset_distance_1_m": 300.0,
+    "offset_distance_2_m": 600.0
+  }
+}

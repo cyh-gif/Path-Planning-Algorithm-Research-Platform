@@ -36,6 +36,9 @@ QGroupBox::title {
     padding: 0 4px;
     color: #334155;
 }
+QGroupBox#groupBoxMangoAssistant::title {
+    color: #b45309;
+}
 QLabel {
     color: #334155;
 }
@@ -99,6 +102,14 @@ QPushButton#pushButtonRun {
 }
 QPushButton#pushButtonRun:hover {
     background: #1d4ed8;
+}
+QPushButton#pushButtonMangoSend {
+    background: #f59e0b;
+    border: 1px solid #d97706;
+    color: #ffffff;
+}
+QPushButton#pushButtonMangoSend:hover {
+    background: #d97706;
 }
 QPushButton#pushButtonReset {
     background: #ffffff;
@@ -399,6 +410,110 @@ QStatusBar {
            </widget>
           </item>
          </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacerAssistantTopGap">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>12</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QFrame" name="frameAssistantDivider">
+          <property name="frameShape">
+           <enum>QFrame::HLine</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: #d8e0ec;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacerAssistantBottomGap">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>8</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="groupBoxMangoAssistant">
+          <property name="title">
+           <string>芒小果智能助手</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>190</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_mangoAssistant">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QPlainTextEdit" name="plainTextEditMangoChat">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>你可以问：这个季节推荐吃什么水果？</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayoutMangoInput">
+             <item>
+              <widget class="QLineEdit" name="lineEditMangoInput">
+               <property name="placeholderText">
+                <string>输入问题，例如：这个季节推荐吃什么水果？</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonMangoSend">
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>发送</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonMangoClear">
+               <property name="minimumSize">
+                <size>
+                 <width>70</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>清空</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </item>
         <item>
          <spacer name="verticalSpacerInput">
@@ -749,6 +864,12 @@ QStatusBar {
          <widget class="QGroupBox" name="groupBoxLog">
           <property name="title">
            <string>运行日志</string>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>130</height>
+           </size>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_log">
            <item>

@@ -1,0 +1,51 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="24" y1="20" x2="230" y2="238" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#25A96E"/>
+      <stop offset="0.55" stop-color="#2F8FD8"/>
+      <stop offset="1" stop-color="#1E4FB7"/>
+    </linearGradient>
+    <linearGradient id="pinGrad" x1="128" y1="52" x2="128" y2="208" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EAF2FF"/>
+    </linearGradient>
+    <linearGradient id="appleGrad" x1="112" y1="91" x2="142" y2="124" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF8A7A"/>
+      <stop offset="1" stop-color="#E64545"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="12" y="12" width="232" height="232" rx="56" fill="url(#bgGrad)"/>
+
+  <circle cx="60" cy="62" r="10" fill="#FFFFFF" fill-opacity="0.12"/>
+  <circle cx="198" cy="70" r="14" fill="#FFFFFF" fill-opacity="0.10"/>
+  <circle cx="72" cy="196" r="16" fill="#FFFFFF" fill-opacity="0.09"/>
+
+  <path
+    d="M128 52C94.86 52 68 78.86 68 112C68 150.9 112.8 197.6 124.9 210.9C126.5 212.6 129.5 212.6 131.1 210.9C143.2 197.6 188 150.9 188 112C188 78.86 161.1 52 128 52Z"
+    fill="url(#pinGrad)"
+    fill-opacity="0.98"
+  />
+
+  <circle cx="128" cy="108" r="34" fill="#DCE9FF" fill-opacity="0.85"/>
+
+  <ellipse cx="114.5" cy="113.5" rx="17.8" ry="18.8" fill="url(#appleGrad)"/>
+  <ellipse cx="141.5" cy="113.5" rx="17.8" ry="18.8" fill="url(#appleGrad)"/>
+  <ellipse cx="128" cy="126.5" rx="24.8" ry="18.2" fill="url(#appleGrad)"/>
+  <circle cx="128" cy="102.4" r="5.8" fill="#DCE9FF" fill-opacity="0.96"/>
+  <ellipse cx="112.8" cy="109.2" rx="4.8" ry="3.0" fill="#FFD5CF" fill-opacity="0.64"/>
+  <path d="M128 90.5C128.3 85.4 131.7 81.5 136.6 80.5" stroke="#7B4A2E" stroke-width="4" stroke-linecap="round"/>
+  <path d="M136.6 85.8C140.7 81.8 146.6 81.1 151.2 84.2C146.6 89.5 140.9 90.2 136.6 85.8Z" fill="#4FB765"/>
+
+  <path
+    d="M54 186C78 168 98 199 123 183C147 167 165 191 188 180"
+    fill="none"
+    stroke="#FFFFFF"
+    stroke-width="8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    stroke-opacity="0.95"
+  />
+  <circle cx="54" cy="186" r="7" fill="#FFFFFF"/>
+  <circle cx="188" cy="180" r="7" fill="#FFFFFF"/>
+</svg>

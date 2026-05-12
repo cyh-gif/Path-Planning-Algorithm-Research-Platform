@@ -2,6 +2,7 @@
 
 from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass
+from datetime import datetime
 import json
 import logging
 from pathlib import Path
@@ -10,11 +11,13 @@ import time
 from typing import Type, TypeVar
 
 from PySide6.QtCore import QDateTime, QFile, QObject, QStringListModel, QTimer, Qt, QUrl, Signal
+from PySide6.QtGui import QIcon
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWebChannel import QWebChannel
 from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (
+    QApplication,
     QCheckBox,
     QComboBox,
     QCompleter,
@@ -36,6 +39,7 @@ from PySide6.QtWidgets import (
 
 from src.app.config_loader import AppConfig
 from src.app.map_bridge import MapBridge
+from src.agent.mango_assistant_service import MangoAssistantService
 from src.models.map_payload import MapPayload
 from src.models.route_request import RouteRequest
 from src.models.route_result import RouteResult
@@ -53,6 +57,10 @@ class _SuggestionSignalBus(QObject):
 
 class _RouteSignalBus(QObject):
     routeReady = Signal(int, object)
+
+
+class _ChatSignalBus(QObject):
+    chatReady = Signal(int, object)
 
 
 @dataclass(frozen=True, slots=True)
@@ -121,6 +129,7 @@ class MainWindowController:
         app_config: AppConfig,
         route_service: RoutePlanningService,
         place_suggestion_service: PlaceSuggestionService | None = None,
+        mango_assistant_service: MangoAssistantService | None = None,
     ) -> None:
         self.project_root = project_root
         self.app_config = app_config
@@ -131,11 +140,20 @@ class MainWindowController:
             retry=app_config.amap.retry,
             cache_ttl_s=app_config.amap.cache_ttl_s,
         )
+        self.mango_assistant_service = mango_assistant_service or MangoAssistantService(
+            agent_name=self.app_config.assistant.name,
+            api_key=self.app_config.assistant.api_key,
+            endpoint=self.app_config.assistant.endpoint,
+            model=self.app_config.assistant.model,
+            timeout_s=self.app_config.assistant.timeout_s,
+            retry=self.app_config.assistant.retry,
+        )
 
         self.ui_path = self.project_root / self.app_config.ui.file
         self.map_html_path = self.project_root / self.app_config.ui.map_html
         self.settings_ui_path = self.project_root / "ui" / "设置界面.ui"
         self.ui_settings_path = self.project_root / "data" / "cache" / "ui_settings.json"
+        self.app_icon_path = self.project_root / "ui" / "assets" / "app_icon.svg"
 
         # 联想请求放到后台线程，避免输入卡顿。
         self._suggest_executor = ThreadPoolExecutor(max_workers=2, thread_name_prefix="place_suggest")
@@ -156,6 +174,12 @@ class MainWindowController:
         self._progress_expected_s = 1.5
         self._progress_started_at = 0.0
         self._progress_last_value = 0
+        self._chat_executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="mango_chat")
+        self._chat_signal_bus = _ChatSignalBus()
+        self._chat_signal_bus.chatReady.connect(self._on_chat_ready)
+        self._chat_seq = 0
+        self._chat_running = False
+        self._chat_history: list[dict[str, str]] = []
 
         self.window = self._load_ui(self.ui_path)
         self.map_ready = False
@@ -253,6 +277,10 @@ class MainWindowController:
         self.edit_freshness_delta = self._require_widget("lineEditFreshnessDeltaTo100", QLineEdit)
         self.edit_status = self._require_widget("lineEditResultStatus", QLineEdit)
         self.run_log = self._require_widget("plainTextEditRunLog", QPlainTextEdit)
+        self.mango_chat = self._require_widget("plainTextEditMangoChat", QPlainTextEdit)
+        self.mango_input = self._require_widget("lineEditMangoInput", QLineEdit)
+        self.btn_mango_send = self._require_widget("pushButtonMangoSend", QPushButton)
+        self.btn_mango_clear = self._require_widget("pushButtonMangoClear", QPushButton)
 
     def _setup_location_autocomplete(self) -> None:
         """为起点和终点输入框启用带来源标签的联想下拉。"""
@@ -476,6 +504,7 @@ class MainWindowController:
         self.map_bridge.jsLog.connect(self._on_js_log)
 
     def _init_ui_state(self) -> None:
+        self._apply_window_icon()
         self._restore_persisted_settings()
         self._init_strategy_options()
         self.datetime_depart.setDateTime(QDateTime.currentDateTime())
@@ -483,7 +512,32 @@ class MainWindowController:
         self._reset_progress_display()
         self._apply_main_layout_ratio()
         self._load_map_html()
+        self._init_mango_assistant()
         self._append_log("界面已启动，等待输入。")
+
+    def _init_mango_assistant(self) -> None:
+        self.mango_chat.clear()
+        self._chat_history.clear()
+        season = self._season_name(datetime.now().month)
+        self._append_mango_line(
+            "芒小果",
+            (
+                f"你好，我是芒小果。现在是{season}，你可以问我："
+                "“这个季节推荐吃什么水果？”或“荔枝和葡萄哪个更适合现在吃？”"
+            ),
+        )
+
+    def _apply_window_icon(self) -> None:
+        """为主窗口设置项目图标。"""
+        if not self.app_icon_path.exists():
+            return
+        icon = QIcon(str(self.app_icon_path))
+        if icon.isNull():
+            return
+        self.window.setWindowIcon(icon)
+        app = QApplication.instance()
+        if app is not None:
+            app.setWindowIcon(icon)
 
     def _restore_persisted_settings(self) -> None:
         """启动时恢复本地保存的设置参数。"""
@@ -839,6 +893,82 @@ class MainWindowController:
         self.btn_settings.clicked.connect(self.on_settings_clicked)
         self.btn_run.clicked.connect(self.on_run_clicked)
         self.btn_reset.clicked.connect(self.on_reset_clicked)
+        self.btn_mango_send.clicked.connect(self.on_mango_send_clicked)
+        self.btn_mango_clear.clicked.connect(self.on_mango_clear_clicked)
+        self.mango_input.returnPressed.connect(self.on_mango_send_clicked)
+
+    def _append_mango_line(self, speaker: str, text: str) -> None:
+        stamp = QDateTime.currentDateTime().toString("HH:mm:ss")
+        self.mango_chat.appendPlainText(f"[{stamp}] {speaker}: {text}")
+
+    def _season_name(self, month: int) -> str:
+        if month in {3, 4, 5}:
+            return "春季"
+        if month in {6, 7, 8}:
+            return "夏季"
+        if month in {9, 10, 11}:
+            return "秋季"
+        return "冬季"
+
+    def on_mango_send_clicked(self) -> None:
+        if self._chat_running:
+            QMessageBox.information(self.window, "芒小果忙碌中", "芒小果正在思考，请稍候。")
+            return
+
+        text = self.mango_input.text().strip()
+        if not text:
+            return
+
+        self.mango_input.clear()
+        self._append_mango_line("我", text)
+        self._chat_history.append({"role": "user", "content": text})
+        self._chat_history = self._chat_history[-20:]
+
+        self._chat_running = True
+        self.btn_mango_send.setEnabled(False)
+        self.btn_mango_clear.setEnabled(False)
+        self._chat_seq += 1
+        current_seq = self._chat_seq
+
+        future = self._chat_executor.submit(
+            self.mango_assistant_service.chat,
+            text,
+            list(self._chat_history),
+        )
+        future.add_done_callback(lambda fut, seq=current_seq: self._on_chat_future_done(seq, fut))
+
+    def _on_chat_future_done(self, seq: int, future: Future[str]) -> None:
+        try:
+            payload: object = future.result()
+        except Exception as exc:  # pragma: no cover
+            payload = exc
+        self._chat_signal_bus.chatReady.emit(seq, payload)
+
+    def _on_chat_ready(self, seq: int, payload: object) -> None:
+        if seq != self._chat_seq:
+            return
+
+        self._chat_running = False
+        self.btn_mango_send.setEnabled(True)
+        self.btn_mango_clear.setEnabled(True)
+
+        if isinstance(payload, Exception):
+            reply = self.mango_assistant_service.build_local_reply(
+                "这个季节推荐吃什么水果",
+                reason=str(payload),
+            )
+        else:
+            reply = str(payload).strip() or "我暂时没想好，换个问法再试试。"
+
+        self._append_mango_line("芒小果", reply)
+        self._chat_history.append({"role": "assistant", "content": reply})
+        self._chat_history = self._chat_history[-20:]
+
+    def on_mango_clear_clicked(self) -> None:
+        if self._chat_running:
+            QMessageBox.information(self.window, "请稍候", "芒小果正在回复，稍后再清空。")
+            return
+        self._init_mango_assistant()
 
     def _append_log(self, text: str) -> None:
         stamp = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
@@ -1135,3 +1265,4 @@ class MainWindowController:
         self.progress_timer.stop()
         self._route_executor.shutdown(wait=False, cancel_futures=True)
         self._suggest_executor.shutdown(wait=False, cancel_futures=True)
+        self._chat_executor.shutdown(wait=False, cancel_futures=True)

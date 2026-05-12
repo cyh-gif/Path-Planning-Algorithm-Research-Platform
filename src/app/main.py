@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QApplication
 
 from src.app.config_loader import load_app_config
 from src.app.controller import MainWindowController
+from src.agent.mango_assistant_service import MangoAssistantService
 from src.services.amap_web_service import AMapWebServiceClient
 from src.services.route_planning_service import RoutePlanningService
 from src.utils.logger import setup_logging
@@ -57,12 +58,21 @@ def main() -> int:
         freshness_tmcs_status_multipliers=app_config.freshness.tmcs_status_multipliers or {},
         fruit_profile_json_path=project_root / app_config.freshness.fruit_profile_json,
     )
+    mango_assistant_service = MangoAssistantService(
+        agent_name=app_config.assistant.name,
+        api_key=app_config.assistant.api_key,
+        endpoint=app_config.assistant.endpoint,
+        model=app_config.assistant.model,
+        timeout_s=app_config.assistant.timeout_s,
+        retry=app_config.assistant.retry,
+    )
 
     app = QApplication(sys.argv)
     controller = MainWindowController(
         project_root=project_root,
         app_config=app_config,
         route_service=route_service,
+        mango_assistant_service=mango_assistant_service,
     )
     app.aboutToQuit.connect(controller.shutdown)
     controller.window.show()
