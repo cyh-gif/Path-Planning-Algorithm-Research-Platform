@@ -861,6 +861,19 @@ QStatusBar {
          </layout>
         </item>
         <item>
+         <widget class="QPushButton" name="pushButtonResultStats">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>34</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>结果统计</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QGroupBox" name="groupBoxLog">
           <property name="title">
            <string>运行日志</string>

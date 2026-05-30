@@ -11,6 +11,9 @@ from src.algorithms.freshness_dijkstra_improved import FreshnessDijkstraImproved
 from src.algorithms.graph_builder import GraphData, GraphEdge, haversine_km
 from src.algorithms.greedy_best_first_path import GreedyBestFirstPathSolver
 from src.algorithms.static_shortest_path import PathSolveResult, StaticShortestPathSolver
+from src.algorithms.target_freshness_k_shortest_path import TargetFreshnessKShortestPathSolver
+from src.algorithms.target_freshness_lexicographic_a_star import TargetFreshnessLexicographicAStarSolver
+from src.algorithms.target_freshness_label_search import TargetFreshnessAdaptiveLabelSearchSolver
 from src.algorithms.time_dependent_shortest_path import TimeDependentShortestPathSolver
 from src.algorithms.tycoon_longest_route import TycoonLongestRouteSelector
 from src.models.route_request import RouteRequest
@@ -51,6 +54,9 @@ class RoutePlanningService:
         "土豪算法": "tycoon_longest_route",
         "保鲜优先算法": "freshness_first",
         "保鲜优先算法-迪杰斯特拉算法改进版": "freshness_dijkstra_improved",
+        "目标保鲜偏差算法(ATD-LS)": "target_freshness_atd_ls",
+        "目标保鲜K最短路算法(TF-KSP)": "target_freshness_tf_ksp",
+        "目标保鲜字典序A*算法(TF-LA*)": "target_freshness_tf_la_star",
     }
 
     _CUSTOM_ALGO_ALIAS: dict[str, str] = {
@@ -73,6 +79,27 @@ class RoutePlanningService:
         "保鲜优先算法-迪杰斯特拉算法改进版": "freshness_dijkstra_improved",
         "freshness dijkstra improved": "freshness_dijkstra_improved",
         "freshness dijkstra": "freshness_dijkstra_improved",
+        "atd-ls": "target_freshness_atd_ls",
+        "target freshness": "target_freshness_atd_ls",
+        "target freshness label search": "target_freshness_atd_ls",
+        "目标保鲜": "target_freshness_atd_ls",
+        "目标保鲜偏差": "target_freshness_atd_ls",
+        "tf-ksp": "target_freshness_tf_ksp",
+        "tf ksp": "target_freshness_tf_ksp",
+        "target freshness ksp": "target_freshness_tf_ksp",
+        "target freshness k shortest path": "target_freshness_tf_ksp",
+        "target freshness k shortest paths": "target_freshness_tf_ksp",
+        "目标保鲜k最短路": "target_freshness_tf_ksp",
+        "目标保鲜k最短路径": "target_freshness_tf_ksp",
+        "tf-la*": "target_freshness_tf_la_star",
+        "tf la*": "target_freshness_tf_la_star",
+        "tf la star": "target_freshness_tf_la_star",
+        "tf-la-star": "target_freshness_tf_la_star",
+        "target freshness la*": "target_freshness_tf_la_star",
+        "target freshness lexicographic a*": "target_freshness_tf_la_star",
+        "target freshness lexicographic astar": "target_freshness_tf_la_star",
+        "目标保鲜字典序a*": "target_freshness_tf_la_star",
+        "目标保鲜字典序astar": "target_freshness_tf_la_star",
     }
 
     _DEFAULT_CUSTOM_CANDIDATE_STRATEGIES: list[int] = [0, 12, 13, 14, 19]
@@ -198,6 +225,9 @@ class RoutePlanningService:
         self.greedy_solver = GreedyBestFirstPathSolver()
         self.tycoon_selector = TycoonLongestRouteSelector()
         self.freshness_dijkstra_improved_solver = FreshnessDijkstraImprovedSolver()
+        self.target_freshness_k_shortest_path_solver = TargetFreshnessKShortestPathSolver()
+        self.target_freshness_la_star_solver = TargetFreshnessLexicographicAStarSolver()
+        self.target_freshness_label_search_solver = TargetFreshnessAdaptiveLabelSearchSolver()
         self.freshness_target = float(freshness_target or self._DEFAULT_FRESHNESS_TARGET)
         self.freshness_base_loss_per_hour = max(
             0.01,
@@ -335,6 +365,11 @@ class RoutePlanningService:
             start_gcj02 = self.amap_client.geocode(request.start_text)
             end_gcj02 = self.amap_client.geocode(request.end_text)
             normalized_algorithm = algorithm_id.strip().lower()
+            is_target_freshness = normalized_algorithm in {
+                "target_freshness_atd_ls",
+                "target_freshness_tf_ksp",
+                "target_freshness_tf_la_star",
+            }
             if normalized_algorithm == "freshness_first":
                 return self._plan_freshness_first_amap_only(
                     request=request,
@@ -347,16 +382,25 @@ class RoutePlanningService:
             candidates = self.amap_client.plan_driving_route_candidates(
                 origin_gcj02=start_gcj02,
                 destination_gcj02=end_gcj02,
-                strategies=self._candidate_strategy_codes(),
-                max_paths_per_strategy=self.custom_candidate_max_paths_per_strategy,
+                strategies=(
+                    self._target_freshness_candidate_strategy_codes()
+                    if is_target_freshness
+                    else self._candidate_strategy_codes()
+                ),
+                max_paths_per_strategy=1 if is_target_freshness else self.custom_candidate_max_paths_per_strategy,
                 use_tmcs=self.custom_candidate_use_tmcs,
-                densify_max_segment_m=self.custom_candidate_densify_max_segment_m,
+                densify_max_segment_m=(
+                    max(self.custom_candidate_densify_max_segment_m, 120.0)
+                    if is_target_freshness
+                    else self.custom_candidate_densify_max_segment_m
+                ),
             )
-            candidates, _ = self._expand_candidates_by_divergence(
-                candidates=candidates,
-                start_gcj02=start_gcj02,
-                end_gcj02=end_gcj02,
-            )
+            if not is_target_freshness:
+                candidates, _ = self._expand_candidates_by_divergence(
+                    candidates=candidates,
+                    start_gcj02=start_gcj02,
+                    end_gcj02=end_gcj02,
+                )
 
             if algorithm_id.strip().lower() == "tycoon_longest_route":
                 selected_code, selected_route = self.tycoon_selector.select(candidates)
@@ -469,6 +513,21 @@ class RoutePlanningService:
 
     def _candidate_strategy_codes(self) -> list[int]:
         return list(self.custom_candidate_strategy_codes)
+
+    def _target_freshness_candidate_strategy_codes(self) -> list[int]:
+        # ATD-LS 先用更小的候选池，优先减少高德请求和图规模。
+        compare_codes = self._freshness_compare_strategy_codes()
+        if compare_codes:
+            return compare_codes[:3]
+
+        preferred: list[int] = []
+        for code in (0, 12, 13):
+            if code in self.amap_strategy_map.values() and code not in preferred:
+                preferred.append(code)
+        if preferred:
+            return preferred
+
+        return self._candidate_strategy_codes()[:3]
 
     def _freshness_compare_strategy_codes(self) -> list[int]:
         if self.freshness_amap_compare_strategy_codes:
@@ -1043,6 +1102,36 @@ class RoutePlanningService:
             )
             return solved, False, 0, "最小化|保鲜度-100|(改进Dijkstra)"
 
+        if normalized == "target_freshness_atd_ls":
+            solved = self._solve_target_freshness_atd_ls(
+                graph=graph,
+                start_node_id=start_node_id,
+                end_node_id=end_node_id,
+                fruit_type=request_fruit_type,
+                transport_mode=request_transport_mode,
+            )
+            return solved, False, 0, "最小化|保鲜度-100|(ATD-LS)"
+
+        if normalized == "target_freshness_tf_ksp":
+            solved = self._solve_target_freshness_tf_ksp(
+                graph=graph,
+                start_node_id=start_node_id,
+                end_node_id=end_node_id,
+                fruit_type=request_fruit_type,
+                transport_mode=request_transport_mode,
+            )
+            return solved, False, 0, "最小化|保鲜度-100|(TF-KSP)"
+
+        if normalized == "target_freshness_tf_la_star":
+            solved = self._solve_target_freshness_tf_la_star(
+                graph=graph,
+                start_node_id=start_node_id,
+                end_node_id=end_node_id,
+                fruit_type=request_fruit_type,
+                transport_mode=request_transport_mode,
+            )
+            return solved, False, 0, "最小化(|保鲜度-100|, 时间)(TF-LA*)"
+
         raise ValueError(f"未识别的自研算法标识: {algorithm_id}")
 
     def _solve_freshness_dijkstra_improved(
@@ -1053,6 +1142,187 @@ class RoutePlanningService:
         fruit_type: str,
         transport_mode: str,
     ) -> PathSolveResult:
+        target_loss, edge_freshness_loss_by_id, edge_secondary_cost_by_id = (
+            self._build_target_freshness_edge_costs(
+                graph=graph,
+                fruit_type=fruit_type,
+                transport_mode=transport_mode,
+            )
+        )
+
+        return self.freshness_dijkstra_improved_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            edge_freshness_loss_by_id=edge_freshness_loss_by_id,
+            target_loss=target_loss,
+            edge_secondary_cost_by_id=edge_secondary_cost_by_id,
+            loss_bin_size=0.08,
+            max_loss_limit=240.0,
+        )
+
+    def _solve_target_freshness_atd_ls(
+        self,
+        graph: GraphData,
+        start_node_id: int,
+        end_node_id: int,
+        fruit_type: str,
+        transport_mode: str,
+    ) -> PathSolveResult:
+        target_loss, edge_freshness_loss_by_id, edge_secondary_cost_by_id = (
+            self._build_target_freshness_edge_costs(
+                graph=graph,
+                fruit_type=fruit_type,
+                transport_mode=transport_mode,
+            )
+        )
+        detour_ratio = self._resolve_freshness_detour_ratio(fruit_type)
+        fastest_path = self.static_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            weight_mode="time",
+        )
+        fastest_secondary_cost = fastest_path.total_cost
+        path_depth_hint = len(fastest_path.edge_path)
+        branching_hint = self._estimate_path_branching_hint(
+            graph=graph,
+            node_path=fastest_path.node_path,
+        )
+        max_secondary_cost = max(float(fastest_secondary_cost), 1e-6) * detour_ratio
+        max_loss_limit = max(target_loss * 2.6, target_loss + 14.0, 28.0)
+
+        return self.target_freshness_label_search_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            edge_freshness_loss_by_id=edge_freshness_loss_by_id,
+            target_loss=target_loss,
+            edge_secondary_cost_by_id=edge_secondary_cost_by_id,
+            max_secondary_cost=max_secondary_cost,
+            max_loss_limit=max_loss_limit,
+            max_labels_per_node=self._estimate_target_freshness_label_limit(graph),
+            max_total_labels=self._estimate_target_freshness_total_label_limit(graph),
+            path_depth_hint=path_depth_hint,
+            branching_hint=branching_hint,
+            baseline_result=fastest_path,
+        )
+
+    def _solve_target_freshness_tf_ksp(
+        self,
+        graph: GraphData,
+        start_node_id: int,
+        end_node_id: int,
+        fruit_type: str,
+        transport_mode: str,
+    ) -> PathSolveResult:
+        target_loss, edge_freshness_loss_by_id, edge_secondary_cost_by_id = (
+            self._build_target_freshness_edge_costs(
+                graph=graph,
+                fruit_type=fruit_type,
+                transport_mode=transport_mode,
+            )
+        )
+        detour_ratio = self._resolve_freshness_detour_ratio(fruit_type)
+        fastest_secondary_cost = self.static_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            weight_mode="time",
+        ).total_cost
+        max_secondary_cost = max(float(fastest_secondary_cost), 1e-6) * detour_ratio
+        max_loss_limit = max(target_loss * 2.6, target_loss + 14.0, 28.0)
+
+        return self.target_freshness_k_shortest_path_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            edge_freshness_loss_by_id=edge_freshness_loss_by_id,
+            target_loss=target_loss,
+            edge_secondary_cost_by_id=edge_secondary_cost_by_id,
+            max_secondary_cost=max_secondary_cost,
+            max_loss_limit=max_loss_limit,
+            max_candidate_paths=self._estimate_target_freshness_candidate_paths(graph),
+        )
+
+    def _solve_target_freshness_tf_la_star(
+        self,
+        graph: GraphData,
+        start_node_id: int,
+        end_node_id: int,
+        fruit_type: str,
+        transport_mode: str,
+    ) -> PathSolveResult:
+        target_loss, edge_freshness_loss_by_id, edge_secondary_cost_by_id = (
+            self._build_target_freshness_edge_costs(
+                graph=graph,
+                fruit_type=fruit_type,
+                transport_mode=transport_mode,
+            )
+        )
+        detour_ratio = self._resolve_freshness_detour_ratio(fruit_type)
+        fastest_path = self.static_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            weight_mode="time",
+        )
+        fastest_secondary_cost = fastest_path.total_cost
+        path_depth_hint = len(fastest_path.edge_path)
+        branching_hint = self._estimate_path_branching_hint(
+            graph=graph,
+            node_path=fastest_path.node_path,
+        )
+        max_secondary_cost = max(float(fastest_secondary_cost), 1e-6) * detour_ratio
+        max_loss_limit = max(target_loss * 2.8, target_loss + 16.0, 30.0)
+
+        return self.target_freshness_la_star_solver.solve(
+            graph=graph,
+            start_node_id=start_node_id,
+            end_node_id=end_node_id,
+            edge_freshness_loss_by_id=edge_freshness_loss_by_id,
+            target_loss=target_loss,
+            edge_secondary_cost_by_id=edge_secondary_cost_by_id,
+            max_secondary_cost=max_secondary_cost,
+            max_loss_limit=max_loss_limit,
+            max_labels_per_node=max(self._estimate_target_freshness_label_limit(graph), 6),
+            max_total_labels=max(self._estimate_target_freshness_total_label_limit(graph), 160),
+            path_depth_hint=path_depth_hint,
+            branching_hint=branching_hint,
+            baseline_result=fastest_path,
+        )
+
+    def _estimate_target_freshness_label_limit(self, graph: GraphData) -> int:
+        node_count = len(graph.nodes)
+        limit = 4 + node_count // 220
+        return max(4, min(10, limit))
+
+    def _estimate_target_freshness_candidate_paths(self, graph: GraphData) -> int:
+        node_count = len(graph.nodes)
+        limit = 6 + node_count // 180
+        return max(6, min(12, limit))
+
+    def _estimate_target_freshness_total_label_limit(self, graph: GraphData) -> int:
+        edge_count = len(graph.edges_by_id)
+        limit = 72 + edge_count // 6
+        return max(96, min(420, limit))
+
+    def _estimate_path_branching_hint(self, graph: GraphData, node_path: list[int]) -> float:
+        if len(node_path) < 2:
+            return 0.0
+
+        branching_nodes = 0
+        for node_id in node_path[:-1]:
+            if len(graph.edges_by_from.get(node_id, [])) > 1:
+                branching_nodes += 1
+        return min(max(branching_nodes / max(len(node_path) - 1, 1), 0.0), 1.0)
+
+    def _build_target_freshness_edge_costs(
+        self,
+        graph: GraphData,
+        fruit_type: str,
+        transport_mode: str,
+    ) -> tuple[float, dict[int, float], dict[int, float]]:
         profile = self._resolve_fruit_profile(fruit_type)
         transport_multiplier = self._resolve_transport_multiplier(transport_mode)
         target_loss = profile.freshness_init - self.freshness_target
@@ -1061,7 +1331,7 @@ class RoutePlanningService:
         edge_freshness_loss_by_id: dict[int, float] = {}
         edge_secondary_cost_by_id: dict[int, float] = {}
 
-        # 改进点：强化“崎岖路段/路况拥堵”的惩罚，使保鲜目标更可区分。
+        # 强化“路况拥堵 + 曲折路段”的损耗差异，让目标保鲜度更有判别力。
         for edge_id, edge in graph.edges_by_id.items():
             dt_h = max(float(edge.base_travel_time_s), 0.0) / 3600.0
             road_multiplier = self._resolve_road_multiplier(edge.road_class)
@@ -1090,16 +1360,7 @@ class RoutePlanningService:
             edge_freshness_loss_by_id[edge_id] = max(decay, 0.0)
             edge_secondary_cost_by_id[edge_id] = max(float(edge.base_travel_time_s), 1e-6)
 
-        return self.freshness_dijkstra_improved_solver.solve(
-            graph=graph,
-            start_node_id=start_node_id,
-            end_node_id=end_node_id,
-            edge_freshness_loss_by_id=edge_freshness_loss_by_id,
-            target_loss=target_loss,
-            edge_secondary_cost_by_id=edge_secondary_cost_by_id,
-            loss_bin_size=0.08,
-            max_loss_limit=240.0,
-        )
+        return target_loss, edge_freshness_loss_by_id, edge_secondary_cost_by_id
 
     def _build_tycoon_result(
         self,

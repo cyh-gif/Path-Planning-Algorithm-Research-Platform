@@ -17,6 +17,7 @@ from PySide6.QtWebChannel import QWebChannel
 from PySide6.QtWebEngineCore import QWebEngineSettings
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import (
+    QAbstractItemView,
     QApplication,
     QCheckBox,
     QComboBox,
@@ -32,6 +33,9 @@ from PySide6.QtWidgets import (
     QProgressBar,
     QPushButton,
     QRadioButton,
+    QTableWidget,
+    QTableWidgetItem,
+    QHeaderView,
     QSplitter,
     QSpinBox,
     QWidget,
@@ -152,7 +156,9 @@ class MainWindowController:
         self.ui_path = self.project_root / self.app_config.ui.file
         self.map_html_path = self.project_root / self.app_config.ui.map_html
         self.settings_ui_path = self.project_root / "ui" / "设置界面.ui"
+        self.result_stats_ui_path = self.project_root / "ui" / "结果统计界面.ui"
         self.ui_settings_path = self.project_root / "data" / "cache" / "ui_settings.json"
+        self.result_history_path = self.project_root / "data" / "cache" / "result_history.json"
         self.app_icon_path = self.project_root / "ui" / "assets" / "app_icon.svg"
 
         # 联想请求放到后台线程，避免输入卡顿。
@@ -180,6 +186,7 @@ class MainWindowController:
         self._chat_seq = 0
         self._chat_running = False
         self._chat_history: list[dict[str, str]] = []
+        self._result_history: list[dict[str, object]] = self._load_result_history()
 
         self.window = self._load_ui(self.ui_path)
         self.map_ready = False
@@ -212,20 +219,20 @@ class MainWindowController:
             raise RuntimeError("UI 根节点必须是 QMainWindow。")
         return loaded
 
-    def _load_dialog_ui(self, ui_path: Path) -> QDialog:
+    def _load_dialog_ui(self, ui_path: Path, description: str = "对话框") -> QDialog:
         if not ui_path.exists():
-            raise FileNotFoundError(f"设置界面文件不存在: {ui_path}")
+            raise FileNotFoundError(f"{description}文件不存在: {ui_path}")
 
         qfile = QFile(str(ui_path))
         if not qfile.open(QFile.ReadOnly):
-            raise RuntimeError(f"设置界面打开失败: {ui_path}")
+            raise RuntimeError(f"{description}打开失败: {ui_path}")
 
         loader = QUiLoader()
         loaded = loader.load(qfile)
         qfile.close()
 
         if loaded is None or not isinstance(loaded, QDialog):
-            raise RuntimeError("设置界面根节点必须是 QDialog。")
+            raise RuntimeError(f"{description}根节点必须是 QDialog。")
         return loaded
 
     def _require_child_widget(
@@ -259,6 +266,7 @@ class MainWindowController:
         self.btn_settings = self._require_widget("pushButtonSettings", QPushButton)
         self.btn_run = self._require_widget("pushButtonRun", QPushButton)
         self.btn_reset = self._require_widget("pushButtonReset", QPushButton)
+        self.btn_result_stats = self._require_widget("pushButtonResultStats", QPushButton)
 
         self.map_view = self._require_widget("webEngineViewChinaMap", QWebEngineView)
         self.progress_bar_compute = self._require_widget("progressBarCompute", QProgressBar)
@@ -754,7 +762,7 @@ class MainWindowController:
             )
 
     def on_settings_clicked(self) -> None:
-        dialog = self._load_dialog_ui(self.settings_ui_path)
+        dialog = self._load_dialog_ui(self.settings_ui_path, "设置界面")
         dialog.setWindowModality(Qt.WindowModal)
 
         radio_fast = self._require_child_widget(dialog, "radioButtonPresetFast", QRadioButton)
@@ -888,11 +896,200 @@ class MainWindowController:
 
         dialog.exec()
 
+    def on_result_stats_clicked(self) -> None:
+        dialog = self._load_dialog_ui(self.result_stats_ui_path, "结果统计界面")
+        dialog.setWindowModality(Qt.WindowModal)
+        dialog.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+        dialog.showMaximized()
+
+        summary_labels = {
+            "total": self._require_child_widget(dialog, "labelSummaryTotalValue", QLabel),
+            "success": self._require_child_widget(dialog, "labelSummarySuccessValue", QLabel),
+            "error": self._require_child_widget(dialog, "labelSummaryErrorValue", QLabel),
+            "avg_compute": self._require_child_widget(dialog, "labelSummaryAvgComputeValue", QLabel),
+            "avg_distance": self._require_child_widget(dialog, "labelSummaryAvgDistanceValue", QLabel),
+            "best_delta": self._require_child_widget(dialog, "labelSummaryBestFreshnessValue", QLabel),
+        }
+        table = self._require_child_widget(dialog, "tableWidgetResultStats", QTableWidget)
+        btn_clear = self._require_child_widget(dialog, "pushButtonClearResultStats", QPushButton)
+        btn_close = self._require_child_widget(dialog, "pushButtonCloseResultStats", QPushButton)
+
+        self._setup_result_stats_table(table)
+        self._refresh_result_stats_dialog(summary_labels, table)
+
+        def on_clear_clicked() -> None:
+            if not self._result_history:
+                QMessageBox.information(dialog, "暂无数据", "当前还没有可清空的结果统计记录。")
+                return
+            reply = QMessageBox.question(
+                dialog,
+                "清空统计",
+                "确定要清空当前保存的所有结果统计记录吗？",
+                QMessageBox.Yes | QMessageBox.No,
+                QMessageBox.No,
+            )
+            if reply != QMessageBox.Yes:
+                return
+            self._result_history.clear()
+            self._save_result_history()
+            self._refresh_result_stats_dialog(summary_labels, table)
+
+        btn_clear.clicked.connect(on_clear_clicked)
+        btn_close.clicked.connect(dialog.accept)
+        dialog.exec()
+
+    def _setup_result_stats_table(self, table: QTableWidget) -> None:
+        table.setColumnCount(14)
+        table.setHorizontalHeaderLabels(
+            [
+                "时间",
+                "起点",
+                "终点",
+                "来源",
+                "策略",
+                "水果",
+                "运输",
+                "状态",
+                "计算用时(ms)",
+                "总里程(km)",
+                "所需时间(h)",
+                "到达保鲜度",
+                "距100偏差",
+                "结果信息",
+            ]
+        )
+        table.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        table.setSelectionMode(QAbstractItemView.SingleSelection)
+        table.setAlternatingRowColors(True)
+        table.verticalHeader().setVisible(False)
+
+        header = table.horizontalHeader()
+        header.setStretchLastSection(True)
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        for column in (1, 2, 4, 13):
+            header.setSectionResizeMode(column, QHeaderView.Stretch)
+
+    def _refresh_result_stats_dialog(
+        self,
+        summary_labels: dict[str, QLabel],
+        table: QTableWidget,
+    ) -> None:
+        total_count = len(self._result_history)
+        success_rows = [entry for entry in self._result_history if str(entry.get("status", "")).lower() == "ok"]
+        error_count = total_count - len(success_rows)
+        avg_compute_ms = (
+            sum(float(entry.get("compute_ms", 0.0)) for entry in self._result_history) / total_count
+            if total_count
+            else None
+        )
+        avg_distance_km = (
+            sum(float(entry.get("total_distance_km", 0.0)) for entry in success_rows) / len(success_rows)
+            if success_rows
+            else None
+        )
+        valid_deltas = [
+            float(entry.get("freshness_delta_to_100"))
+            for entry in success_rows
+            if entry.get("freshness_delta_to_100") is not None
+        ]
+        best_delta = min(valid_deltas) if valid_deltas else None
+
+        summary_labels["total"].setText(str(total_count))
+        summary_labels["success"].setText(str(len(success_rows)))
+        summary_labels["error"].setText(str(error_count))
+        summary_labels["avg_compute"].setText(
+            "-" if avg_compute_ms is None else f"{avg_compute_ms:.1f} ms"
+        )
+        summary_labels["avg_distance"].setText(
+            "-" if avg_distance_km is None else f"{avg_distance_km:.2f} km"
+        )
+        summary_labels["best_delta"].setText(
+            "-" if best_delta is None else f"{best_delta:.2f}"
+        )
+
+        columns = [
+            "timestamp",
+            "start_text",
+            "end_text",
+            "strategy_source",
+            "algorithm",
+            "fruit_type",
+            "transport_mode",
+            "status",
+            "compute_ms_text",
+            "total_distance_text",
+            "total_time_text",
+            "freshness_text",
+            "freshness_delta_text",
+            "message",
+        ]
+        table.setRowCount(len(self._result_history))
+        for row_index, entry in enumerate(reversed(self._result_history)):
+            view = self._build_result_history_view(entry)
+            for column_index, key in enumerate(columns):
+                item = QTableWidgetItem(view[key])
+                if column_index in {8, 9, 10, 11, 12}:
+                    item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                table.setItem(row_index, column_index, item)
+        if not self._result_history:
+            table.clearContents()
+            table.setRowCount(0)
+
+    def _build_result_history_view(self, entry: dict[str, object]) -> dict[str, str]:
+        freshness_value = entry.get("freshness_at_arrival")
+        delta_value = entry.get("freshness_delta_to_100")
+        return {
+            "timestamp": str(entry.get("timestamp", "-")),
+            "start_text": str(entry.get("start_text", "-")),
+            "end_text": str(entry.get("end_text", "-")),
+            "strategy_source": str(entry.get("strategy_source", "-")),
+            "algorithm": str(entry.get("algorithm", "-")),
+            "fruit_type": str(entry.get("fruit_type", "-")),
+            "transport_mode": str(entry.get("transport_mode", "-")),
+            "status": str(entry.get("status", "-")),
+            "compute_ms_text": f"{float(entry.get('compute_ms', 0.0)):.2f}",
+            "total_distance_text": f"{float(entry.get('total_distance_km', 0.0)):.2f}",
+            "total_time_text": f"{float(entry.get('total_time_h', 0.0)):.2f}",
+            "freshness_text": "-" if freshness_value is None else f"{float(freshness_value):.2f}",
+            "freshness_delta_text": "-" if delta_value is None else f"{float(delta_value):.2f}",
+            "message": str(entry.get("message", "")),
+        }
+
+    def _load_result_history(self) -> list[dict[str, object]]:
+        if not self.result_history_path.exists():
+            return []
+
+        try:
+            payload = json.loads(self.result_history_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            LOGGER.warning("结果统计记录读取失败，回退为空: %s", exc)
+            return []
+
+        if not isinstance(payload, list):
+            return []
+        normalized: list[dict[str, object]] = []
+        for row in payload:
+            if isinstance(row, dict):
+                normalized.append(dict(row))
+        return normalized
+
+    def _save_result_history(self) -> None:
+        try:
+            self.result_history_path.parent.mkdir(parents=True, exist_ok=True)
+            self.result_history_path.write_text(
+                json.dumps(self._result_history, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+        except OSError as exc:
+            LOGGER.warning("结果统计记录保存失败: %s", exc)
+
     def _connect_signals(self) -> None:
         self.combo_strategy_source.currentTextChanged.connect(self._on_strategy_source_changed)
         self.btn_settings.clicked.connect(self.on_settings_clicked)
         self.btn_run.clicked.connect(self.on_run_clicked)
         self.btn_reset.clicked.connect(self.on_reset_clicked)
+        self.btn_result_stats.clicked.connect(self.on_result_stats_clicked)
         self.btn_mango_send.clicked.connect(self.on_mango_send_clicked)
         self.btn_mango_clear.clicked.connect(self.on_mango_clear_clicked)
         self.mango_input.returnPressed.connect(self.on_mango_send_clicked)
@@ -1135,9 +1332,39 @@ class MainWindowController:
         else:
             self.window.statusBar().showMessage("规划完成")
 
+        if request is not None:
+            self._record_result_history(request, result, self._active_strategy_source)
+
         self._append_log(result.message)
         self._active_request = None
         self._active_strategy_source = self._STRATEGY_SOURCE_AMAP
+
+    def _record_result_history(
+        self,
+        request: RouteRequest,
+        result: RouteResult,
+        strategy_source: str,
+    ) -> None:
+        entry: dict[str, object] = {
+            "timestamp": QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss"),
+            "start_text": request.start_text,
+            "end_text": request.end_text,
+            "strategy_source": strategy_source,
+            "algorithm": request.algorithm,
+            "fruit_type": request.fruit_type,
+            "transport_mode": request.transport_mode,
+            "status": result.status,
+            "compute_ms": float(result.compute_ms),
+            "total_distance_km": float(result.total_distance_km),
+            "total_time_h": float(result.total_time_h),
+            "node_count": int(result.node_count),
+            "edge_count": int(result.edge_count),
+            "message": result.message,
+            "freshness_at_arrival": result.freshness_at_arrival,
+            "freshness_delta_to_100": result.freshness_delta_to_100,
+        }
+        self._result_history.append(entry)
+        self._save_result_history()
 
     def _clear_outputs(self) -> None:
         self.edit_eta.clear()

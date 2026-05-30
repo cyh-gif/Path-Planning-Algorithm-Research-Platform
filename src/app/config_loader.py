@@ -189,6 +189,9 @@ def _default_custom_algorithm_map() -> dict[str, str]:
         "土豪算法": "tycoon_longest_route",
         "保鲜优先算法": "freshness_first",
         "保鲜优先算法-迪杰斯特拉算法改进版": "freshness_dijkstra_improved",
+        "目标保鲜偏差算法(ATD-LS)": "target_freshness_atd_ls",
+        "目标保鲜K最短路算法(TF-KSP)": "target_freshness_tf_ksp",
+        "目标保鲜字典序A*算法(TF-LA*)": "target_freshness_tf_la_star",
     }
 
 
