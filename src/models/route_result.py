@@ -14,3 +14,4 @@ class RouteResult:
     message: str
     freshness_at_arrival: float | None = None
     freshness_delta_to_100: float | None = None
+    debug_payload: dict[str, object] | None = None

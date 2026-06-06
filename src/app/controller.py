@@ -155,10 +155,13 @@ class MainWindowController:
 
         self.ui_path = self.project_root / self.app_config.ui.file
         self.map_html_path = self.project_root / self.app_config.ui.map_html
+        self.result_detail_map_html_path = self.project_root / "ui" / "result_detail_map.html"
         self.settings_ui_path = self.project_root / "ui" / "设置界面.ui"
         self.result_stats_ui_path = self.project_root / "ui" / "结果统计界面.ui"
+        self.result_detail_ui_path = self.project_root / "ui" / "结果详情界面.ui"
         self.ui_settings_path = self.project_root / "data" / "cache" / "ui_settings.json"
         self.result_history_path = self.project_root / "data" / "cache" / "result_history.json"
+        self.result_detail_cache_dir = self.project_root / "data" / "cache" / "result_details"
         self.app_icon_path = self.project_root / "ui" / "assets" / "app_icon.svg"
 
         # 联想请求放到后台线程，避免输入卡顿。
@@ -228,6 +231,7 @@ class MainWindowController:
             raise RuntimeError(f"{description}打开失败: {ui_path}")
 
         loader = QUiLoader()
+        loader.registerCustomWidget(QWebEngineView)
         loaded = loader.load(qfile)
         qfile.close()
 
@@ -497,10 +501,7 @@ class MainWindowController:
         return text
 
     def _setup_map_bridge(self) -> None:
-        # 允许本地 HTML（setHtml）加载远程 JS/CSS 资源，否则高德 loader.js 无法加载。
-        settings = self.map_view.settings()
-        settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-        settings.setAttribute(QWebEngineSettings.LocalContentCanAccessFileUrls, True)
+        self._configure_map_view(self.map_view)
 
         self.map_bridge = MapBridge()
         self.map_channel = QWebChannel(self.map_view.page())
@@ -510,6 +511,12 @@ class MainWindowController:
         self.map_view.loadFinished.connect(self._on_map_load_finished)
         self.map_bridge.mapReady.connect(self._on_map_ready)
         self.map_bridge.jsLog.connect(self._on_js_log)
+
+    def _configure_map_view(self, map_view: QWebEngineView) -> None:
+        # 允许本地 HTML（setHtml）加载远程 JS/CSS 资源，否则高德 loader.js 无法加载。
+        settings = map_view.settings()
+        settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+        settings.setAttribute(QWebEngineSettings.LocalContentCanAccessFileUrls, True)
 
     def _init_ui_state(self) -> None:
         self._apply_window_icon()
@@ -910,10 +917,14 @@ class MainWindowController:
             "avg_distance": self._require_child_widget(dialog, "labelSummaryAvgDistanceValue", QLabel),
             "best_delta": self._require_child_widget(dialog, "labelSummaryBestFreshnessValue", QLabel),
         }
+        hint_label = self._require_child_widget(dialog, "labelResultStatsHint", QLabel)
         table = self._require_child_widget(dialog, "tableWidgetResultStats", QTableWidget)
         btn_clear = self._require_child_widget(dialog, "pushButtonClearResultStats", QPushButton)
         btn_close = self._require_child_widget(dialog, "pushButtonCloseResultStats", QPushButton)
 
+        hint_label.setText(
+            f"{hint_label.text().strip()} 双击已保存图结构的自研算法记录，可查看路线和图结构。"
+        )
         self._setup_result_stats_table(table)
         self._refresh_result_stats_dialog(summary_labels, table)
 
@@ -936,6 +947,9 @@ class MainWindowController:
 
         btn_clear.clicked.connect(on_clear_clicked)
         btn_close.clicked.connect(dialog.accept)
+        table.cellDoubleClicked.connect(
+            lambda row, _column: self._on_result_stats_row_double_clicked(dialog, table, row)
+        )
         dialog.exec()
 
     def _setup_result_stats_table(self, table: QTableWidget) -> None:
@@ -1024,11 +1038,14 @@ class MainWindowController:
             "freshness_delta_text",
             "message",
         ]
-        table.setRowCount(len(self._result_history))
-        for row_index, entry in enumerate(reversed(self._result_history)):
+        history_entries = list(reversed(self._result_history))
+        table.setRowCount(len(history_entries))
+        for row_index, entry in enumerate(history_entries):
+            history_index = len(self._result_history) - 1 - row_index
             view = self._build_result_history_view(entry)
             for column_index, key in enumerate(columns):
                 item = QTableWidgetItem(view[key])
+                item.setData(Qt.UserRole, history_index)
                 if column_index in {8, 9, 10, 11, 12}:
                     item.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 table.setItem(row_index, column_index, item)
@@ -1036,6 +1053,240 @@ class MainWindowController:
             table.clearContents()
             table.setRowCount(0)
 
+    def _on_result_stats_row_double_clicked(
+        self,
+        parent_dialog: QDialog,
+        table: QTableWidget,
+        row: int,
+    ) -> None:
+        entry = self._history_entry_from_table_row(table, row)
+        if entry is None:
+            return
+
+        if str(entry.get("strategy_source", "")).strip() != self._STRATEGY_SOURCE_CUSTOM:
+            QMessageBox.information(
+                parent_dialog,
+                "仅支持自研算法",
+                "当前仅支持查看“自研算法”结果的路线和图结构详情。",
+            )
+            return
+
+        if str(entry.get("status", "")).strip().lower() != "ok":
+            QMessageBox.information(
+                parent_dialog,
+                "结果不可查看",
+                "该条记录不是成功结果，暂无可展示的路线和图结构。",
+            )
+            return
+
+        debug_payload = self._load_result_detail_payload(entry)
+        if not isinstance(debug_payload, dict):
+            QMessageBox.information(
+                parent_dialog,
+                "缺少详情",
+                "这条历史记录没有保存图结构详情，可能是旧记录或当前算法未生成候选图，请重新运行支持图结构记录的自研算法后再查看。",
+            )
+            return
+
+        self._open_result_detail_dialog(parent_dialog, entry, debug_payload)
+
+    def _history_entry_from_table_row(
+        self,
+        table: QTableWidget,
+        row: int,
+    ) -> dict[str, object] | None:
+        item = table.item(row, 0)
+        if item is None:
+            return None
+        history_index = item.data(Qt.UserRole)
+        if not isinstance(history_index, int):
+            return None
+        if history_index < 0 or history_index >= len(self._result_history):
+            return None
+        return self._result_history[history_index]
+
+    def _open_result_detail_dialog(
+        self,
+        parent_dialog: QDialog,
+        entry: dict[str, object],
+        debug_payload: dict[str, object],
+    ) -> None:
+        dialog = self._load_dialog_ui(self.result_detail_ui_path, "结果详情界面")
+        dialog.setWindowModality(Qt.WindowModal)
+        dialog.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
+        dialog.resize(1380, 860)
+        dialog.setMinimumSize(1100, 720)
+
+        title_label = self._require_child_widget(dialog, "labelResultDetailTitle", QLabel)
+        hint_label = self._require_child_widget(dialog, "labelResultDetailHint", QLabel)
+        map_view = self._require_child_widget(dialog, "webEngineViewResultGraph", QWebEngineView)
+        close_button = self._require_child_widget(dialog, "pushButtonCloseResultDetail", QPushButton)
+
+        root_layout = dialog.layout()
+        if root_layout is not None:
+            root_layout.setStretch(0, 0)
+            root_layout.setStretch(1, 0)
+            root_layout.setStretch(2, 1)
+            root_layout.setStretch(3, 0)
+
+        title_label.setText("自研算法结果详情")
+        node_count = int(debug_payload.get("node_count", 0))
+        edge_count = int(debug_payload.get("edge_count", 0))
+        hint_label.setText(
+            f"当前记录：{str(entry.get('algorithm', '-'))}，"
+            f"图规模为 {node_count} 个节点 / {edge_count} 条边。"
+        )
+        self._setup_result_detail_map(dialog, map_view, entry, debug_payload)
+
+        close_button.clicked.connect(dialog.accept)
+        dialog.exec()
+
+    def _setup_result_detail_map(
+        self,
+        dialog: QDialog,
+        map_view: QWebEngineView,
+        entry: dict[str, object],
+        debug_payload: dict[str, object],
+    ) -> None:
+        self._configure_map_view(map_view)
+
+        detail_bridge = MapBridge()
+        detail_channel = QWebChannel(map_view.page())
+        detail_channel.registerObject("pyBridge", detail_bridge)
+        map_view.page().setWebChannel(detail_channel)
+
+        dialog._detail_map_bridge = detail_bridge
+        dialog._detail_map_channel = detail_channel
+
+        payload = self._build_result_detail_map_payload(entry, debug_payload)
+
+        def on_map_ready() -> None:
+            detail_bridge.send_payload(payload)
+
+        def on_map_log(message: str) -> None:
+            LOGGER.info("结果详情地图: %s", message)
+
+        def on_load_finished(ok: bool) -> None:
+            if not ok:
+                LOGGER.warning("结果详情地图页面加载失败。")
+
+        map_view.loadFinished.connect(on_load_finished)
+        detail_bridge.mapReady.connect(on_map_ready)
+        detail_bridge.jsLog.connect(on_map_log)
+        self._set_map_html_to_view(
+            map_view,
+            self._build_map_html_content(self.result_detail_map_html_path),
+            self.result_detail_map_html_path,
+        )
+
+    def _build_result_detail_map_payload(
+        self,
+        entry: dict[str, object],
+        debug_payload: dict[str, object],
+    ) -> dict[str, object]:
+        route_data = debug_payload.get("route")
+        overlay_data = debug_payload.get("map_overlay")
+        route_points = route_data.get("points_gcj02", []) if isinstance(route_data, dict) else []
+        graph_edges = overlay_data.get("graph_edges", []) if isinstance(overlay_data, dict) else []
+        return {
+            "points": route_points,
+            "graph_edges": graph_edges,
+            "meta": {
+                "start": str(entry.get("start_text", "-")),
+                "end": str(entry.get("end_text", "-")),
+                "algorithm": str(entry.get("algorithm", "-")),
+                "strategy_source": str(entry.get("strategy_source", "-")),
+                "node_count": int(debug_payload.get("node_count", 0)),
+                "edge_count": int(debug_payload.get("edge_count", 0)),
+            },
+        }
+
+    def _compact_debug_payload(self, payload: dict[str, object]) -> dict[str, object]:
+        route_data = payload.get("route")
+        overlay_data = payload.get("map_overlay")
+        route_points = route_data.get("points_gcj02", []) if isinstance(route_data, dict) else []
+        graph_edges = overlay_data.get("graph_edges", []) if isinstance(overlay_data, dict) else []
+        compact_edges: list[dict[str, object]] = []
+        if isinstance(graph_edges, list):
+            for edge in graph_edges:
+                if not isinstance(edge, dict):
+                    continue
+                points = edge.get("points", [])
+                if not isinstance(points, list) or len(points) < 2:
+                    continue
+                compact_points: list[list[float]] = []
+                for point in points:
+                    if not isinstance(point, list | tuple) or len(point) < 2:
+                        continue
+                    try:
+                        compact_points.append([round(float(point[0]), 6), round(float(point[1]), 6)])
+                    except (TypeError, ValueError):
+                        continue
+                if len(compact_points) < 2:
+                    continue
+                compact_edges.append(
+                    {
+                        "edge_id": int(edge.get("edge_id", 0)),
+                        "road_class": str(edge.get("road_class", "")),
+                        "is_route_edge": bool(edge.get("is_route_edge", False)),
+                        "points": compact_points,
+                    }
+                )
+
+        return {
+            "detail_type": str(payload.get("detail_type", "custom_graph_route")),
+            "strategy_name": str(payload.get("strategy_name", "")),
+            "objective_label": str(payload.get("objective_label", "")),
+            "is_time_dependent": bool(payload.get("is_time_dependent", False)),
+            "node_count": int(payload.get("node_count", 0)),
+            "edge_count": int(payload.get("edge_count", 0)),
+            "route": {
+                "points_gcj02": route_points if isinstance(route_points, list) else [],
+            },
+            "map_overlay": {
+                "graph_edges": compact_edges,
+            },
+        }
+
+    def _persist_result_detail_payload(
+        self,
+        entry: dict[str, object],
+        debug_payload: dict[str, object],
+    ) -> str | None:
+        compact_payload = self._compact_debug_payload(debug_payload)
+        timestamp_raw = str(entry.get("timestamp", "")).strip()
+        timestamp_key = re.sub(r"[^0-9]", "", timestamp_raw) or "detail"
+        algorithm_key = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "_", str(entry.get("algorithm", "")).strip())
+        algorithm_key = algorithm_key.strip("_") or "algorithm"
+        file_path = self.result_detail_cache_dir / f"{timestamp_key}_{algorithm_key}.json"
+        try:
+            self.result_detail_cache_dir.mkdir(parents=True, exist_ok=True)
+            file_path.write_text(
+                json.dumps(compact_payload, ensure_ascii=False, separators=(",", ":")),
+                encoding="utf-8",
+            )
+        except OSError as exc:
+            LOGGER.warning("结果详情缓存保存失败: %s", exc)
+            return None
+        return str(file_path.relative_to(self.project_root))
+
+    def _load_result_detail_payload(self, entry: dict[str, object]) -> dict[str, object] | None:
+        inline_payload = entry.get("debug_payload")
+        if isinstance(inline_payload, dict):
+            return self._compact_debug_payload(inline_payload)
+
+        payload_path_raw = entry.get("debug_payload_path")
+        if not isinstance(payload_path_raw, str) or not payload_path_raw.strip():
+            return None
+        payload_path = self.project_root / payload_path_raw
+        if not payload_path.exists():
+            return None
+        try:
+            payload = json.loads(payload_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            LOGGER.warning("结果详情缓存读取失败: %s", exc)
+            return None
+        return dict(payload) if isinstance(payload, dict) else None
     def _build_result_history_view(self, entry: dict[str, object]) -> dict[str, str]:
         freshness_value = entry.get("freshness_at_arrival")
         delta_value = entry.get("freshness_delta_to_100")
@@ -1069,9 +1320,20 @@ class MainWindowController:
         if not isinstance(payload, list):
             return []
         normalized: list[dict[str, object]] = []
+        migrated = False
         for row in payload:
             if isinstance(row, dict):
-                normalized.append(dict(row))
+                normalized_row = dict(row)
+                inline_payload = normalized_row.get("debug_payload")
+                if isinstance(inline_payload, dict):
+                    payload_path = self._persist_result_detail_payload(normalized_row, inline_payload)
+                    normalized_row["debug_payload_path"] = payload_path
+                    normalized_row.pop("debug_payload", None)
+                    migrated = True
+                normalized.append(normalized_row)
+        if migrated:
+            self._result_history = normalized
+            self._save_result_history()
         return normalized
 
     def _save_result_history(self) -> None:
@@ -1172,24 +1434,41 @@ class MainWindowController:
         self.run_log.appendPlainText(f"[{stamp}] {text}")
         LOGGER.info(text)
 
-    def _load_map_html(self) -> None:
-        if not self.map_html_path.exists():
-            raise FileNotFoundError(f"地图模板不存在: {self.map_html_path}")
+    def _build_map_html_content(self, map_html_path: Path | None = None) -> str:
+        actual_path = map_html_path or self.map_html_path
+        if not actual_path.exists():
+            raise FileNotFoundError(f"地图模板不存在: {actual_path}")
 
-        html = self.map_html_path.read_text(encoding="utf-8")
+        html = actual_path.read_text(encoding="utf-8")
         js_key = self.app_config.amap.js_key.strip()
         security_js_code = self.app_config.amap.security_js_code.strip()
 
         html = html.replace("__AMAP_KEY__", js_key)
         html = html.replace("__AMAP_SECURITY_JS_CODE__", security_js_code)
+        return html
 
-        # 指定 baseUrl，确保 map.html 内相对资源可加载。
-        base_url = QUrl.fromLocalFile(str(self.map_html_path.parent.resolve()) + "/")
-        self.map_ready = False
-        self.map_view.setHtml(html, base_url)
+    def _load_map_html(self) -> None:
+        html = self._build_map_html_content(self.map_html_path)
+        self._set_map_html_to_view(self.map_view, html, self.map_html_path)
+
+        js_key = self.app_config.amap.js_key.strip()
+        security_js_code = self.app_config.amap.security_js_code.strip()
 
         if not js_key or not security_js_code:
             self._append_log("未配置高德 JS Key / securityJsCode，底图可能无法加载。")
+
+    def _set_map_html_to_view(
+        self,
+        map_view: QWebEngineView,
+        html: str,
+        html_path: Path | None = None,
+    ) -> None:
+        # 指定 baseUrl，确保 map.html 内相对资源可加载。
+        actual_path = html_path or self.map_html_path
+        base_url = QUrl.fromLocalFile(str(actual_path.parent.resolve()) + "/")
+        if map_view is self.map_view:
+            self.map_ready = False
+        map_view.setHtml(html, base_url)
 
     def _on_map_load_finished(self, ok: bool) -> None:
         if ok:
@@ -1363,6 +1642,8 @@ class MainWindowController:
             "freshness_at_arrival": result.freshness_at_arrival,
             "freshness_delta_to_100": result.freshness_delta_to_100,
         }
+        if isinstance(result.debug_payload, dict):
+            entry["debug_payload_path"] = self._persist_result_detail_payload(entry, result.debug_payload)
         self._result_history.append(entry)
         self._save_result_history()
 

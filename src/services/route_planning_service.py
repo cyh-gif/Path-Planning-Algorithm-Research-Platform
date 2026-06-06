@@ -28,6 +28,7 @@ LOGGER = logging.getLogger(__name__)
 
 class RoutePlanningService:
     """统一路径规划入口：仅使用高德数据，支持高德策略与自研算法。"""
+    _DETAIL_GRAPH_OVERLAY_MAX_NON_ROUTE_EDGES: int = 1800
 
     _DEFAULT_AMAP_STRATEGY_MAP: dict[str, int] = {
         "速度优先": 0,
@@ -1010,6 +1011,15 @@ class RoutePlanningService:
     ) -> RouteResult:
         points_wgs84 = self._build_polyline(graph, solved)
         points_gcj02 = batch_wgs84_to_gcj02(points_wgs84)
+        debug_payload = self._build_graph_debug_payload(
+            graph=graph,
+            solved=solved,
+            is_time_dependent=is_time_dependent,
+            depart_at=depart_at,
+            strategy_name=strategy_name,
+            objective_label=objective_label,
+            route_points_gcj02=points_gcj02,
+        )
         total_distance_km = self._sum_distance_km(graph, solved)
         total_time_h = self._sum_time_h(
             graph=graph,
@@ -1042,7 +1052,82 @@ class RoutePlanningService:
             message=f"规划成功（引擎: 自研，算法: {strategy_name}{objective_hint}，数据源: 高德候选路径{dynamic_hint}）",
             freshness_at_arrival=freshness_at_arrival,
             freshness_delta_to_100=freshness_delta_to_100,
+            debug_payload=debug_payload,
         )
+
+    def _build_graph_debug_payload(
+        self,
+        graph: GraphData,
+        solved: PathSolveResult,
+        is_time_dependent: bool,
+        depart_at: datetime,
+        strategy_name: str,
+        objective_label: str,
+        route_points_gcj02: list[list[float]],
+    ) -> dict[str, object]:
+        route_edge_id_set = set(solved.edge_path)
+        graph_edges_gcj02 = self._build_graph_overlay_edges(
+            graph=graph,
+            route_edge_id_set=route_edge_id_set,
+        )
+
+        return {
+            "detail_type": "custom_graph_route",
+            "strategy_name": strategy_name,
+            "objective_label": objective_label,
+            "is_time_dependent": bool(is_time_dependent),
+            "node_count": len(graph.nodes),
+            "edge_count": len(graph.edges_by_id),
+            "route": {
+                "points_gcj02": route_points_gcj02,
+            },
+            "map_overlay": {
+                "graph_edges": graph_edges_gcj02,
+            },
+        }
+
+    def _build_graph_overlay_edges(
+        self,
+        graph: GraphData,
+        route_edge_id_set: set[int],
+    ) -> list[dict[str, object]]:
+        deduped_route_edges: dict[tuple[object, ...], dict[str, object]] = {}
+        deduped_non_route_edges: dict[tuple[object, ...], dict[str, object]] = {}
+
+        for edge_id in sorted(graph.edges_by_id):
+            edge = graph.edges_by_id[edge_id]
+            geometry_wgs84 = edge.geometry or [graph.nodes[edge.from_node_id], graph.nodes[edge.to_node_id]]
+            geometry_gcj02 = batch_wgs84_to_gcj02([[point[0], point[1]] for point in geometry_wgs84])
+            rounded_points = [
+                [round(point[0], 6), round(point[1], 6)]
+                for point in geometry_gcj02
+            ]
+            dedupe_key = (
+                int(edge.from_node_id),
+                int(edge.to_node_id),
+                edge.road_class,
+                tuple((point[0], point[1]) for point in rounded_points),
+            )
+            payload = {
+                "edge_id": int(edge.edge_id),
+                "from_node_id": int(edge.from_node_id),
+                "to_node_id": int(edge.to_node_id),
+                "road_class": edge.road_class,
+                "is_route_edge": edge.edge_id in route_edge_id_set,
+                "points": rounded_points,
+            }
+            if edge.edge_id in route_edge_id_set:
+                deduped_route_edges.setdefault(dedupe_key, payload)
+            else:
+                deduped_non_route_edges.setdefault(dedupe_key, payload)
+
+        route_edges = list(deduped_route_edges.values())
+        non_route_edges = list(deduped_non_route_edges.values())
+        max_non_route_edges = self._DETAIL_GRAPH_OVERLAY_MAX_NON_ROUTE_EDGES
+        if len(non_route_edges) > max_non_route_edges:
+            stride = max(1, len(non_route_edges) // max_non_route_edges)
+            non_route_edges = non_route_edges[::stride][:max_non_route_edges]
+        return route_edges + non_route_edges
 
     def _solve_custom_algorithm(
         self,
