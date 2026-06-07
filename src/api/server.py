@@ -124,12 +124,16 @@ app = FastAPI(
     include_in_schema=False,
 )
 @app.get(
+    "/route-planner",
+    include_in_schema=False,
+)
+@app.get(
     "/planner",
     include_in_schema=False,
 )
-def planner_page() -> HTMLResponse:
+def route_planner_page() -> HTMLResponse:
     # 返回内置的简易网页规划页面，供浏览器直接调用 API 与地图展示。
-    template_path = get_services().project_root / "web" / "planner.html"
+    template_path = get_services().project_root / "web" / "route_planner.html"
     return render_web_template(template_path)
 
 
