@@ -51,7 +51,7 @@ class FreshnessConfig:
     amap_compare_strategy_codes: list[int] | None = None
     amap_compare_max_paths_per_strategy: int = 3
     arbitration_time_budget_s: float = 9.0
-    fruit_profile_json: str = "data/processed/fruit_profiles.json"
+    fruit_profile_json: str = "configs/fruit_profiles.json"
     transport_mode_multipliers: dict[str, float] | None = None
     road_class_multipliers: dict[str, float] | None = None
     tmcs_status_multipliers: dict[str, float] | None = None
@@ -139,6 +139,17 @@ def _load_simple_yaml(path: Path) -> dict[str, Any]:
             current[key] = _parse_scalar(value)
 
     return root
+
+
+def _deep_merge_dict(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
+    merged: dict[str, Any] = dict(base)
+    for key, override_value in override.items():
+        base_value = merged.get(key)
+        if isinstance(base_value, dict) and isinstance(override_value, dict):
+            merged[key] = _deep_merge_dict(base_value, override_value)
+        else:
+            merged[key] = override_value
+    return merged
 
 
 def _deep_get(data: dict[str, Any], path: list[str], default: Any) -> Any:
@@ -322,7 +333,9 @@ def _parse_bool(raw_value: Any, default: bool) -> bool:
 
 
 def load_app_config(project_root: Path) -> AppConfig:
-    data = _load_simple_yaml(project_root / "configs" / "app.yaml")
+    app_data = _load_simple_yaml(project_root / "configs" / "app.yaml")
+    secrets_data = _load_simple_yaml(project_root / "configs" / "secrets.yaml")
+    data = _deep_merge_dict(app_data, secrets_data)
 
     ui = UiConfig(
         file=str(_deep_get(data, ["ui", "file"], "ui/主界面.ui")),
@@ -442,7 +455,7 @@ def load_app_config(project_root: Path) -> AppConfig:
             _deep_get(data, ["freshness", "arbitration_time_budget_s"], 9.0)
         ),
         fruit_profile_json=str(
-            _deep_get(data, ["freshness", "fruit_profile_json"], "data/processed/fruit_profiles.json")
+            _deep_get(data, ["freshness", "fruit_profile_json"], "configs/fruit_profiles.json")
         ),
         transport_mode_multipliers=_parse_float_map(
             _deep_get(data, ["freshness", "transport_mode_multipliers"], {})

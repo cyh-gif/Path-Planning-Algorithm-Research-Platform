@@ -3,7 +3,7 @@
 import heapq
 
 from src.algorithms.graph_builder import GraphData, GraphEdge
-from src.algorithms.static_shortest_path import PathSolveResult
+from src.algorithms.dijkstra_shortest_path import PathSolveResult
 
 
 class TimeDependentShortestPathSolver:

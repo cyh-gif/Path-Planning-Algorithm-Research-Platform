@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from math import inf
 
 from src.algorithms.graph_builder import GraphData
-from src.algorithms.static_shortest_path import PathSolveResult
+from src.algorithms.dijkstra_shortest_path import PathSolveResult
 
 
 @dataclass(slots=True)

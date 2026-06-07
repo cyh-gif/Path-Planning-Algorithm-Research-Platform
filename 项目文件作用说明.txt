@@ -26,18 +26,18 @@
   作用: IDEA 本机工作区状态（窗口、断点等，偏个人）。
 
 [configs]
-- configs/algorithms.yaml
-  作用: 算法相关参数配置文件（实验参数/预留扩展配置）。
 - configs/app.yaml
-  作用: 主配置文件：UI、地图、高德、路由策略、保鲜参数、智能助手配置。
-- configs/logging.yaml
-  作用: 日志策略配置文件（级别、格式、输出目标的预留配置）。
+  作用: 主配置文件：非敏感运行参数（UI、路由策略、保鲜参数、日志、助手基础配置）。
+- configs/fruit_profiles.json
+  作用: 水果画像参数数据（初始保鲜度、衰减倍率等），供保鲜模型计算读取。
+- configs/secrets.example.yaml
+  作用: 敏感配置模板文件，示例说明 secrets.yaml 的结构，不存放真实密钥。
+- configs/secrets.yaml
+  作用: 本机敏感配置文件（高德 Key、助手 API Key 等），由 config_loader 在启动时叠加到 app.yaml，已加入 Git 忽略。
 
 [data]
 - data/cache/ui_settings.json
   作用: 界面设置持久化缓存（重启后恢复设置项）。
-- data/processed/fruit_profiles.json
-  作用: 水果画像参数数据（初始保鲜度、衰减倍率等）。
 
 [根目录]
 - LICENSE

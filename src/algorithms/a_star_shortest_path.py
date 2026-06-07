@@ -4,7 +4,7 @@ import heapq
 from math import inf
 
 from src.algorithms.graph_builder import GraphData, GraphEdge, haversine_km
-from src.algorithms.static_shortest_path import PathSolveResult
+from src.algorithms.dijkstra_shortest_path import PathSolveResult
 
 
 class AStarShortestPathSolver:

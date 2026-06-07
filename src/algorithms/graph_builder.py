@@ -3,9 +3,17 @@
 import math
 from dataclasses import dataclass
 
+"""
+图结构基础模块。
+
+本文件定义算法层通用的图数据结构，包括节点、边以及图的索引组织方式，
+供 Dijkstra、A*、保鲜优化等路径算法统一使用。
+"""
+
 
 @dataclass(slots=True)
 class GraphEdge:
+    """表示图中的一条有向边及其几何与代价信息。"""
     edge_id: int
     from_node_id: int
     to_node_id: int
@@ -18,6 +26,7 @@ class GraphEdge:
 
 @dataclass(slots=True)
 class GraphData:
+    """表示算法求解使用的整张图及其快速访问索引。"""
     nodes: dict[int, tuple[float, float]]
     edges_by_from: dict[int, list[GraphEdge]]
     edges_by_id: dict[int, GraphEdge]
@@ -28,6 +37,7 @@ class GraphData:
         nodes: dict[int, tuple[float, float]],
         edges: list[GraphEdge],
     ) -> "GraphData":
+        """根据节点和边列表构建图对象及边索引。"""
         edges_by_from: dict[int, list[GraphEdge]] = {}
         edges_by_id: dict[int, GraphEdge] = {}
 
@@ -38,6 +48,7 @@ class GraphData:
         return cls(nodes=nodes, edges_by_from=edges_by_from, edges_by_id=edges_by_id)
 
     def nearest_node(self, lon: float, lat: float) -> int:
+        """根据经纬度在图中查找最近的节点。"""
         if not self.nodes:
             raise ValueError("图中没有节点，无法匹配最近节点。")
 
@@ -53,6 +64,7 @@ class GraphData:
 
 
 def haversine_km(lon1: float, lat1: float, lon2: float, lat2: float) -> float:
+    """使用 Haversine 公式计算两点之间的球面距离（千米）。"""
     rad = math.pi / 180.0
     d_lat = (lat2 - lat1) * rad
     d_lon = (lon2 - lon1) * rad
