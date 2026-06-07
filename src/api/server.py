@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 from typing import Annotated
 
 from fastapi import Body, FastAPI, Query
@@ -87,6 +88,18 @@ def get_services() -> AppServices:
     return build_services()
 
 
+def render_web_template(template_path: Path) -> HTMLResponse:
+    # 读取网页模板并注入高德前端密钥后返回浏览器可直接访问的页面。
+    services = get_services()
+    html = template_path.read_text(encoding="utf-8")
+    html = html.replace("__AMAP_KEY__", services.app_config.amap.js_key.strip())
+    html = html.replace(
+        "__AMAP_SECURITY_JS_CODE__",
+        services.app_config.amap.security_js_code.strip(),
+    )
+    return HTMLResponse(content=html)
+
+
 app = FastAPI(
     title="芒小果果运路径规划 API",
     version="1.0.0",
@@ -104,6 +117,20 @@ app = FastAPI(
         {"name": "智能助手", "description": "与芒小果助手进行对话交互。"},
     ],
 )
+
+
+@app.get(
+    "/",
+    include_in_schema=False,
+)
+@app.get(
+    "/planner",
+    include_in_schema=False,
+)
+def planner_page() -> HTMLResponse:
+    # 返回内置的简易网页规划页面，供浏览器直接调用 API 与地图展示。
+    template_path = get_services().project_root / "web" / "planner.html"
+    return render_web_template(template_path)
 
 
 @app.get(
