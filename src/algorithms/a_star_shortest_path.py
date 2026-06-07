@@ -4,7 +4,7 @@ import heapq
 from math import inf
 
 from src.core.graph import GraphData, GraphEdge, haversine_km
-from src.algorithms.path_result import PathSolveResult
+from src.core.path_result import PathSolveResult
 
 
 class AStarShortestPathSolver:

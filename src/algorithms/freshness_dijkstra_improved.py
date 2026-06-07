@@ -3,7 +3,7 @@ from __future__ import annotations
 import heapq
 
 from src.core.graph import GraphData
-from src.algorithms.path_result import PathSolveResult
+from src.core.path_result import PathSolveResult
 
 
 class FreshnessDijkstraImprovedSolver:

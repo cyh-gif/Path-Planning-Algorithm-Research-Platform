@@ -1,4 +1,6 @@
-﻿from __future__ import annotations
+"""静态 Dijkstra 最短路径算法模块，负责在固定边权图上求解最短路径。"""
+
+from __future__ import annotations
 
 import heapq
 
@@ -6,23 +8,22 @@ from src.core.graph import GraphData, GraphEdge
 from src.core.path_result import PathSolveResult
 
 
-class TimeDependentShortestPathSolver:
+class StaticShortestPathSolver:
+    """静态最短路径求解器，支持按时间或距离作为边权运行 Dijkstra。"""
+
     def solve(
         self,
         graph: GraphData,
         start_node_id: int,
         end_node_id: int,
-        edge_time_overrides_s: dict[int, float] | None = None,
+        weight_mode: str = "time",
     ) -> PathSolveResult:
-        """使用 Dijkstra 计算时变边权最短路径。"""
-        edge_time_overrides_s = edge_time_overrides_s or {}
+        """使用 Dijkstra 计算静态最短路径。"""
 
+        # 根据求解模式选择边的时间权重或距离权重。
         def edge_weight(edge: GraphEdge) -> float:
-            override = edge_time_overrides_s.get(edge.edge_id)
-            if override is not None and override > 0:
-                return override
-            if edge.dynamic_travel_time_s is not None and edge.dynamic_travel_time_s > 0:
-                return edge.dynamic_travel_time_s
+            if weight_mode == "distance":
+                return edge.length_m
             return edge.base_travel_time_s
 
         dist: dict[int, float] = {start_node_id: 0.0}
@@ -43,7 +44,8 @@ class TimeDependentShortestPathSolver:
 
             for edge in graph.edges_by_from.get(node_id, []):
                 nxt = edge.to_node_id
-                candidate = curr_dist + edge_weight(edge)
+                w = edge_weight(edge)
+                candidate = curr_dist + w
                 if candidate < dist.get(nxt, float("inf")):
                     dist[nxt] = candidate
                     prev_node[nxt] = node_id
