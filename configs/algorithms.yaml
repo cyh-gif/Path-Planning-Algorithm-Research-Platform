@@ -1,6 +1,0 @@
-﻿static:
-  default_weight_mode: time
-
-time_dependent:
-  peak_hours_csv: 7,8,9,17,18,19
-  peak_multiplier: 1.35

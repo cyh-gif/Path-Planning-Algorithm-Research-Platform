@@ -3,9 +3,10 @@
   map_html: ui/map.html
 
 amap:
-  js_key: "5692c855785ba33d0cb40529e51e838c"
-  security_js_code: "20d95ea94d50509dcbb52a0dbd5e39a8"
-  web_service_key: "331809b838206006e3facfa346be7bf6"
+  # 敏感信息请放到 configs/secrets.yaml 或环境变量中
+  js_key: ""
+  security_js_code: ""
+  web_service_key: ""
   timeout_s: 1.2
   retry: 1
   cache_ttl_s: 45
@@ -89,7 +90,8 @@ logging:
 assistant:
   name: 芒小果
   provider: tongyi
-  api_key: "sk-822b377728944d45b520a64236fe3c06"
+  # 敏感信息请放到 configs/secrets.yaml 或环境变量中
+  api_key: ""
   endpoint: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions
   model: qwen-plus
   timeout_s: 20
