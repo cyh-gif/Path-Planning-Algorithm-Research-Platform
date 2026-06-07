@@ -1465,3 +1465,11 @@
 2026-06-07 15:41:10 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
 2026-06-07 15:49:26 | INFO | src.app.controller | 地图消息: 地图初始化失败: [object Event]
 2026-06-07 15:49:26 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-07 22:25:41 | WARNING | src.services.route_planning_service | 未命中水果参数: è¹æ，回退苹果参数。
+2026-06-07 22:34:25 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-07 22:34:25 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-07 22:34:25 | INFO | src.app.main | 应用启动完成
+2026-06-07 22:34:25 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-07 22:34:26 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-07 22:34:26 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-07 22:34:26 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。

@@ -742,8 +742,8 @@ class MainWindowController:
             self.combo_algorithm.addItem(name)
 
         if self.combo_algorithm.count() <= 0:
-            fallback = "自研-Dijkstra" if source == self._STRATEGY_SOURCE_CUSTOM else "速度优先"
-            self.combo_algorithm.addItem(fallback)
+            self.combo_algorithm.setCurrentIndex(-1)
+            return
 
         target = self.combo_algorithm.findText(preferred.strip())
         if target >= 0:

@@ -216,9 +216,9 @@ def _default_amap_strategy_map() -> dict[str, int]:
 # 返回界面展示名称与内部算法标识的默认映射。
 def _default_custom_algorithm_map() -> dict[str, str]:
     return {
-        "自研-Dijkstra": "static_dijkstra",
-        "自研-时变Dijkstra": "time_dependent_dijkstra",
-        "自研-A*": "a_star",
+        "经典Dijkstra算法": "static_dijkstra",
+        "时变Dijkstra": "time_dependent_dijkstra",
+        "A*": "a_star",
         "贪心算法": "greedy_best_first",
         "土豪算法": "tycoon_longest_route",
         "保鲜优先算法": "freshness_first",

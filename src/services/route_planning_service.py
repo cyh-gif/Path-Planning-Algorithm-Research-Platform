@@ -187,13 +187,15 @@ class RoutePlanningService:
                 except (TypeError, ValueError):
                     continue
 
-        self.custom_algorithm_map = dict(self._DEFAULT_CUSTOM_ALGORITHM_MAP)
         if custom_algorithm_map:
+            self.custom_algorithm_map = {}
             for key, value in custom_algorithm_map.items():
                 name = str(key).strip()
                 algorithm_id = str(value).strip()
                 if name and algorithm_id:
                     self.custom_algorithm_map[name] = algorithm_id
+        else:
+            self.custom_algorithm_map = dict(self._DEFAULT_CUSTOM_ALGORITHM_MAP)
 
         requested_default = default_strategy.strip() or "速度优先"
         if (
