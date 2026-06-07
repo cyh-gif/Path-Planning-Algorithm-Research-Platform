@@ -1,1 +1,1 @@
-"""HTTP API package for the fruit route planning platform."""
+"""水果路线规划平台的 HTTP API 包。"""

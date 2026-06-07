@@ -1,3 +1,5 @@
+"""HTTP API 主入口，负责暴露路径规划、地点联想和助手对话接口。"""
+
 from __future__ import annotations
 
 from functools import lru_cache
@@ -81,6 +83,7 @@ window.addEventListener("load", () => {
 
 @lru_cache(maxsize=1)
 def get_services() -> AppServices:
+    # 延迟构建并缓存服务对象，供所有接口复用同一套业务能力。
     return build_services()
 
 
@@ -111,6 +114,7 @@ app = FastAPI(
     description="用于确认 API 服务是否正常运行，并返回当前应用名称。",
 )
 def health() -> HealthResponse:
+    # 返回服务健康状态与当前应用名称，供探活或部署检查使用。
     services = get_services()
     return HealthResponse(status="ok", app_name=services.app_config.assistant.name)
 
@@ -123,6 +127,7 @@ def health() -> HealthResponse:
     description="返回算法策略、水果类型、运输方式以及候选路径配置等基础数据。",
 )
 def api_options() -> ApiOptionsResponse:
+    # 汇总前端或调用方初始化所需的算法、运输方式和候选配置选项。
     services = get_services()
     route_service = services.route_service
 
@@ -165,6 +170,7 @@ def plan_route(
         ),
     ],
 ) -> RoutePlanResponse:
+    # 接收路径规划请求并转交业务层执行，再将领域结果转换为 API 响应。
     result = get_services().route_service.plan_route(payload.to_domain())
     return RoutePlanResponse.from_domain(result)
 
@@ -180,6 +186,7 @@ def suggest_places(
     keyword: str = Query(..., min_length=1, description="待检索的地点关键词。", examples=["北京新发地"]),
     limit: int = Query(12, ge=1, le=30, description="返回候选项数量上限。", examples=[12]),
 ) -> list[SuggestItemResponse]:
+    # 根据关键词返回地点联想候选项，供输入框自动补全使用。
     items = get_services().place_suggestion_service.suggest_with_source(keyword, limit)
     return [SuggestItemResponse.from_domain(item) for item in items]
 
@@ -192,6 +199,7 @@ def suggest_places(
     description="向芒小果助手发送消息，并获取基于上下文的文本回复。",
 )
 def chat(payload: ChatRequest) -> ChatResponse:
+    # 调用芒小果助手完成一轮对话，并返回文本回复内容。
     reply = get_services().mango_assistant_service.chat(
         payload.user_text,
         payload.history,
@@ -201,6 +209,7 @@ def chat(payload: ChatRequest) -> ChatResponse:
 
 @app.get("/docs", include_in_schema=False)
 def custom_swagger_ui() -> HTMLResponse:
+    # 生成自定义 Swagger 文档页，并注入界面中文化脚本。
     response = get_swagger_ui_html(
         openapi_url=app.openapi_url,
         title=f"{app.title} - 接口文档",

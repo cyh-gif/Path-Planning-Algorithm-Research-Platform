@@ -1,3 +1,5 @@
+"""API 请求与响应模型定义，负责 HTTP 数据和领域对象之间的转换。"""
+
 from __future__ import annotations
 
 from dataclasses import asdict
@@ -77,6 +79,7 @@ class RoutePlanRequest(BaseModel):
     )
 
     def to_domain(self) -> RouteRequest:
+        # 将 API 请求模型转换为业务层使用的路径规划请求对象。
         return RouteRequest(
             start_text=self.start_text.strip(),
             end_text=self.end_text.strip(),
@@ -136,6 +139,7 @@ class RoutePlanResponse(BaseModel):
 
     @classmethod
     def from_domain(cls, result: RouteResult) -> "RoutePlanResponse":
+        # 将业务层的路径规划结果转换为标准 API 响应模型。
         return cls(**asdict(result))
 
 
@@ -150,6 +154,7 @@ class SuggestItemResponse(BaseModel):
 
     @classmethod
     def from_domain(cls, item: SuggestionItem) -> "SuggestItemResponse":
+        # 将地点联想领域对象转换为接口响应项。
         return cls(text=item.text, source=item.source)
 
 
