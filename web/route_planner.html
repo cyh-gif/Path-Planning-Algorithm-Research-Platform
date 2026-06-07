@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>水果运输路径规划平台</title>
+  <style>
+    :root {
+      --bg: #eef3ea;
+      --panel: rgba(255, 255, 255, 0.92);
+      --border: #d6e2d0;
+      --text: #233227;
+      --muted: #607063;
+      --accent: #2f7d32;
+      --accent-strong: #1f5a22;
+      --danger: #c44536;
+      --shadow: 0 20px 60px rgba(32, 52, 36, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(122, 164, 116, 0.18), transparent 28%),
+        linear-gradient(135deg, #eef3ea 0%, #f7faf5 42%, #eaf0e6 100%);
+    }
+
+    .shell {
+      min-height: 100vh;
+      padding: 28px;
+    }
+
+    .hero {
+      max-width: 1400px;
+      margin: 0 auto 20px;
+      padding: 28px 30px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 24px;
+      background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(244, 248, 241, 0.96));
+      box-shadow: var(--shadow);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.2;
+      color: #18261b;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      max-width: 720px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .layout {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 400px minmax(0, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.75);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      padding: 22px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .section-title {
+      margin: 0 0 14px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #16241a;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    button {
+      font: inherit;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(47, 125, 50, 0.6);
+      box-shadow: 0 0 0 4px rgba(47, 125, 50, 0.12);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      flex: 1;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: #eef4eb;
+      border: 1px solid var(--border);
+    }
+
+    .note {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: #f6faf4;
+      border: 1px dashed var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .content {
+      display: grid;
+      gap: 20px;
+    }
+
+    .summary {
+      padding: 20px 22px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(47, 125, 50, 0.12);
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .metric {
+      padding: 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #ffffff, #f7faf5);
+      border: 1px solid #ebf0e7;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .metric-value {
+      font-size: 22px;
+      font-weight: 700;
+      color: #17241a;
+    }
+
+    .message {
+      margin-top: 16px;
+      padding: 13px 15px;
+      border-radius: 16px;
+      background: #f6faf4;
+      border: 1px solid #e6efe1;
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 52px;
+    }
+
+    .message.error {
+      color: var(--danger);
+      background: #fff6f4;
+      border-color: #f2d2ca;
+    }
+
+    .map-card {
+      position: relative;
+      min-height: 640px;
+    }
+
+    #map {
+      width: 100%;
+      min-height: 640px;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .map-overlay {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      pointer-events: none;
+    }
+
+    .overlay-card {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(216, 226, 211, 0.9);
+      box-shadow: 0 12px 28px rgba(29, 52, 31, 0.14);
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.6;
+      max-width: 360px;
+    }
+
+    .overlay-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #16241a;
+    }
+
+    @media (max-width: 1120px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        padding: 16px;
+      }
+
+      .hero,
+      .sidebar,
+      .summary {
+        padding: 18px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .row-2,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      #map,
+      .map-card {
+        min-height: 460px;
+      }
+
+      .map-overlay {
+        position: static;
+        padding: 18px;
+        flex-direction: column;
+      }
+    }
+  </style>
+  <script>
+    window._AMapSecurityConfig = { securityJsCode: "__AMAP_SECURITY_JS_CODE__" };
+  </script>
+  <script src="https://webapi.amap.com/loader.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <h1>水果运输路径规划平台</h1>
+      <p>
+        这个页面直接调用你已经部署好的路径规划 API，支持选择高德策略或自研算法，
+        并在地图上展示路线、里程、耗时和保鲜度结果，适合做演示和基础测试。
+      </p>
+    </section>
+
+    <main class="layout">
+      <aside class="panel sidebar">
+        <h2 class="section-title">规划参数</h2>
+        <form id="plannerForm" class="form-grid">
+          <div>
+            <label for="startText">起点</label>
+            <input id="startText" name="startText" list="startSuggestions" placeholder="例如：北京市新发地农产品市场" required />
+            <datalist id="startSuggestions"></datalist>
+          </div>
+          <div>
+            <label for="endText">终点</label>
+            <input id="endText" name="endText" list="endSuggestions" placeholder="例如：上海市江桥批发市场" required />
+            <datalist id="endSuggestions"></datalist>
+          </div>
+          <div class="row-2">
+            <div>
+              <label for="algorithm">算法</label>
+              <select id="algorithm" name="algorithm" required></select>
+            </div>
+            <div>
+              <label for="fruitType">水果</label>
+              <select id="fruitType" name="fruitType" required></select>
+            </div>
+          </div>
+          <div class="row-2">
+            <div>
+              <label for="transportMode">运输方式</label>
+              <select id="transportMode" name="transportMode" required></select>
+            </div>
+            <div>
+              <label for="loadTon">载重（吨）</label>
+              <input id="loadTon" name="loadTon" type="number" min="0" step="0.5" value="8" required />
+            </div>
+          </div>
+          <div>
+            <label for="departAt">出发时间</label>
+            <input id="departAt" name="departAt" type="datetime-local" required />
+          </div>
+          <div class="actions">
+            <button type="submit" class="btn btn-primary" id="submitButton">开始规划</button>
+            <button type="button" class="btn btn-secondary" id="resetButton">重置</button>
+          </div>
+        </form>
+        <div class="note">
+          页面与 API 同域部署，无需额外跨域配置。
+          如果地图底图未显示，通常是高德前端密钥未配置或当前域名/IP 未被允许。
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="panel summary">
+          <div class="status">
+            <span class="dot"></span>
+            <span id="statusText">正在加载可选项...</span>
+          </div>
+          <div class="metrics">
+            <div class="metric">
+              <div class="metric-label">总里程</div>
+              <div class="metric-value" id="distanceValue">-</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">总耗时</div>
+              <div class="metric-value" id="timeValue">-</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">计算耗时</div>
+              <div class="metric-value" id="computeValue">-</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">到达保鲜度</div>
+              <div class="metric-value" id="freshnessValue">-</div>
+            </div>
+          </div>
+          <div class="message" id="messageBox">等待发起路径规划。</div>
+        </div>
+
+        <div class="panel map-card">
+          <div id="map"></div>
+          <div class="map-overlay">
+            <div class="overlay-card">
+              <strong>地图状态</strong>
+              <span id="mapStateText">地图初始化中...</span>
+            </div>
+            <div class="overlay-card">
+              <strong>当前结果</strong>
+              <span id="routeSummaryText">尚未生成路径。</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const meta = {
+      amapKey: "__AMAP_KEY__",
+    };
+
+    let mapInstance = null;
+    let polyline = null;
+    let startMarker = null;
+    let endMarker = null;
+    let suggestionTimer = null;
+
+    const refs = {
+      form: document.getElementById("plannerForm"),
+      startText: document.getElementById("startText"),
+      endText: document.getElementById("endText"),
+      algorithm: document.getElementById("algorithm"),
+      fruitType: document.getElementById("fruitType"),
+      transportMode: document.getElementById("transportMode"),
+      loadTon: document.getElementById("loadTon"),
+      departAt: document.getElementById("departAt"),
+      submitButton: document.getElementById("submitButton"),
+      resetButton: document.getElementById("resetButton"),
+      statusText: document.getElementById("statusText"),
+      mapStateText: document.getElementById("mapStateText"),
+      routeSummaryText: document.getElementById("routeSummaryText"),
+      messageBox: document.getElementById("messageBox"),
+      distanceValue: document.getElementById("distanceValue"),
+      timeValue: document.getElementById("timeValue"),
+      computeValue: document.getElementById("computeValue"),
+      freshnessValue: document.getElementById("freshnessValue"),
+      startSuggestions: document.getElementById("startSuggestions"),
+      endSuggestions: document.getElementById("endSuggestions"),
+    };
+
+    function setStatus(text) {
+      refs.statusText.textContent = text;
+    }
+
+    function setMapState(text) {
+      refs.mapStateText.textContent = text;
+    }
+
+    function setMessage(text, isError = false) {
+      refs.messageBox.textContent = text;
+      refs.messageBox.classList.toggle("error", isError);
+    }
+
+    function setMetric(el, text) {
+      el.textContent = text;
+    }
+
+    function formatHours(hours) {
+      if (hours === null || hours === undefined) return "-";
+      return `${Number(hours).toFixed(2)} h`;
+    }
+
+    function formatDistance(km) {
+      if (km === null || km === undefined) return "-";
+      return `${Number(km).toFixed(2)} km`;
+    }
+
+    function formatMs(ms) {
+      if (ms === null || ms === undefined) return "-";
+      return `${Number(ms).toFixed(1)} ms`;
+    }
+
+    function formatPercent(value) {
+      if (value === null || value === undefined) return "-";
+      return `${Number(value).toFixed(1)}`;
+    }
+
+    function applyNowDefault() {
+      const now = new Date();
+      now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+      refs.departAt.value = now.toISOString().slice(0, 16);
+    }
+
+    async function initMap() {
+      if (!meta.amapKey || meta.amapKey.startsWith("__")) {
+        setMapState("未配置高德前端密钥，地图无法加载。");
+        return;
+      }
+
+      try {
+        const AMap = await AMapLoader.load({
+          key: meta.amapKey,
+          version: "2.0",
+          plugins: ["AMap.Scale", "AMap.ToolBar"],
+        });
+
+        mapInstance = new AMap.Map("map", {
+          center: [104.195397, 35.86166],
+          zoom: 4.5,
+          mapStyle: "amap://styles/whitesmoke",
+        });
+
+        mapInstance.addControl(new AMap.Scale());
+        mapInstance.addControl(new AMap.ToolBar({ position: { top: "110px", right: "16px" } }));
+        setMapState("地图已就绪，等待路径规划。");
+      } catch (error) {
+        setMapState(`地图初始化失败：${error}`);
+      }
+    }
+
+    function clearRoute() {
+      if (!mapInstance) return;
+      if (polyline) {
+        mapInstance.remove(polyline);
+        polyline = null;
+      }
+      if (startMarker) {
+        mapInstance.remove(startMarker);
+        startMarker = null;
+      }
+      if (endMarker) {
+        mapInstance.remove(endMarker);
+        endMarker = null;
+      }
+    }
+
+    function renderRoute(points, summary) {
+      if (!mapInstance || !Array.isArray(points) || points.length < 2) {
+        setMapState("当前结果没有足够的轨迹点，无法绘制路线。");
+        return;
+      }
+
+      clearRoute();
+
+      polyline = new AMap.Polyline({
+        path: points,
+        strokeColor: "#1f8f4e",
+        strokeWeight: 7,
+        strokeOpacity: 0.95,
+        lineJoin: "round",
+        lineCap: "round",
+        showDir: true,
+      });
+
+      startMarker = new AMap.Marker({ position: points[0], title: "起点" });
+      endMarker = new AMap.Marker({ position: points[points.length - 1], title: "终点" });
+
+      mapInstance.add([polyline, startMarker, endMarker]);
+      mapInstance.setFitView([polyline, startMarker, endMarker], false, [50, 50, 50, 50]);
+      refs.routeSummaryText.textContent = summary;
+      setMapState("已完成路线渲染。");
+    }
+
+    function fillSelect(select, options, preferred = "") {
+      select.innerHTML = "";
+      options.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item;
+        option.textContent = item;
+        if (preferred && item === preferred) {
+          option.selected = true;
+        }
+        select.appendChild(option);
+      });
+    }
+
+    async function loadOptions() {
+      setStatus("正在加载可选项...");
+      const response = await fetch("/api/meta/options");
+      if (!response.ok) {
+        throw new Error(`基础选项加载失败：HTTP ${response.status}`);
+      }
+      const data = await response.json();
+      const algorithmNames = [
+        ...Object.keys(data.amap_strategies || {}),
+        ...Object.keys(data.custom_algorithms || {}),
+      ];
+      fillSelect(refs.algorithm, algorithmNames, data.default_strategy || "");
+      fillSelect(refs.fruitType, data.fruit_types || [], (data.fruit_types || [])[0] || "");
+      fillSelect(refs.transportMode, data.transport_modes || [], (data.transport_modes || [])[0] || "");
+      setStatus("可选项已加载，可以开始路径规划。");
+    }
+
+    async function fetchSuggestions(keyword, targetDatalist) {
+      if (!keyword || keyword.trim().length < 2) {
+        targetDatalist.innerHTML = "";
+        return;
+      }
+      const response = await fetch(`/api/place/suggest?keyword=${encodeURIComponent(keyword)}&limit=8`);
+      if (!response.ok) return;
+      const data = await response.json();
+      targetDatalist.innerHTML = "";
+      data.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.text;
+        targetDatalist.appendChild(option);
+      });
+    }
+
+    function bindSuggestion(input, datalist) {
+      input.addEventListener("input", () => {
+        clearTimeout(suggestionTimer);
+        suggestionTimer = setTimeout(() => {
+          fetchSuggestions(input.value, datalist).catch(() => {});
+        }, 250);
+      });
+    }
+
+    async function planRoute(event) {
+      event.preventDefault();
+      refs.submitButton.disabled = true;
+      refs.submitButton.textContent = "规划中...";
+      setStatus("正在向服务端提交路径规划请求...");
+      setMessage("正在计算，请稍候...");
+
+      try {
+        const payload = {
+          start_text: refs.startText.value.trim(),
+          end_text: refs.endText.value.trim(),
+          algorithm: refs.algorithm.value,
+          fruit_type: refs.fruitType.value,
+          transport_mode: refs.transportMode.value,
+          depart_at: new Date(refs.departAt.value).toISOString(),
+          load_ton: Number(refs.loadTon.value),
+        };
+
+        const response = await fetch("/api/route/plan", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.detail ? JSON.stringify(data.detail) : `HTTP ${response.status}`);
+        }
+
+        setMetric(refs.distanceValue, formatDistance(data.total_distance_km));
+        setMetric(refs.timeValue, formatHours(data.total_time_h));
+        setMetric(refs.computeValue, formatMs(data.compute_ms));
+        setMetric(refs.freshnessValue, formatPercent(data.freshness_at_arrival));
+        setMessage(data.message || "路径规划完成。", data.status !== "ok");
+        setStatus(`规划完成：${payload.start_text} -> ${payload.end_text}`);
+
+        const summary = `${payload.start_text} → ${payload.end_text} ｜ ${payload.algorithm}`;
+        renderRoute(data.path_points_gcj02 || [], summary);
+      } catch (error) {
+        setMessage(`规划失败：${error}`, true);
+        setStatus("路径规划失败，请检查输入或服务端日志。");
+      } finally {
+        refs.submitButton.disabled = false;
+        refs.submitButton.textContent = "开始规划";
+      }
+    }
+
+    function resetForm() {
+      refs.form.reset();
+      applyNowDefault();
+      clearRoute();
+      setMetric(refs.distanceValue, "-");
+      setMetric(refs.timeValue, "-");
+      setMetric(refs.computeValue, "-");
+      setMetric(refs.freshnessValue, "-");
+      setMessage("已重置表单，等待新的路径规划请求。");
+      refs.routeSummaryText.textContent = "尚未生成路径。";
+      setMapState("地图已清空，等待路径规划。");
+    }
+
+    async function boot() {
+      applyNowDefault();
+      bindSuggestion(refs.startText, refs.startSuggestions);
+      bindSuggestion(refs.endText, refs.endSuggestions);
+      refs.form.addEventListener("submit", planRoute);
+      refs.resetButton.addEventListener("click", resetForm);
+
+      await Promise.all([initMap(), loadOptions()]);
+    }
+
+    boot().catch((error) => {
+      setStatus("初始化失败");
+      setMessage(`页面初始化失败：${error}`, true);
+      setMapState("初始化失败。");
+    });
+  </script>
+</body>
+</html>
