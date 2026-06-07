@@ -1473,3 +1473,79 @@
 2026-06-07 22:34:26 | INFO | src.app.controller | 地图消息: 地图初始化完成。
 2026-06-07 22:34:26 | INFO | src.app.controller | 地图桥接完成，可接收路径。
 2026-06-07 22:34:26 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-07 23:43:13 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-07 23:43:13 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-07 23:43:13 | INFO | src.app.main | 应用启动完成
+2026-06-07 23:43:14 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-07 23:43:14 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-07 23:43:14 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-07 23:43:15 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-07 23:43:22 | INFO | src.app.controller | 结果详情地图: WebChannel 已连接。
+2026-06-07 23:43:22 | INFO | src.app.controller | 结果详情地图: 地图初始化完成。
+2026-06-07 23:43:23 | INFO | src.app.controller | 结果详情地图: 结果详情地图完成渲染，路线点=1740，抽样边=880，网格线=1400
+2026-06-07 23:50:44 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-07 23:50:44 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-07 23:50:44 | INFO | src.app.main | 应用启动完成
+2026-06-07 23:50:45 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-07 23:50:45 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-07 23:50:45 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-07 23:50:45 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-07 23:50:54 | INFO | src.app.controller | 结果详情地图: WebChannel 已连接。
+2026-06-07 23:50:54 | INFO | src.app.controller | 结果详情地图: 地图初始化完成。
+2026-06-07 23:50:55 | INFO | src.app.controller | 结果详情地图: 结果详情地图完成渲染，路线点=1740，抽样边=880，网格线=1400
+2026-06-08 07:24:10 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-08 07:24:10 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-08 07:24:11 | INFO | src.app.main | 应用启动完成
+2026-06-08 07:24:11 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-08 07:24:11 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-08 07:24:11 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-08 07:24:12 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-08 07:26:52 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:26:54 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:26:54 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 07:26:54 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 07:27:06 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-06-08 07:27:08 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:27:15 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:27:16 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 07:27:16 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:27:26 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:27:30 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:27:30 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 07:27:30 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:27:32 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:27:43 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:27:43 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 07:27:43 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:27:46 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜字典序A*算法(TF-LA*), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:27:49 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:27:50 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜字典序A*算法(TF-LA*)，目标: 最小化(|保鲜度-100|, 时间)(TF-LA*)，数据源: 高德候选路径）
+2026-06-08 07:27:50 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:27:58 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-06-08 07:28:00 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:28:01 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:28:01 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 07:28:01 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 07:28:22 | INFO | src.app.controller | 结果详情地图: WebChannel 已连接。
+2026-06-08 07:28:22 | INFO | src.app.controller | 结果详情地图: 地图初始化完成。
+2026-06-08 07:28:22 | INFO | src.app.controller | 结果详情地图: 结果详情地图完成渲染，路线点=12118，抽样边=880，网格线=1400
+2026-06-08 07:29:17 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-06-08 07:29:20 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:29:27 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:29:27 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 07:29:27 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:29:33 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:29:43 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:29:43 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 07:29:43 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:30:35 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜字典序A*算法(TF-LA*), 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:30:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:30:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜字典序A*算法(TF-LA*)，目标: 最小化(|保鲜度-100|, 时间)(TF-LA*)，数据源: 高德候选路径）
+2026-06-08 07:30:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 07:30:53 | INFO | src.app.controller | 已切换策略来源: 高德策略
+2026-06-08 07:30:54 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=香蕉, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 07:30:55 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 07:30:55 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 07:30:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 07:31:39 | INFO | src.app.controller | 设置已应用(应用): 每策略候选=3, TMCS=开, 加密阈值=40.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]
+2026-06-08 07:31:47 | INFO | src.app.controller | 设置已应用(确定): 每策略候选=3, TMCS=开, 加密阈值=50.0m, 候选发散=开, 锚点=[0.3, 0.7], 偏移=[300.0, 600.0]

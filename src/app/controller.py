@@ -41,11 +41,13 @@ from PySide6.QtWidgets import (
     QProgressBar,
     QPushButton,
     QRadioButton,
+    QMenu,
     QTableWidget,
     QTableWidgetItem,
     QHeaderView,
     QSplitter,
     QSpinBox,
+    QVBoxLayout,
     QWidget,
 )
 
@@ -969,7 +971,7 @@ class MainWindowController:
         btn_close = self._require_child_widget(dialog, "pushButtonCloseResultStats", QPushButton)
 
         hint_label.setText(
-            f"{hint_label.text().strip()} 双击已保存图结构的自研算法记录，可查看路线和图结构。"
+            f"{hint_label.text().strip()} 右键记录可选择查看记录详情，或查看已保存图结构的自研算法候选路径。"
         )
         self._setup_result_stats_table(table)
         self._refresh_result_stats_dialog(summary_labels, table)
@@ -993,8 +995,8 @@ class MainWindowController:
 
         btn_clear.clicked.connect(on_clear_clicked)
         btn_close.clicked.connect(dialog.accept)
-        table.cellDoubleClicked.connect(
-            lambda row, _column: self._on_result_stats_row_double_clicked(dialog, table, row)
+        table.customContextMenuRequested.connect(
+            lambda pos: self._show_result_stats_context_menu(dialog, table, pos)
         )
         dialog.exec()
 
@@ -1023,6 +1025,7 @@ class MainWindowController:
         table.setSelectionBehavior(QAbstractItemView.SelectRows)
         table.setSelectionMode(QAbstractItemView.SingleSelection)
         table.setAlternatingRowColors(True)
+        table.setContextMenuPolicy(Qt.CustomContextMenu)
         table.verticalHeader().setVisible(False)
 
         header = table.horizontalHeader()
@@ -1101,17 +1104,93 @@ class MainWindowController:
             table.clearContents()
             table.setRowCount(0)
 
-    # 处理结果统计表格双击事件并打开详情。
-    def _on_result_stats_row_double_clicked(
+    # 在结果统计表格中弹出右键菜单并分发查看动作。
+    def _show_result_stats_context_menu(
         self,
         parent_dialog: QDialog,
         table: QTableWidget,
-        row: int,
+        pos,
     ) -> None:
+        item = table.itemAt(pos)
+        if item is None:
+            return
+
+        row = item.row()
+        table.selectRow(row)
         entry = self._history_entry_from_table_row(table, row)
         if entry is None:
             return
 
+        menu = QMenu(table)
+        action_show_record = menu.addAction("显示记录")
+        action_show_candidates = menu.addAction("显示候选路径")
+        action_show_candidates.setEnabled(self._can_show_result_stats_candidate_path(entry))
+
+        selected_action = menu.exec(table.viewport().mapToGlobal(pos))
+        if selected_action is action_show_record:
+            self._show_result_stats_record_dialog(parent_dialog, entry)
+        elif selected_action is action_show_candidates:
+            self._show_result_stats_candidate_path(parent_dialog, entry)
+
+    # 判断当前历史记录是否支持查看候选路径与图结构。
+    def _can_show_result_stats_candidate_path(self, entry: dict[str, object]) -> bool:
+        if str(entry.get("strategy_source", "")).strip() != self._STRATEGY_SOURCE_CUSTOM:
+            return False
+        if str(entry.get("status", "")).strip().lower() != "ok":
+            return False
+        debug_payload = self._load_result_detail_payload(entry)
+        return isinstance(debug_payload, dict)
+
+    # 打开单条历史记录的文本详情窗口。
+    def _show_result_stats_record_dialog(
+        self,
+        parent_dialog: QDialog,
+        entry: dict[str, object],
+    ) -> None:
+        dialog = QDialog(parent_dialog)
+        dialog.setWindowTitle("记录详情")
+        dialog.setWindowModality(Qt.WindowModal)
+        dialog.resize(760, 520)
+
+        layout = QVBoxLayout(dialog)
+        title_label = QLabel("当前记录详情", dialog)
+        detail_view = QPlainTextEdit(dialog)
+        close_button = QPushButton("关闭", dialog)
+
+        detail_lines = [
+            f"时间: {entry.get('timestamp', '-')}",
+            f"起点: {entry.get('start_text', '-')}",
+            f"终点: {entry.get('end_text', '-')}",
+            f"来源: {entry.get('strategy_source', '-')}",
+            f"策略: {entry.get('algorithm', '-')}",
+            f"水果: {entry.get('fruit_type', '-')}",
+            f"运输: {entry.get('transport_mode', '-')}",
+            f"状态: {entry.get('status', '-')}",
+            f"计算用时(ms): {entry.get('compute_ms', '-')}",
+            f"总里程(km): {entry.get('total_distance_km', '-')}",
+            f"所需时间(h): {entry.get('total_time_h', '-')}",
+            f"到达保鲜度: {entry.get('freshness_at_arrival', '-')}",
+            f"距100偏差: {entry.get('freshness_delta_to_100', '-')}",
+            "",
+            f"结果信息: {entry.get('message', '')}",
+        ]
+
+        detail_view.setReadOnly(True)
+        detail_view.setPlainText("\n".join(detail_lines))
+
+        layout.addWidget(title_label)
+        layout.addWidget(detail_view)
+        layout.addWidget(close_button, alignment=Qt.AlignRight)
+
+        close_button.clicked.connect(dialog.accept)
+        dialog.exec()
+
+    # 按现有逻辑打开候选路径与图结构详情。
+    def _show_result_stats_candidate_path(
+        self,
+        parent_dialog: QDialog,
+        entry: dict[str, object],
+    ) -> None:
         if str(entry.get("strategy_source", "")).strip() != self._STRATEGY_SOURCE_CUSTOM:
             QMessageBox.information(
                 parent_dialog,
