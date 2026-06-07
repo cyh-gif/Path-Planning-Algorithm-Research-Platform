@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultStatsDialog</class>
+ <widget class="QDialog" name="ResultStatsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1160</width>
+    <height>700</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>结果统计</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background: #f3f6fb;
+}
+QWidget {
+    color: #1f2937;
+    font-family: &quot;Microsoft YaHei UI&quot;;
+    font-size: 13px;
+}
+QGroupBox {
+    background: #ffffff;
+    border: 1px solid #d8e0ec;
+    border-radius: 10px;
+    margin-top: 14px;
+    padding-top: 10px;
+    font-weight: 600;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 12px;
+    padding: 0 4px;
+    color: #334155;
+}
+QLabel#labelResultStatsTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+}
+QLabel#labelResultStatsHint {
+    color: #64748b;
+}
+QLabel[class=&quot;summaryTitle&quot;] {
+    color: #475569;
+}
+QLabel[class=&quot;summaryValue&quot;] {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2563eb;
+}
+QTableWidget {
+    background: #fbfdff;
+    border: 1px solid #cfd8e6;
+    border-radius: 8px;
+    gridline-color: #e2e8f0;
+    selection-background-color: #dbeafe;
+    selection-color: #1e3a8a;
+}
+QHeaderView::section {
+    background: #eef4ff;
+    border: none;
+    border-right: 1px solid #d8e0ec;
+    border-bottom: 1px solid #d8e0ec;
+    padding: 6px 8px;
+    font-weight: 600;
+}
+QPushButton {
+    background: #f7f9fe;
+    border: 1px solid #cfd8e6;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-weight: 600;
+}
+QPushButton:hover {
+    background: #eef4ff;
+}
+QPushButton#pushButtonCloseResultStats {
+    background: #2563eb;
+    border: 1px solid #1d4ed8;
+    color: #ffffff;
+}
+QPushButton#pushButtonCloseResultStats:hover {
+    background: #1d4ed8;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayoutRoot">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
+    <number>12</number>
+   </property>
+   <item>
+    <widget class="QLabel" name="labelResultStatsTitle">
+     <property name="text">
+      <string>结果统计</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelResultStatsHint">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>这里会记录你使用软件计算出的历史结果，方便对比不同起终点、策略与保鲜指标。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxSummary">
+     <property name="title">
+      <string>统计概览</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayoutSummary">
+      <property name="horizontalSpacing">
+       <number>18</number>
+      </property>
+      <property name="verticalSpacing">
+       <number>10</number>
+      </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="labelSummaryTotalTitle">
+        <property name="text">
+         <string>总记录数</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="labelSummaryTotalValue">
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="labelSummarySuccessTitle">
+        <property name="text">
+         <string>成功次数</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLabel" name="labelSummarySuccessValue">
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="labelSummaryErrorTitle">
+        <property name="text">
+         <string>失败次数</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="labelSummaryErrorValue">
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="labelSummaryAvgComputeTitle">
+        <property name="text">
+         <string>平均计算用时</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="labelSummaryAvgComputeValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="labelSummaryAvgDistanceTitle">
+        <property name="text">
+         <string>平均总里程</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="labelSummaryAvgDistanceValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="labelSummaryBestFreshnessTitle">
+        <property name="text">
+         <string>最佳保鲜偏差</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryTitle</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLabel" name="labelSummaryBestFreshnessValue">
+        <property name="text">
+         <string>-</string>
+        </property>
+        <property name="class" stdset="0">
+         <string>summaryValue</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxResultHistory">
+     <property name="title">
+      <string>历史结果明细</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutHistory">
+      <property name="spacing">
+       <number>8</number>
+      </property>
+      <item>
+       <widget class="QTableWidget" name="tableWidgetResultStats">
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="columnCount">
+         <number>14</number>
+        </property>
+        <column>
+         <property name="text">
+          <string>时间</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>起点</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>终点</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>来源</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>策略</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>水果</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>运输</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>状态</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>计算用时(ms)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>总里程(km)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>所需时间(h)</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>到达保鲜度</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>距100偏差</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>结果信息</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayoutButtons">
+     <item>
+      <spacer name="horizontalSpacerButtons">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonClearResultStats">
+       <property name="text">
+        <string>清空统计</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonCloseResultStats">
+       <property name="text">
+        <string>关闭</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,4 +1,12 @@
-﻿from __future__ import annotations
+"""应用配置加载模块。
+
+本文件负责读取项目配置文件、环境变量覆盖项以及敏感配置，
+并将原始配置数据整理为具备明确字段结构的 dataclass 对象，
+供桌面端和 API 在启动时统一使用。
+"""
+
+
+from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -7,12 +15,14 @@ import os
 
 
 @dataclass(slots=True)
+# 描述主界面和地图页面资源路径配置。
 class UiConfig:
     file: str = "ui/主界面.ui"
     map_html: str = "ui/map.html"
 
 
 @dataclass(slots=True)
+# 描述高德地图前后端访问所需的连接参数。
 class AMapConfig:
     js_key: str = ""
     security_js_code: str = ""
@@ -23,6 +33,7 @@ class AMapConfig:
 
 
 @dataclass(slots=True)
+# 描述路径规划策略和候选图构建相关配置。
 class RoutingConfig:
     default_strategy: str = "速度优先"
     amap_strategy_map: dict[str, int] | None = None
@@ -37,12 +48,14 @@ class RoutingConfig:
 
 
 @dataclass(slots=True)
+# 描述高峰时段和时变路网参数配置。
 class CustomTimeDependentConfig:
     peak_hours: list[int]
     peak_multiplier: float = 1.35
 
 
 @dataclass(slots=True)
+# 描述保鲜模型、仲裁范围与损耗参数配置。
 class FreshnessConfig:
     target: float = 100.0
     base_loss_per_hour: float = 2.0
@@ -58,12 +71,14 @@ class FreshnessConfig:
 
 
 @dataclass(slots=True)
+# 描述日志级别与日志文件路径配置。
 class LoggingConfig:
     level: str = "INFO"
     file: str = "results/logs/app.log"
 
 
 @dataclass(slots=True)
+# 描述智能助手模型访问与重试参数配置。
 class AssistantConfig:
     name: str = "芒小果"
     provider: str = "tongyi"
@@ -75,6 +90,7 @@ class AssistantConfig:
 
 
 @dataclass(slots=True)
+# 汇总应用运行所需的全部子配置对象。
 class AppConfig:
     ui: UiConfig
     amap: AMapConfig
@@ -85,6 +101,7 @@ class AppConfig:
     logging: LoggingConfig
 
 
+# 将简单文本值解析为布尔、数字或普通字符串。
 def _parse_scalar(raw: str) -> Any:
     text = raw.strip()
     if not text:
@@ -106,6 +123,7 @@ def _parse_scalar(raw: str) -> Any:
         return text
 
 
+# 读取并解析受限格式的 YAML 配置文件。
 def _load_simple_yaml(path: Path) -> dict[str, Any]:
     """轻量 YAML 解析器，仅支持 key/value 与缩进字典。"""
     if not path.exists():
@@ -141,6 +159,7 @@ def _load_simple_yaml(path: Path) -> dict[str, Any]:
     return root
 
 
+# 递归合并基础配置与覆盖配置字典。
 def _deep_merge_dict(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     merged: dict[str, Any] = dict(base)
     for key, override_value in override.items():
@@ -152,6 +171,7 @@ def _deep_merge_dict(base: dict[str, Any], override: dict[str, Any]) -> dict[str
     return merged
 
 
+# 按键路径安全读取嵌套字典中的值。
 def _deep_get(data: dict[str, Any], path: list[str], default: Any) -> Any:
     current: Any = data
     for key in path:
@@ -161,6 +181,7 @@ def _deep_get(data: dict[str, Any], path: list[str], default: Any) -> Any:
     return current
 
 
+# 从多个环境变量中选取第一个非空值作为覆盖配置。
 def _pick_non_empty_env(env_names: list[str], fallback: str) -> str:
     for env_name in env_names:
         raw = os.getenv(env_name)
@@ -172,6 +193,7 @@ def _pick_non_empty_env(env_names: list[str], fallback: str) -> str:
     return fallback
 
 
+# 返回内置的高德策略名称与策略编码映射。
 def _default_amap_strategy_map() -> dict[str, int]:
     return {
         "速度优先": 0,
@@ -191,6 +213,7 @@ def _default_amap_strategy_map() -> dict[str, int]:
     }
 
 
+# 返回界面展示名称与内部算法标识的默认映射。
 def _default_custom_algorithm_map() -> dict[str, str]:
     return {
         "自研-Dijkstra": "static_dijkstra",
@@ -206,6 +229,7 @@ def _default_custom_algorithm_map() -> dict[str, str]:
     }
 
 
+# 将原始映射解析为字符串到整数的字典。
 def _parse_int_map(raw_mapping: Any) -> dict[str, int]:
     if not isinstance(raw_mapping, dict):
         return {}
@@ -221,6 +245,7 @@ def _parse_int_map(raw_mapping: Any) -> dict[str, int]:
     return parsed
 
 
+# 将原始映射解析为字符串到字符串的字典。
 def _parse_str_map(raw_mapping: Any) -> dict[str, str]:
     if not isinstance(raw_mapping, dict):
         return {}
@@ -234,6 +259,7 @@ def _parse_str_map(raw_mapping: Any) -> dict[str, str]:
     return parsed
 
 
+# 将原始映射解析为字符串到浮点数的字典。
 def _parse_float_map(raw_mapping: Any) -> dict[str, float]:
     if not isinstance(raw_mapping, dict):
         return {}
@@ -249,6 +275,7 @@ def _parse_float_map(raw_mapping: Any) -> dict[str, float]:
     return parsed
 
 
+# 将逗号分隔的高峰小时文本解析为整数列表。
 def _parse_peak_hours(csv_text: str) -> list[int]:
     result: list[int] = []
     for token in csv_text.split(","):
@@ -261,6 +288,7 @@ def _parse_peak_hours(csv_text: str) -> list[int]:
     return result
 
 
+# 将逗号分隔的策略编码文本解析为整数列表。
 def _parse_strategy_codes(csv_text: str) -> list[int]:
     result: list[int] = []
     seen: set[int] = set()
@@ -278,6 +306,7 @@ def _parse_strategy_codes(csv_text: str) -> list[int]:
     return result
 
 
+# 将比例文本解析为限定长度的浮点列表。
 def _parse_ratio_list(csv_text: str, max_count: int = 2) -> list[float]:
     result: list[float] = []
     seen: set[float] = set()
@@ -299,6 +328,7 @@ def _parse_ratio_list(csv_text: str, max_count: int = 2) -> list[float]:
     return sorted(result)
 
 
+# 将偏移距离文本解析为限定长度的浮点列表。
 def _parse_offset_list(csv_text: str, max_count: int = 2) -> list[float]:
     result: list[float] = []
     seen: set[float] = set()
@@ -320,6 +350,7 @@ def _parse_offset_list(csv_text: str, max_count: int = 2) -> list[float]:
     return sorted(result)
 
 
+# 将多种表现形式的值统一解析为布尔值。
 def _parse_bool(raw_value: Any, default: bool) -> bool:
     if isinstance(raw_value, bool):
         return raw_value
@@ -332,6 +363,7 @@ def _parse_bool(raw_value: Any, default: bool) -> bool:
     return default
 
 
+# 读取主配置与密钥配置，并组装为完整的应用配置对象。
 def load_app_config(project_root: Path) -> AppConfig:
     app_data = _load_simple_yaml(project_root / "configs" / "app.yaml")
     secrets_data = _load_simple_yaml(project_root / "configs" / "secrets.yaml")

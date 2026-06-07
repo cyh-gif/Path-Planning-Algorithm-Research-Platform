@@ -1,3 +1,11 @@
+"""应用装配模块。
+
+本文件承担桌面端与 API 共享的 composition root 角色，
+负责按统一顺序加载配置、初始化基础客户端，并组装路径规划、
+地点联想和智能助手等核心服务对象。
+"""
+
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -12,6 +20,7 @@ from src.utils.logger import setup_logging
 
 #把分散的配置、客户端和服务对象集中初始化，形成一个可复用的运行环境。
 @dataclass(slots=True)
+# 汇总桌面端和 API 复用的服务对象，作为应用运行时上下文容器。
 class AppServices:
     project_root: Path
     app_config: AppConfig
@@ -21,10 +30,12 @@ class AppServices:
     mango_assistant_service: MangoAssistantService
 
 
+# 解析仓库根目录，供配置、资源和日志路径定位使用。
 def resolve_project_root() -> Path:
     return Path(__file__).resolve().parents[2]
 
 
+# 按统一顺序装配配置、地图客户端、业务服务和助手服务。
 def build_services(project_root: Path | None = None, setup_logs: bool = True) -> AppServices:
     project_root = project_root or resolve_project_root()
     app_config = load_app_config(project_root)

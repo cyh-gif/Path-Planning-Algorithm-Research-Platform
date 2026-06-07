@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ResultDetailDialog</class>
+ <widget class="QDialog" name="ResultDetailDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1380</width>
+    <height>860</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>结果详情</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background: #f3f6fb;
+}
+QWidget {
+    color: #1f2937;
+    font-family: "Microsoft YaHei UI";
+    font-size: 13px;
+}
+QLabel#labelResultDetailTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+}
+QLabel#labelResultDetailHint {
+    color: #64748b;
+}
+QGroupBox {
+    background: #ffffff;
+    border: 1px solid #d8e0ec;
+    border-radius: 10px;
+    margin-top: 14px;
+    padding-top: 10px;
+    font-weight: 600;
+}
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 12px;
+    padding: 0 4px;
+    color: #334155;
+}
+QPushButton {
+    background: #2563eb;
+    border: 1px solid #1d4ed8;
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 7px 14px;
+    font-weight: 600;
+}
+QPushButton:hover {
+    background: #1d4ed8;
+}</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayoutRoot">
+   <property name="spacing">
+    <number>12</number>
+   </property>
+   <property name="leftMargin">
+    <number>12</number>
+   </property>
+   <property name="topMargin">
+    <number>12</number>
+   </property>
+   <property name="rightMargin">
+    <number>12</number>
+   </property>
+   <property name="bottomMargin">
+    <number>12</number>
+   </property>
+   <property name="stretch">
+    <string>0,0,1,0</string>
+   </property>
+   <item>
+    <widget class="QLabel" name="labelResultDetailTitle">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumHeight">
+      <number>36</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="text">
+      <string>自研算法结果详情</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="labelResultDetailHint">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumHeight">
+      <number>32</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="text">
+      <string>这里直接展示当前记录的路线与图结构地图。</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxMap">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>1</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumHeight">
+      <number>520</number>
+     </property>
+     <property name="title">
+      <string>路线与图结构地图</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayoutMap">
+      <property name="leftMargin">
+       <number>10</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QWebEngineView" name="webEngineViewResultGraph">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumHeight">
+         <number>460</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayoutButtons">
+     <item>
+      <spacer name="horizontalSpacerButtons">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonCloseResultDetail">
+       <property name="text">
+        <string>关闭</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebEngineView</class>
+   <extends>QWidget</extends>
+   <header>PySide6.QtWebEngineWidgets</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

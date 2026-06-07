@@ -1,4 +1,12 @@
-﻿from __future__ import annotations
+"""主窗口控制模块。
+
+本文件是桌面端最核心的界面协调层，负责加载主窗口与对话框 UI，
+连接控件事件、调用业务服务、管理后台线程任务、驱动地图展示，
+并处理结果历史、详情缓存和聊天助手等交互流程。
+"""
+
+
+from __future__ import annotations
 
 from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass
@@ -55,19 +63,23 @@ LOGGER = logging.getLogger(__name__)
 TWidget = TypeVar("TWidget", bound=QWidget)
 
 
+# 汇总地点联想后台任务回主线程所需的信号。
 class _SuggestionSignalBus(QObject):
     suggestionsReady = Signal(str, int, object)
 
 
+# 汇总路径规划后台任务回主线程所需的信号。
 class _RouteSignalBus(QObject):
     routeReady = Signal(int, object)
 
 
+# 汇总聊天后台任务回主线程所需的信号。
 class _ChatSignalBus(QObject):
     chatReady = Signal(int, object)
 
 
 @dataclass(frozen=True, slots=True)
+# 描述预设表单场景的输入参数组合。
 class PresetProfile:
     name: str
     max_paths_per_strategy: int
@@ -81,6 +93,7 @@ class PresetProfile:
     description: str
 
 
+# 主窗口控制器，负责协调界面、服务、地图和后台任务。
 class MainWindowController:
     _SOURCE_SUFFIX_PATTERN = re.compile(r"\s*\[[^\]]+\]\s*$")
     _STRATEGY_SOURCE_AMAP = "高德策略"
@@ -127,6 +140,7 @@ class MainWindowController:
         ),
     }
 
+    # 初始化主窗口控制器并准备服务、线程池和本地缓存目录。
     def __init__(
         self,
         project_root: Path,
@@ -205,6 +219,7 @@ class MainWindowController:
         self._init_ui_state()
         self._connect_signals()
 
+    # 加载主窗口 UI 文件并返回窗口实例。
     def _load_ui(self, ui_path: Path) -> QMainWindow:
         if not ui_path.exists():
             raise FileNotFoundError(f"UI 文件不存在: {ui_path}")
@@ -222,6 +237,7 @@ class MainWindowController:
             raise RuntimeError("UI 根节点必须是 QMainWindow。")
         return loaded
 
+    # 加载对话框 UI 文件并返回对话框实例。
     def _load_dialog_ui(self, ui_path: Path, description: str = "对话框") -> QDialog:
         if not ui_path.exists():
             raise FileNotFoundError(f"{description}文件不存在: {ui_path}")
@@ -239,6 +255,7 @@ class MainWindowController:
             raise RuntimeError(f"{description}根节点必须是 QDialog。")
         return loaded
 
+    # 从指定父组件中查找并校验子控件类型。
     def _require_child_widget(
         self,
         parent: QWidget,
@@ -250,12 +267,14 @@ class MainWindowController:
             raise RuntimeError(f"设置界面缺少控件: {name}")
         return widget
 
+    # 从主窗口中查找并校验控件类型。
     def _require_widget(self, name: str, widget_type: Type[TWidget]) -> TWidget:
         widget = self.window.findChild(widget_type, name)
         if widget is None:
             raise RuntimeError(f"缺少必要控件: {name}")
         return widget
 
+    # 绑定界面中需要频繁访问的控件引用。
     def _bind_widgets(self) -> None:
         self.splitter_main = self._require_widget("splitterMain", QSplitter)
         self.line_edit_start = self._require_widget("lineEditStartPoint", QLineEdit)
@@ -294,6 +313,7 @@ class MainWindowController:
         self.btn_mango_send = self._require_widget("pushButtonMangoSend", QPushButton)
         self.btn_mango_clear = self._require_widget("pushButtonMangoClear", QPushButton)
 
+    # 初始化起终点输入框的地点联想能力。
     def _setup_location_autocomplete(self) -> None:
         """为起点和终点输入框启用带来源标签的联想下拉。"""
         self.start_suggest_model = QStringListModel(self.window)
@@ -334,6 +354,7 @@ class MainWindowController:
             lambda text: self._on_location_text_edited("end", text)
         )
 
+    # 处理地点输入变化并触发联想查询流程。
     def _on_location_text_edited(self, field: str, text: str) -> None:
         keyword = text.strip()
         self._pending_keyword[field] = keyword
@@ -344,6 +365,7 @@ class MainWindowController:
         timer = self.start_suggest_timer if field == "start" else self.end_suggest_timer
         timer.start()
 
+    # 在后台线程中发起地点联想请求。
     def _trigger_suggestion_fetch(self, field: str) -> None:
         keyword = self._pending_keyword.get(field, "").strip()
         if not keyword:
@@ -368,6 +390,7 @@ class MainWindowController:
             )
         )
 
+    # 接收联想任务完成回调并转发到主线程处理。
     def _on_suggestion_future_done(
         self,
         field: str,
@@ -385,6 +408,7 @@ class MainWindowController:
         payload = [(item.text, item.source) for item in merged]
         self._suggest_signal_bus.suggestionsReady.emit(field, seq, payload)
 
+    # 在主线程刷新联想候选列表。
     def _on_suggestions_ready(self, field: str, seq: int, suggestions_obj: object) -> None:
         if seq != self._suggest_seq.get(field, -1):
             return
@@ -408,6 +432,7 @@ class MainWindowController:
 
         self._set_suggestion_list(field, suggestions, show_popup=True)
 
+    # 处理联想候选被选中后的输入回填逻辑。
     def _on_completion_selected(self, field: str, display_text: str) -> None:
         mapping = self._display_to_value.get(field, {})
         value = mapping.get(display_text, display_text)
@@ -415,6 +440,7 @@ class MainWindowController:
         line_edit.setText(value)
         line_edit.setCursorPosition(len(value))
 
+    # 刷新指定输入框的联想候选列表内容。
     def _set_suggestion_list(
         self,
         field: str,
@@ -444,6 +470,7 @@ class MainWindowController:
         if show_popup and display_list and line_edit.hasFocus() and line_edit.text().strip():
             completer.complete()
 
+    # 从最近使用地点中筛选本地联想结果。
     def _suggest_from_recent(self, keyword: str, limit: int) -> list[SuggestionItem]:
         kw = keyword.lower()
         prefix = [x for x in self._recent_locations if x.lower().startswith(kw)]
@@ -454,6 +481,7 @@ class MainWindowController:
             for item in merged
         ]
 
+    # 合并本地与远程联想结果并完成去重排序。
     def _merge_suggestions(
         self,
         keyword: str,
@@ -484,6 +512,7 @@ class MainWindowController:
                 break
         return merged
 
+    # 记录最近使用的地点文本。
     def _remember_location(self, value: str) -> None:
         text = value.strip()
         if not text:
@@ -494,12 +523,14 @@ class MainWindowController:
         if len(self._recent_locations) > 80:
             self._recent_locations = self._recent_locations[:80]
 
+    # 规范化地点文本以便比较和缓存。
     def _normalize_place_text(self, value: str) -> str:
         """清理输入末尾的来源标签，例如“北京南站 [高德]”。"""
         text = value.strip()
         text = self._SOURCE_SUFFIX_PATTERN.sub("", text).strip()
         return text
 
+    # 初始化地图页面与 Qt 之间的桥接对象。
     def _setup_map_bridge(self) -> None:
         self._configure_map_view(self.map_view)
 
@@ -512,12 +543,14 @@ class MainWindowController:
         self.map_bridge.mapReady.connect(self._on_map_ready)
         self.map_bridge.jsLog.connect(self._on_js_log)
 
+    # 配置地图 Web 视图的基础行为。
     def _configure_map_view(self, map_view: QWebEngineView) -> None:
         # 允许本地 HTML（setHtml）加载远程 JS/CSS 资源，否则高德 loader.js 无法加载。
         settings = map_view.settings()
         settings.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
         settings.setAttribute(QWebEngineSettings.LocalContentCanAccessFileUrls, True)
 
+    # 初始化界面默认状态和初始展示内容。
     def _init_ui_state(self) -> None:
         self._apply_window_icon()
         self._restore_persisted_settings()
@@ -530,6 +563,7 @@ class MainWindowController:
         self._init_mango_assistant()
         self._append_log("界面已启动，等待输入。")
 
+    # 初始化芒小果助手区域的默认提示与状态。
     def _init_mango_assistant(self) -> None:
         self.mango_chat.clear()
         self._chat_history.clear()
@@ -542,6 +576,7 @@ class MainWindowController:
             ),
         )
 
+    # 为主窗口和相关对话框应用统一图标。
     def _apply_window_icon(self) -> None:
         """为主窗口设置项目图标。"""
         if not self.app_icon_path.exists():
@@ -554,6 +589,7 @@ class MainWindowController:
         if app is not None:
             app.setWindowIcon(icon)
 
+    # 恢复本地持久化的候选参数和界面设置。
     def _restore_persisted_settings(self) -> None:
         """启动时恢复本地保存的设置参数。"""
         payload = self._load_persisted_settings_payload()
@@ -580,6 +616,7 @@ class MainWindowController:
         )
         self._append_log("已恢复上次设置参数。")
 
+    # 读取持久化设置文件内容。
     def _load_persisted_settings_payload(self) -> dict[str, object]:
         if not self.ui_settings_path.exists():
             return {}
@@ -592,6 +629,7 @@ class MainWindowController:
             return {}
         return payload
 
+    # 校正并补全持久化的候选参数配置。
     def _coerce_candidate_options(self, raw: dict[str, object]) -> dict[str, float | int | bool]:
         current = self.route_service.get_custom_candidate_options()
         current_anchor = current.get("divergence_anchor_ratios", [0.35, 0.65])
@@ -630,6 +668,7 @@ class MainWindowController:
             "offset_distance_2_m": _to_float(raw.get("offset_distance_2_m"), float(current_offset[1])),
         }
 
+    # 保存当前界面设置和候选参数到本地文件。
     def _save_persisted_settings(self) -> None:
         options = self.route_service.get_custom_candidate_options()
         anchor_ratios = options.get("divergence_anchor_ratios", [0.35, 0.65])
@@ -660,6 +699,7 @@ class MainWindowController:
         except Exception as exc:
             LOGGER.warning("保存本地设置失败: %s", exc)
 
+    # 调整主界面三栏布局比例。
     def _apply_main_layout_ratio(self) -> None:
         """统一三栏布局比例，保证地图区优先展示。"""
         self.splitter_main.setStretchFactor(0, 26)
@@ -667,6 +707,7 @@ class MainWindowController:
         self.splitter_main.setStretchFactor(2, 26)
         self.splitter_main.setSizes([360, 860, 400])
 
+    # 初始化策略来源和算法下拉框选项。
     def _init_strategy_options(self) -> None:
         """初始化二级策略选择：先选来源，再选具体策略。"""
         self.combo_strategy_source.blockSignals(True)
@@ -687,6 +728,7 @@ class MainWindowController:
 
         self._reload_strategy_options(default_strategy)
 
+    # 按当前策略来源重载可选算法列表。
     def _reload_strategy_options(self, preferred: str = "") -> None:
         """按策略来源刷新“具体策略”下拉。"""
         source = self.combo_strategy_source.currentText().strip()
@@ -709,12 +751,14 @@ class MainWindowController:
         else:
             self.combo_algorithm.setCurrentIndex(0)
 
+    # 响应策略来源切换并刷新算法选项。
     def _on_strategy_source_changed(self, source_text: str) -> None:
         """策略来源切换后联动刷新具体策略。"""
         self._reload_strategy_options()
         show_text = source_text.strip() or self._STRATEGY_SOURCE_AMAP
         self._append_log(f"已切换策略来源: {show_text}")
 
+    # 将设置对话框中的候选参数应用到业务服务。
     def _apply_runtime_candidate_settings(
         self,
         max_paths_per_strategy: int,
@@ -768,6 +812,7 @@ class MainWindowController:
                 f"偏移={self.route_service.custom_candidate_divergence_offsets_m}"
             )
 
+    # 打开设置对话框并处理候选参数应用。
     def on_settings_clicked(self) -> None:
         dialog = self._load_dialog_ui(self.settings_ui_path, "设置界面")
         dialog.setWindowModality(Qt.WindowModal)
@@ -903,6 +948,7 @@ class MainWindowController:
 
         dialog.exec()
 
+    # 打开结果统计对话框并刷新历史记录。
     def on_result_stats_clicked(self) -> None:
         dialog = self._load_dialog_ui(self.result_stats_ui_path, "结果统计界面")
         dialog.setWindowModality(Qt.WindowModal)
@@ -952,6 +998,7 @@ class MainWindowController:
         )
         dialog.exec()
 
+    # 初始化结果统计表格的列定义和交互行为。
     def _setup_result_stats_table(self, table: QTableWidget) -> None:
         table.setColumnCount(14)
         table.setHorizontalHeaderLabels(
@@ -984,6 +1031,7 @@ class MainWindowController:
         for column in (1, 2, 4, 13):
             header.setSectionResizeMode(column, QHeaderView.Stretch)
 
+    # 刷新结果统计对话框中的历史数据与筛选显示。
     def _refresh_result_stats_dialog(
         self,
         summary_labels: dict[str, QLabel],
@@ -1053,6 +1101,7 @@ class MainWindowController:
             table.clearContents()
             table.setRowCount(0)
 
+    # 处理结果统计表格双击事件并打开详情。
     def _on_result_stats_row_double_clicked(
         self,
         parent_dialog: QDialog,
@@ -1090,6 +1139,7 @@ class MainWindowController:
 
         self._open_result_detail_dialog(parent_dialog, entry, debug_payload)
 
+    # 根据表格行恢复对应的历史记录条目。
     def _history_entry_from_table_row(
         self,
         table: QTableWidget,
@@ -1105,6 +1155,7 @@ class MainWindowController:
             return None
         return self._result_history[history_index]
 
+    # 打开单条路径结果的详情对话框。
     def _open_result_detail_dialog(
         self,
         parent_dialog: QDialog,
@@ -1141,6 +1192,7 @@ class MainWindowController:
         close_button.clicked.connect(dialog.accept)
         dialog.exec()
 
+    # 初始化结果详情页中的地图展示。
     def _setup_result_detail_map(
         self,
         dialog: QDialog,
@@ -1179,6 +1231,7 @@ class MainWindowController:
             self.result_detail_map_html_path,
         )
 
+    # 构建结果详情页地图所需的数据载荷。
     def _build_result_detail_map_payload(
         self,
         entry: dict[str, object],
@@ -1201,6 +1254,7 @@ class MainWindowController:
             },
         }
 
+    # 压缩调试载荷以减少持久化体积。
     def _compact_debug_payload(self, payload: dict[str, object]) -> dict[str, object]:
         route_data = payload.get("route")
         overlay_data = payload.get("map_overlay")
@@ -1248,6 +1302,7 @@ class MainWindowController:
             },
         }
 
+    # 将结果详情载荷写入本地缓存文件。
     def _persist_result_detail_payload(
         self,
         entry: dict[str, object],
@@ -1270,6 +1325,7 @@ class MainWindowController:
             return None
         return str(file_path.relative_to(self.project_root))
 
+    # 从缓存文件中读取结果详情载荷。
     def _load_result_detail_payload(self, entry: dict[str, object]) -> dict[str, object] | None:
         inline_payload = entry.get("debug_payload")
         if isinstance(inline_payload, dict):
@@ -1287,6 +1343,7 @@ class MainWindowController:
             LOGGER.warning("结果详情缓存读取失败: %s", exc)
             return None
         return dict(payload) if isinstance(payload, dict) else None
+    # 将历史记录转换为表格展示用视图数据。
     def _build_result_history_view(self, entry: dict[str, object]) -> dict[str, str]:
         freshness_value = entry.get("freshness_at_arrival")
         delta_value = entry.get("freshness_delta_to_100")
@@ -1307,6 +1364,7 @@ class MainWindowController:
             "message": str(entry.get("message", "")),
         }
 
+    # 读取本地保存的历史结果列表。
     def _load_result_history(self) -> list[dict[str, object]]:
         if not self.result_history_path.exists():
             return []
@@ -1336,6 +1394,7 @@ class MainWindowController:
             self._save_result_history()
         return normalized
 
+    # 保存当前历史结果列表到本地文件。
     def _save_result_history(self) -> None:
         try:
             self.result_history_path.parent.mkdir(parents=True, exist_ok=True)
@@ -1346,6 +1405,7 @@ class MainWindowController:
         except OSError as exc:
             LOGGER.warning("结果统计记录保存失败: %s", exc)
 
+    # 连接界面控件、桥接对象和后台任务信号。
     def _connect_signals(self) -> None:
         self.combo_strategy_source.currentTextChanged.connect(self._on_strategy_source_changed)
         self.btn_settings.clicked.connect(self.on_settings_clicked)
@@ -1356,10 +1416,12 @@ class MainWindowController:
         self.btn_mango_clear.clicked.connect(self.on_mango_clear_clicked)
         self.mango_input.returnPressed.connect(self.on_mango_send_clicked)
 
+    # 向助手对话框追加一行聊天内容。
     def _append_mango_line(self, speaker: str, text: str) -> None:
         stamp = QDateTime.currentDateTime().toString("HH:mm:ss")
         self.mango_chat.appendPlainText(f"[{stamp}] {speaker}: {text}")
 
+    # 根据月份返回季节名称文案。
     def _season_name(self, month: int) -> str:
         if month in {3, 4, 5}:
             return "春季"
@@ -1369,6 +1431,7 @@ class MainWindowController:
             return "秋季"
         return "冬季"
 
+    # 发送用户消息并异步请求助手回复。
     def on_mango_send_clicked(self) -> None:
         if self._chat_running:
             QMessageBox.information(self.window, "芒小果忙碌中", "芒小果正在思考，请稍候。")
@@ -1396,6 +1459,7 @@ class MainWindowController:
         )
         future.add_done_callback(lambda fut, seq=current_seq: self._on_chat_future_done(seq, fut))
 
+    # 接收聊天任务完成回调并转发到主线程。
     def _on_chat_future_done(self, seq: int, future: Future[str]) -> None:
         try:
             payload: object = future.result()
@@ -1403,6 +1467,7 @@ class MainWindowController:
             payload = exc
         self._chat_signal_bus.chatReady.emit(seq, payload)
 
+    # 在主线程处理聊天结果并更新界面。
     def _on_chat_ready(self, seq: int, payload: object) -> None:
         if seq != self._chat_seq:
             return
@@ -1423,17 +1488,20 @@ class MainWindowController:
         self._chat_history.append({"role": "assistant", "content": reply})
         self._chat_history = self._chat_history[-20:]
 
+    # 清空聊天记录和上下文状态。
     def on_mango_clear_clicked(self) -> None:
         if self._chat_running:
             QMessageBox.information(self.window, "请稍候", "芒小果正在回复，稍后再清空。")
             return
         self._init_mango_assistant()
 
+    # 向运行日志区域追加文本。
     def _append_log(self, text: str) -> None:
         stamp = QDateTime.currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
         self.run_log.appendPlainText(f"[{stamp}] {text}")
         LOGGER.info(text)
 
+    # 读取并注入密钥后生成地图 HTML 内容。
     def _build_map_html_content(self, map_html_path: Path | None = None) -> str:
         actual_path = map_html_path or self.map_html_path
         if not actual_path.exists():
@@ -1447,6 +1515,7 @@ class MainWindowController:
         html = html.replace("__AMAP_SECURITY_JS_CODE__", security_js_code)
         return html
 
+    # 将地图 HTML 内容加载到主地图视图。
     def _load_map_html(self) -> None:
         html = self._build_map_html_content(self.map_html_path)
         self._set_map_html_to_view(self.map_view, html, self.map_html_path)
@@ -1457,6 +1526,7 @@ class MainWindowController:
         if not js_key or not security_js_code:
             self._append_log("未配置高德 JS Key / securityJsCode，底图可能无法加载。")
 
+    # 把 HTML 字符串写入指定地图视图。
     def _set_map_html_to_view(
         self,
         map_view: QWebEngineView,
@@ -1470,6 +1540,7 @@ class MainWindowController:
             self.map_ready = False
         map_view.setHtml(html, base_url)
 
+    # 处理地图页面加载完成事件。
     def _on_map_load_finished(self, ok: bool) -> None:
         if ok:
             self._append_log("地图页面加载完成，等待 WebChannel 就绪。")
@@ -1477,6 +1548,7 @@ class MainWindowController:
             self._append_log("地图页面加载失败，请检查 map.html。")
             self.window.statusBar().showMessage("地图页面加载失败")
 
+    # 处理前端地图主动上报的就绪事件。
     def _on_map_ready(self) -> None:
         self.map_ready = True
         self._append_log("地图桥接完成，可接收路径。")
@@ -1487,9 +1559,11 @@ class MainWindowController:
             self._append_log("已发送缓存路径到地图。")
             self.pending_payload = None
 
+    # 记录前端地图回传的日志消息。
     def _on_js_log(self, message: str) -> None:
         self._append_log(f"地图消息: {message}")
 
+    # 估算当前策略的计算时长用于假进度条展示。
     def _estimate_compute_seconds(self, strategy_source: str, strategy_name: str) -> float:
         """按当前策略与设置估算一个展示用时（仅用于 UI 展示，不参与算法）。"""
         source = strategy_source.strip()
@@ -1518,6 +1592,7 @@ class MainWindowController:
 
         return max(0.8, min(8.0, round(estimate_s, 1)))
 
+    # 启动模拟计算进度条动画。
     def _start_fake_progress(self, expected_s: float) -> None:
         """启动假的进度条动画。"""
         self._progress_expected_s = max(0.8, float(expected_s))
@@ -1527,6 +1602,7 @@ class MainWindowController:
         self.label_estimated_compute_value.setText(f"约 {self._progress_expected_s:.1f} 秒")
         self.progress_timer.start()
 
+    # 推进模拟计算进度条的当前状态。
     def _tick_fake_progress(self) -> None:
         """根据已过时间推进到 90% 左右，等待真实结果后再补到 100%。"""
         if not self._route_running:
@@ -1542,6 +1618,7 @@ class MainWindowController:
             self._progress_last_value = target
             self.progress_bar_compute.setValue(target)
 
+    # 用真实耗时收尾模拟进度展示。
     def _finish_fake_progress(self, actual_ms: float) -> None:
         """规划结束后把进度补满，并显示预计/实际耗时。"""
         self.progress_timer.stop()
@@ -1552,6 +1629,7 @@ class MainWindowController:
             f"预计 {self._progress_expected_s:.1f} 秒 / 实际 {actual_s:.2f} 秒"
         )
 
+    # 将进度条与耗时展示重置为初始状态。
     def _reset_progress_display(self) -> None:
         """重置地图下方的计算进度展示。"""
         self.progress_timer.stop()
@@ -1559,6 +1637,7 @@ class MainWindowController:
         self.progress_bar_compute.setValue(0)
         self.label_estimated_compute_value.setText("待计算")
 
+    # 接收路径规划任务完成回调并转发到主线程。
     def _on_route_future_done(self, seq: int, future: Future[RouteResult]) -> None:
         try:
             payload: object = future.result()
@@ -1566,6 +1645,7 @@ class MainWindowController:
             payload = exc
         self._route_signal_bus.routeReady.emit(seq, payload)
 
+    # 在主线程处理路径规划结果并更新界面。
     def _on_route_ready(self, seq: int, payload: object) -> None:
         if seq != self._route_seq:
             return
@@ -1618,6 +1698,7 @@ class MainWindowController:
         self._active_request = None
         self._active_strategy_source = self._STRATEGY_SOURCE_AMAP
 
+    # 记录一次路径规划结果到历史缓存。
     def _record_result_history(
         self,
         request: RouteRequest,
@@ -1647,6 +1728,7 @@ class MainWindowController:
         self._result_history.append(entry)
         self._save_result_history()
 
+    # 清空右侧结果输出区域。
     def _clear_outputs(self) -> None:
         self.edit_eta.clear()
         self.edit_compute.clear()
@@ -1658,6 +1740,7 @@ class MainWindowController:
         self.edit_freshness_delta.clear()
         self.edit_status.setText("等待计算")
 
+    # 校验用户输入是否完整且有效。
     def _validate_inputs(self) -> bool:
         if not self.line_edit_start.text().strip():
             QMessageBox.warning(self.window, "输入缺失", "请填写起点")
@@ -1667,6 +1750,7 @@ class MainWindowController:
             return False
         return True
 
+    # 用路径规划结果刷新界面输出字段。
     def _update_outputs(self, result: RouteResult) -> None:
         self.edit_eta.setText(f"{result.total_time_h:.2f} 小时")
         self.edit_compute.setText(f"{result.compute_ms:.2f} ms")
@@ -1684,6 +1768,7 @@ class MainWindowController:
         self.edit_freshness_delta.setText(delta_text)
         self.edit_status.setText(result.status)
 
+    # 将地图展示载荷发送到前端地图页面。
     def _send_to_map(self, payload: MapPayload) -> None:
         if len(payload.points) < 2:
             self._append_log("路径点不足，跳过地图渲染。")
@@ -1696,6 +1781,7 @@ class MainWindowController:
             self.pending_payload = payload
             self._append_log("地图未就绪，已缓存路径，稍后自动渲染。")
 
+    # 响应开始计算按钮并发起路径规划任务。
     def on_run_clicked(self) -> None:
         if self._route_running:
             QMessageBox.information(self.window, "正在计算", "当前已有计算任务，请稍候。")
@@ -1744,6 +1830,7 @@ class MainWindowController:
         future = self._route_executor.submit(self.route_service.plan_route, request)
         future.add_done_callback(lambda fut, seq=current_seq: self._on_route_future_done(seq, fut))
 
+    # 重置输入项、输出项和地图展示状态。
     def on_reset_clicked(self) -> None:
         if self._route_running:
             QMessageBox.information(self.window, "正在计算", "当前任务尚未结束，暂不支持重置。")
@@ -1768,6 +1855,7 @@ class MainWindowController:
         self._append_log("参数已重置。")
         self.window.statusBar().showMessage("参数已重置")
 
+    # 关闭后台执行器并清理控制器资源。
     def shutdown(self) -> None:
         """应用退出前释放后台线程资源。"""
         self.progress_timer.stop()

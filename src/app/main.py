@@ -1,4 +1,11 @@
-﻿from __future__ import annotations
+"""桌面应用主入口。
+
+本文件负责创建 Qt 应用实例、构建应用运行所需的服务对象，
+并启动主窗口控制器与事件循环，是桌面 GUI 模式的顶层启动点。
+"""
+
+
+from __future__ import annotations
 
 import logging
 import sys
@@ -12,6 +19,7 @@ from src.app.controller import MainWindowController
 LOGGER = logging.getLogger(__name__)
 
 
+# 构建服务对象并启动桌面界面事件循环。
 def main() -> int:
     services = build_services()
 
