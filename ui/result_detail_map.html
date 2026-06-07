@@ -1,0 +1,746 @@
+<!doctype html>
+<!--
+  文件说明：
+  这是结果详情页的地图渲染页面，运行在 Qt 的 QWebEngineView 中。
+  页面负责加载高德地图、通过 QWebChannel 接收 Python 侧传来的路线与候选图结构数据，
+  并在地图上渲染结果路线、候选图边、边界轮廓和网格辅助线。
+-->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>结果详情地图</title>
+  <style>
+    html, body, #map {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #f4f7fb;
+      font-family: "Microsoft YaHei UI", "PingFang SC", sans-serif;
+    }
+
+    .status-card,
+    .legend-card {
+      position: absolute;
+      z-index: 10;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid #dbe5f0;
+      box-shadow: 0 6px 20px rgba(32, 55, 88, 0.15);
+      color: #2a3b52;
+    }
+
+    .status-card {
+      top: 12px;
+      left: 12px;
+      min-width: 340px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .legend-card {
+      top: 12px;
+      right: 12px;
+      min-width: 190px;
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .status-title,
+    .legend-title {
+      font-weight: 700;
+      color: #1e2d40;
+      margin-bottom: 6px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .legend-line {
+      width: 30px;
+      height: 0;
+      border-top-width: 4px;
+      border-top-style: solid;
+      border-radius: 999px;
+      flex: 0 0 auto;
+    }
+
+    .legend-line.route {
+      border-top-color: #ef4444;
+    }
+
+    .legend-line.boundary {
+      border-top-color: #1d4ed8;
+    }
+
+    .legend-line.graph {
+      border-top-color: #60a5fa;
+    }
+
+    .legend-line.mesh {
+      border-top-color: #14b8a6;
+    }
+
+    .endpoint-marker {
+      position: relative;
+      width: 52px;
+      height: 24px;
+      transform: translate(-26px, -22px);
+      pointer-events: none;
+    }
+
+    .endpoint-marker .tag {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #1e293b;
+      font-size: 12px;
+      line-height: 18px;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.12);
+    }
+  </style>
+
+  <script>
+    window._AMapSecurityConfig = {
+      securityJsCode: "__AMAP_SECURITY_JS_CODE__"
+    };
+  </script>
+  <script src="https://webapi.amap.com/loader.js"></script>
+  <script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+</head>
+<body>
+  <div id="map"></div>
+  <div class="status-card">
+    <div class="status-title">地图状态</div>
+    <div id="statusText">地图初始化中...</div>
+  </div>
+  <div class="legend-card">
+    <div class="legend-title">图例</div>
+    <div class="legend-item">
+      <span class="legend-line route"></span>
+      <span>结果路线</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-line boundary"></span>
+      <span>外围框架</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-line graph"></span>
+      <span>抽样候选边</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-line mesh"></span>
+      <span>候选图网</span>
+    </div>
+  </div>
+
+  <script>
+    const DEFAULT_CENTER = [104.195397, 35.86166];
+    const AMapConfig = {
+      key: "__AMAP_KEY__",
+      version: "2.0",
+      plugins: ["AMap.ToolBar", "AMap.Scale"]
+    };
+
+    const MAX_GRAPH_EDGE_POLYLINES = 880;
+    const MAX_GRAPH_SAMPLE_POINTS = 520;
+    const MAX_BOUNDARY_POINTS = 42;
+    const MAX_MESH_SEGMENTS = 1400;
+
+    let mapInstance = null;
+    let routePolyline = null;
+    let graphPolylines = [];
+    let boundaryPolylines = [];
+    let meshPolylines = [];
+    let startMarker = null;
+    let endMarker = null;
+    let pyBridge = null;
+    let isMapReady = false;
+
+    // 更新左上角状态卡片中的提示文本。
+    function setStatus(text) {
+      const el = document.getElementById("statusText");
+      if (el) {
+        el.textContent = text;
+      }
+    }
+
+    // 将前端日志回传给 Python 侧，未连接桥接时退回控制台输出。
+    function logToPython(message) {
+      if (pyBridge && typeof pyBridge.logMessage === "function") {
+        pyBridge.logMessage(String(message));
+      } else {
+        console.log(message);
+      }
+    }
+
+    // 清除当前地图上的路线、候选图和起终点标记。
+    function clearRoute() {
+      if (!mapInstance) return;
+      if (routePolyline) {
+        mapInstance.remove(routePolyline);
+        routePolyline = null;
+      }
+      if (graphPolylines.length) {
+        mapInstance.remove(graphPolylines);
+        graphPolylines = [];
+      }
+      if (boundaryPolylines.length) {
+        mapInstance.remove(boundaryPolylines);
+        boundaryPolylines = [];
+      }
+      if (meshPolylines.length) {
+        mapInstance.remove(meshPolylines);
+        meshPolylines = [];
+      }
+      if (startMarker) {
+        mapInstance.remove(startMarker);
+        startMarker = null;
+      }
+      if (endMarker) {
+        mapInstance.remove(endMarker);
+        endMarker = null;
+      }
+    }
+
+    // 生成起点或终点自定义标记的 HTML 内容。
+    function buildEndpointMarkerContent(text, kind) {
+      const safeText = String(text || "");
+      const cls = kind === "end" ? "endpoint-marker end" : "endpoint-marker start";
+      return `<div class="${cls}"><span class="tag">${safeText}</span></div>`;
+    }
+
+    // 创建带有自定义样式的起终点标记对象。
+    function createEndpointMarker(position, text, kind) {
+      return new AMap.Marker({
+        position: position,
+        title: String(text || ""),
+        anchor: "bottom-center",
+        zIndex: 150,
+        content: buildEndpointMarkerContent(text, kind)
+      });
+    }
+
+    // 计算两个二维点之间的平方距离。
+    function squaredDistance(a, b) {
+      const dx = Number(a[0]) - Number(b[0]);
+      const dy = Number(a[1]) - Number(b[1]);
+      return dx * dx + dy * dy;
+    }
+
+    // 生成用于点去重的标准化字符串键。
+    function getUniquePointKey(point) {
+      return `${Number(point[0]).toFixed(5)},${Number(point[1]).toFixed(5)}`;
+    }
+
+    // 将点以去重方式加入目标数组。
+    function pushUniquePoint(target, seen, point) {
+      if (!Array.isArray(point) || point.length < 2) return;
+      const normalized = [Number(point[0]), Number(point[1])];
+      const key = getUniquePointKey(normalized);
+      if (seen.has(key)) return;
+      seen.add(key);
+      target.push(normalized);
+    }
+
+    // 按固定步长抽样，控制渲染数量上限。
+    function sampleByStep(items, maxCount) {
+      if (!Array.isArray(items) || !items.length) return [];
+      if (items.length <= maxCount) return items.slice();
+      const step = Math.max(1, Math.floor(items.length / maxCount));
+      const sampled = [];
+      for (let i = 0; i < items.length; i += step) {
+        sampled.push(items[i]);
+      }
+      if (sampled.length && sampled[sampled.length - 1] !== items[items.length - 1]) {
+        sampled.push(items[items.length - 1]);
+      }
+      return sampled.slice(0, maxCount);
+    }
+
+    // 计算三点叉积，用于凸包构造中的转向判断。
+    function cross(o, a, b) {
+      return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+    }
+
+    // 根据点集构建候选图外轮廓的凸包。
+    function buildConvexHull(points) {
+      if (!Array.isArray(points) || points.length < 3) {
+        return Array.isArray(points) ? points.slice() : [];
+      }
+
+      const sorted = points
+        .map(point => [Number(point[0]), Number(point[1])])
+        .sort((a, b) => (a[0] - b[0]) || (a[1] - b[1]));
+
+      const lower = [];
+      for (const point of sorted) {
+        while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], point) <= 0) {
+          lower.pop();
+        }
+        lower.push(point);
+      }
+
+      const upper = [];
+      for (let i = sorted.length - 1; i >= 0; i -= 1) {
+        const point = sorted[i];
+        while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], point) <= 0) {
+          upper.pop();
+        }
+        upper.push(point);
+      }
+
+      lower.pop();
+      upper.pop();
+      return lower.concat(upper);
+    }
+
+    // 计算点集的包围盒范围。
+    function buildBounds(points) {
+      if (!Array.isArray(points) || !points.length) {
+        return null;
+      }
+
+      let minLon = Number.POSITIVE_INFINITY;
+      let maxLon = Number.NEGATIVE_INFINITY;
+      let minLat = Number.POSITIVE_INFINITY;
+      let maxLat = Number.NEGATIVE_INFINITY;
+      points.forEach(point => {
+        const lon = Number(point[0]);
+        const lat = Number(point[1]);
+        minLon = Math.min(minLon, lon);
+        maxLon = Math.max(maxLon, lon);
+        minLat = Math.min(minLat, lat);
+        maxLat = Math.max(maxLat, lat);
+      });
+
+      return {
+        minLon,
+        maxLon,
+        minLat,
+        maxLat,
+        width: Math.max(maxLon - minLon, 1e-6),
+        height: Math.max(maxLat - minLat, 1e-6)
+      };
+    }
+
+    // 从候选图边集中提取用于分析和绘制的代表点。
+    function collectGraphPoints(graphEdges, includeRouteEdges = true) {
+      const points = [];
+      const seen = new Set();
+      if (!Array.isArray(graphEdges)) return points;
+
+      graphEdges.forEach(edge => {
+        if (!edge || !Array.isArray(edge.points) || edge.points.length < 2) {
+          return;
+        }
+        if (!includeRouteEdges && edge.is_route_edge) {
+          return;
+        }
+        pushUniquePoint(points, seen, edge.points[0]);
+        pushUniquePoint(points, seen, edge.points[Math.floor(edge.points.length / 2)]);
+        pushUniquePoint(points, seen, edge.points[edge.points.length - 1]);
+      });
+      return points;
+    }
+
+    // 根据边界点构建外围轮廓折线集合。
+    function buildBoundaryPolylines(boundaryPoints) {
+      if (!Array.isArray(boundaryPoints) || boundaryPoints.length < 2) {
+        return [];
+      }
+
+      const sampledBoundary = sampleByStep(boundaryPoints, MAX_BOUNDARY_POINTS);
+      const polylines = [];
+      for (let i = 0; i < sampledBoundary.length; i += 1) {
+        const current = sampledBoundary[i];
+        const next = sampledBoundary[(i + 1) % sampledBoundary.length];
+        polylines.push(new AMap.Polyline({
+          path: [current, next],
+          strokeColor: "#1d4ed8",
+          strokeOpacity: 0.94,
+          strokeWeight: 5,
+          isOutline: true,
+          outlineColor: "rgba(255,255,255,0.86)",
+          borderWeight: 2,
+          lineJoin: "round",
+          lineCap: "round",
+          zIndex: 114
+        }));
+      }
+      return polylines;
+    }
+
+    // 将候选图边转换为可直接渲染的折线对象集合。
+    function buildGraphPolylines(graphEdges) {
+      if (!Array.isArray(graphEdges) || !graphEdges.length) {
+        return [];
+      }
+
+      const sampledEdges = sampleByStep(graphEdges, MAX_GRAPH_EDGE_POLYLINES);
+      return sampledEdges
+        .filter(edge => edge && Array.isArray(edge.points) && edge.points.length >= 2)
+        .map(edge => new AMap.Polyline({
+          path: edge.points,
+          strokeColor: edge.is_route_edge ? "#f59e0b" : "#60a5fa",
+          strokeOpacity: edge.is_route_edge ? 0.82 : 0.58,
+          strokeWeight: edge.is_route_edge ? 4.5 : 2.6,
+          lineJoin: "round",
+          lineCap: "round",
+          strokeStyle: edge.is_route_edge ? "solid" : "dashed",
+          strokeDasharray: edge.is_route_edge ? [1, 0] : [6, 5],
+          zIndex: edge.is_route_edge ? 110 : 104
+        }));
+    }
+
+    // 从候选图和边界中抽取代表点用于后续网格连接。
+    function sampleGraphPoints(graphEdges, boundaryPoints) {
+      const sampled = [];
+      const seen = new Set();
+      const boundarySet = new Set((boundaryPoints || []).map(point => getUniquePointKey(point)));
+
+      const graphPoints = collectGraphPoints(graphEdges, false);
+      graphPoints.forEach(point => {
+        if (!boundarySet.has(getUniquePointKey(point))) {
+          pushUniquePoint(sampled, seen, point);
+        }
+      });
+
+      return sampleByStep(sampled, MAX_GRAPH_SAMPLE_POINTS);
+    }
+
+    // 按空间网格为点集建立分桶代表信息。
+    function buildCellRepresentatives(points, bounds) {
+      if (!Array.isArray(points) || !points.length || !bounds) {
+        return {
+          cols: 0,
+          rows: 0,
+          cells: []
+        };
+      }
+
+      const pointCount = points.length;
+      const aspect = Math.max(bounds.width / bounds.height, 0.45);
+      const base = Math.sqrt(pointCount / 3.2);
+      const cols = Math.max(7, Math.min(18, Math.round(base * Math.sqrt(aspect))));
+      const rows = Math.max(5, Math.min(14, Math.round(base / Math.sqrt(aspect))));
+      const buckets = new Map();
+
+      points.forEach(point => {
+        const lon = Number(point[0]);
+        const lat = Number(point[1]);
+        const col = Math.min(cols - 1, Math.max(0, Math.floor(((lon - bounds.minLon) / bounds.width) * cols)));
+        const row = Math.min(rows - 1, Math.max(0, Math.floor(((lat - bounds.minLat) / bounds.height) * rows)));
+        const key = `${col},${row}`;
+        if (!buckets.has(key)) {
+          buckets.set(key, []);
+        }
+        buckets.get(key).push([lon, lat]);
+      });
+
+      const cells = [];
+      buckets.forEach((bucketPoints, key) => {
+        const [colText, rowText] = key.split(",");
+        const col = Number(colText);
+        const row = Number(rowText);
+        const centroid = bucketPoints.reduce(
+          (acc, point) => [acc[0] + point[0], acc[1] + point[1]],
+          [0, 0]
+        ).map(value => value / bucketPoints.length);
+        let bestPoint = bucketPoints[0];
+        let bestDistance = Number.POSITIVE_INFINITY;
+        bucketPoints.forEach(point => {
+          const dist = squaredDistance(point, centroid);
+          if (dist < bestDistance) {
+            bestDistance = dist;
+            bestPoint = point;
+          }
+        });
+        cells.push({
+          col,
+          row,
+          point: bestPoint,
+          density: bucketPoints.length
+        });
+      });
+
+      return { cols, rows, cells };
+    }
+
+    // 以无向边方式去重并记录网格线段。
+    function dedupeMeshSegment(segments, seen, a, b) {
+      if (!Array.isArray(a) || !Array.isArray(b)) return;
+      const aKey = getUniquePointKey(a);
+      const bKey = getUniquePointKey(b);
+      if (aKey === bKey) return;
+      const key = aKey < bKey ? `${aKey}|${bKey}` : `${bKey}|${aKey}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      segments.push([a, b]);
+    }
+
+    // 为目标点连接若干个最近邻点以生成辅助网格线。
+    function connectToNearest(targetPoint, candidates, limit, maxDistanceSq, segments, seenSegments) {
+      const nearest = candidates
+        .map(candidate => ({
+          point: candidate,
+          dist: squaredDistance(targetPoint, candidate)
+        }))
+        .filter(candidate => candidate.dist > 0)
+        .sort((a, b) => a.dist - b.dist)
+        .slice(0, limit);
+
+      nearest.forEach(candidate => {
+        if (candidate.dist <= maxDistanceSq) {
+          dedupeMeshSegment(segments, seenSegments, targetPoint, candidate.point);
+        }
+      });
+    }
+
+    // 基于路线点、候选图点和边界点构建辅助网格折线。
+    function buildMeshPolylines(points, graphEdges, boundaryPoints) {
+      const boundarySamples = sampleByStep(boundaryPoints || [], MAX_BOUNDARY_POINTS);
+      const graphSamples = sampleGraphPoints(graphEdges, boundarySamples);
+      const allMeshPoints = [...boundarySamples, ...graphSamples];
+      const bounds = buildBounds(allMeshPoints);
+      if (!bounds || !graphSamples.length) {
+        return [];
+      }
+
+      const segments = [];
+      const seenSegments = new Set();
+      const cellData = buildCellRepresentatives(graphSamples, bounds);
+      const cellMap = new Map(cellData.cells.map(cell => [`${cell.col},${cell.row}`, cell]));
+
+      for (let i = 0; i < boundarySamples.length; i += 1) {
+        const current = boundarySamples[i];
+        const next = boundarySamples[(i + 1) % boundarySamples.length];
+        dedupeMeshSegment(segments, seenSegments, current, next);
+      }
+
+      const neighborOffsets = [
+        [1, 0],
+        [0, 1],
+        [1, 1],
+        [1, -1],
+        [2, 0],
+        [0, 2],
+      ];
+
+      cellData.cells.forEach(cell => {
+        neighborOffsets.forEach(([dx, dy]) => {
+          const neighbor = cellMap.get(`${cell.col + dx},${cell.row + dy}`);
+          if (neighbor) {
+            dedupeMeshSegment(segments, seenSegments, cell.point, neighbor.point);
+          }
+        });
+      });
+
+      boundarySamples.forEach(boundaryPoint => {
+        connectToNearest(
+          boundaryPoint,
+          cellData.cells.map(cell => cell.point),
+          3,
+          Number.POSITIVE_INFINITY,
+          segments,
+          seenSegments
+        );
+      });
+
+      cellData.cells.forEach(cell => {
+        connectToNearest(
+          cell.point,
+          graphSamples,
+          4,
+          Math.max(bounds.width, bounds.height) * Math.max(bounds.width, bounds.height) * 0.03,
+          segments,
+          seenSegments
+        );
+      });
+
+      graphSamples.forEach(graphPoint => {
+        connectToNearest(
+          graphPoint,
+          cellData.cells.map(cell => cell.point),
+          4,
+          Number.POSITIVE_INFINITY,
+          segments,
+          seenSegments
+        );
+      });
+
+      return segments.slice(0, MAX_MESH_SEGMENTS).map(segment => new AMap.Polyline({
+        path: segment,
+        strokeColor: "#14b8a6",
+        strokeOpacity: 0.38,
+        strokeWeight: 2.2,
+        strokeStyle: "dashed",
+        strokeDasharray: [7, 6],
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 102
+      }));
+    }
+
+    // 根据路线和图结构数据渲染结果详情地图。
+    function renderRoute(points, meta, graphEdges) {
+      if (!mapInstance || !Array.isArray(points)) return;
+      if (points.length < 2) {
+        setStatus("路径点不足，无法渲染。");
+        return;
+      }
+
+      clearRoute();
+
+      const graphPoints = collectGraphPoints(graphEdges, true);
+      const boundaryPoints = buildConvexHull(graphPoints);
+      boundaryPolylines = buildBoundaryPolylines(boundaryPoints);
+      graphPolylines = buildGraphPolylines(graphEdges);
+      meshPolylines = buildMeshPolylines(points, graphEdges, boundaryPoints);
+
+      routePolyline = new AMap.Polyline({
+        path: points,
+        strokeColor: "#ef4444",
+        strokeOpacity: 0.98,
+        strokeWeight: 7,
+        isOutline: true,
+        outlineColor: "#ffffff",
+        borderWeight: 3,
+        showDir: true,
+        lineJoin: "round",
+        lineCap: "round",
+        zIndex: 130
+      });
+
+      startMarker = createEndpointMarker(points[0], "起点", "start");
+      endMarker = createEndpointMarker(points[points.length - 1], "终点", "end");
+
+      const overlays = [
+        ...meshPolylines,
+        ...graphPolylines,
+        ...boundaryPolylines,
+        routePolyline,
+        startMarker,
+        endMarker
+      ];
+      mapInstance.add(overlays);
+      mapInstance.setFitView(overlays, false, [60, 60, 60, 60]);
+
+      const start = meta && meta.start ? meta.start : "未知起点";
+      const end = meta && meta.end ? meta.end : "未知终点";
+      const algo = meta && meta.algorithm ? meta.algorithm : "未知策略";
+      const totalEdges = meta && meta.edge_count ? ` / 总图边=${meta.edge_count}` : "";
+      const graphHint = graphPolylines.length ? `，抽样边=${graphPolylines.length}${totalEdges}` : "";
+      const boundaryHint = boundaryPolylines.length ? `，框架段=${boundaryPolylines.length}` : "";
+      const meshHint = meshPolylines.length ? `，网格线=${meshPolylines.length}` : "";
+      setStatus(`已渲染路径: ${start} -> ${end} (${algo}${graphHint}${boundaryHint}${meshHint})`);
+      logToPython(`结果详情地图完成渲染，路线点=${points.length}，抽样边=${graphPolylines.length}，网格线=${meshPolylines.length}`);
+    }
+
+    // 解析 Python 侧发送的详情载荷并触发地图渲染。
+    function handleRoutePayload(payload) {
+      try {
+        const parsed = typeof payload === "string" ? JSON.parse(payload) : payload;
+        const points = parsed && parsed.points ? parsed.points : [];
+        const graphEdges = parsed && parsed.graph_edges ? parsed.graph_edges : [];
+        const meta = parsed && parsed.meta ? parsed.meta : {};
+        renderRoute(points, meta, graphEdges);
+      } catch (error) {
+        const msg = `路径数据解析失败: ${error}`;
+        setStatus(msg);
+        logToPython(msg);
+      }
+    }
+
+    // 建立与 Qt WebChannel 的通信并订阅详情数据更新事件。
+    function setupWebChannel() {
+      if (typeof qt === "undefined") {
+        setStatus("未检测到 Qt WebChannel，仅支持地图展示。");
+        return;
+      }
+
+      new QWebChannel(qt.webChannelTransport, function (channel) {
+        pyBridge = channel.objects.pyBridge;
+        if (!pyBridge) {
+          setStatus("WebChannel 已连接，但 pyBridge 不存在。");
+          return;
+        }
+
+        if (pyBridge.routeDataChanged) {
+          pyBridge.routeDataChanged.connect(function (payload) {
+            handleRoutePayload(payload);
+          });
+        }
+
+        if (isMapReady && typeof pyBridge.notifyMapReady === "function") {
+          pyBridge.notifyMapReady();
+        }
+
+        logToPython("WebChannel 已连接。");
+      });
+    }
+
+    // 初始化高德地图实例并在就绪后通知 Python 侧。
+    async function initMap() {
+      try {
+        if (!AMapConfig.key || AMapConfig.key.startsWith("__")) {
+          const msg = "未配置高德 Key，请在环境变量或配置文件中设置。";
+          setStatus(msg);
+          logToPython(msg);
+          return;
+        }
+        if (!window._AMapSecurityConfig || !window._AMapSecurityConfig.securityJsCode ||
+            String(window._AMapSecurityConfig.securityJsCode).startsWith("__")) {
+          const msg = "未配置高德安全密钥，请在环境变量或配置文件中设置。";
+          setStatus(msg);
+          logToPython(msg);
+          return;
+        }
+
+        const AMap = await AMapLoader.load(AMapConfig);
+        mapInstance = new AMap.Map("map", {
+          center: DEFAULT_CENTER,
+          zoom: 4.8,
+          resizeEnable: true,
+          mapStyle: "amap://styles/whitesmoke"
+        });
+
+        mapInstance.addControl(new AMap.ToolBar());
+        mapInstance.addControl(new AMap.Scale());
+
+        isMapReady = true;
+        setStatus("地图已就绪，等待路径数据。");
+        logToPython("地图初始化完成。");
+
+        if (pyBridge && typeof pyBridge.notifyMapReady === "function") {
+          pyBridge.notifyMapReady();
+        }
+      } catch (error) {
+        const msg = `地图初始化失败: ${error}`;
+        setStatus(msg);
+        logToPython(msg);
+      }
+    }
+
+    window.clearRoute = clearRoute;
+    window.renderRoute = renderRoute;
+
+    setupWebChannel();
+    initMap();
+  </script>
+</body>
+</html>

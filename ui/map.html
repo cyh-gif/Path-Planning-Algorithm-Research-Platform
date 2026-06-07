@@ -1,4 +1,10 @@
 ﻿<!doctype html>
+<!--
+  文件说明：
+  这是主界面的地图渲染页面，运行在 Qt 的 QWebEngineView 中。
+  页面负责加载高德地图、通过 QWebChannel 接收 Python 侧传来的路径数据，
+  并在地图上渲染路线、起终点标记和状态信息。
+-->
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
@@ -110,6 +116,7 @@
     let pyBridge = null;
     let isMapReady = false;
 
+    // 更新左上角状态卡片中的提示文本。
     function setStatus(text) {
       const el = document.getElementById("statusText");
       if (el) {
@@ -117,6 +124,7 @@
       }
     }
 
+    // 将前端日志回传给 Python 侧，未连接桥接时退回控制台输出。
     function logToPython(message) {
       if (pyBridge && typeof pyBridge.logMessage === "function") {
         pyBridge.logMessage(String(message));
@@ -125,6 +133,7 @@
       }
     }
 
+    // 清除当前地图上的路线和起终点标记。
     function clearRoute() {
       if (!mapInstance) return;
       if (routePolyline) {
@@ -141,12 +150,14 @@
       }
     }
 
+    // 生成起点或终点自定义标记的 HTML 内容。
     function buildEndpointMarkerContent(text, kind) {
       const safeText = String(text || "");
       const cls = kind === "end" ? "endpoint-marker end" : "endpoint-marker start";
       return `<div class="${cls}"><span class="tag">${safeText}</span><span class="dot"></span></div>`;
     }
 
+    // 创建带有自定义样式的起终点标记对象。
     function createEndpointMarker(position, text, kind) {
       return new AMap.Marker({
         position: position,
@@ -157,6 +168,7 @@
       });
     }
 
+    // 根据路径点和元信息在地图上渲染单条路线。
     function renderRoute(points, meta) {
       if (!mapInstance || !Array.isArray(points)) return;
       if (points.length < 2) {
@@ -189,6 +201,7 @@
       logToPython(`地图完成渲染，点数=${points.length}`);
     }
 
+    // 解析 Python 侧发送的路径载荷并触发路线渲染。
     function handleRoutePayload(payload) {
       try {
         const parsed = typeof payload === "string" ? JSON.parse(payload) : payload;
@@ -202,6 +215,7 @@
       }
     }
 
+    // 建立与 Qt WebChannel 的通信并订阅路径数据更新事件。
     function setupWebChannel() {
       if (typeof qt === "undefined") {
         setStatus("未检测到 Qt WebChannel，仅支持地图展示。");
@@ -229,6 +243,7 @@
       });
     }
 
+    // 初始化高德地图实例并在就绪后通知 Python 侧。
     async function initMap() {
       try {
         if (!AMapConfig.key || AMapConfig.key.startsWith("__")) {
