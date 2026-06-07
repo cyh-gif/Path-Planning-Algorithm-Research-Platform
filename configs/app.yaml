@@ -66,7 +66,7 @@ freshness:
   amap_compare_strategy_codes_csv: ""
   amap_compare_max_paths_per_strategy: 3
   arbitration_time_budget_s: 9
-  fruit_profile_json: data/processed/fruit_profiles.json
+  fruit_profile_json: configs/fruit_profiles.json
   transport_mode_multipliers:
     公路冷链: 0.72
     公路常温: 1.0
