@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import heapq
 
-from src.algorithms.graph_builder import GraphData
-from src.algorithms.dijkstra_shortest_path import PathSolveResult
+from src.core.graph import GraphData
+from src.algorithms.path_result import PathSolveResult
 
 
 class FreshnessDijkstraImprovedSolver:

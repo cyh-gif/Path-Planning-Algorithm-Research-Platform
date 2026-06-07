@@ -16,8 +16,8 @@ import heapq
 from dataclasses import dataclass
 from math import inf
 
-from src.algorithms.graph_builder import GraphData
-from src.algorithms.dijkstra_shortest_path import PathSolveResult
+from src.core.graph import GraphData
+from src.algorithms.path_result import PathSolveResult
 
 
 @dataclass(slots=True)

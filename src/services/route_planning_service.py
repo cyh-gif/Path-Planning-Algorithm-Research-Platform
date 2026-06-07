@@ -8,9 +8,10 @@ import time
 
 from src.algorithms.a_star_shortest_path import AStarShortestPathSolver
 from src.algorithms.freshness_dijkstra_improved import FreshnessDijkstraImprovedSolver
-from src.algorithms.graph_builder import GraphData, GraphEdge, haversine_km
 from src.algorithms.greedy_best_first_path import GreedyBestFirstPathSolver
-from src.algorithms.dijkstra_shortest_path import PathSolveResult, StaticShortestPathSolver
+from src.algorithms.dijkstra_shortest_path import StaticShortestPathSolver
+from src.algorithms.path_result import PathSolveResult
+from src.core.graph import GraphData, GraphEdge, haversine_km
 from src.algorithms.target_freshness_k_shortest_path import TargetFreshnessKShortestPathSolver
 from src.algorithms.target_freshness_lexicographic_a_star import TargetFreshnessLexicographicAStarSolver
 from src.algorithms.target_freshness_label_search import TargetFreshnessAdaptiveLabelSearchSolver
