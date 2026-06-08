@@ -288,23 +288,75 @@ class AMapWebServiceClient:
         if len(points) < 2 or max_segment_m <= 0:
             return [[round(point[0], 6), round(point[1], 6)] for point in points]
 
-        dense: list[list[float]] = [[round(points[0][0], 6), round(points[0][1], 6)]]
+        rounded_points = [[round(point[0], 6), round(point[1], 6)] for point in points]
+        max_points = max(2, int(self._MAX_DENSIFY_POINTS))
+        if len(rounded_points) >= max_points:
+            sampled: list[list[float]] = []
+            last_index = len(rounded_points) - 1
+            for output_index in range(max_points):
+                source_index = round(output_index * last_index / (max_points - 1))
+                point = rounded_points[source_index]
+                if sampled and sampled[-1] == point:
+                    continue
+                sampled.append(point)
+            if sampled[-1] != rounded_points[-1]:
+                sampled[-1] = rounded_points[-1]
+            return sampled
+
+        segment_distances: list[float] = []
+        desired_extra_points: list[int] = []
+        total_desired_extra = 0
         for idx in range(len(points) - 1):
             p1 = points[idx]
             p2 = points[idx + 1]
             dist_m = self._haversine_m(p1[0], p1[1], p2[0], p2[1])
-            segments = max(1, int(math.ceil(dist_m / max_segment_m)))
+            segment_distances.append(dist_m)
+            extra_count = max(0, int(math.ceil(dist_m / max_segment_m)) - 1)
+            desired_extra_points.append(extra_count)
+            total_desired_extra += extra_count
+
+        remaining_budget = max_points - len(rounded_points)
+        if total_desired_extra <= remaining_budget:
+            allocated_extra_points = desired_extra_points
+        else:
+            allocated_extra_points = [0] * len(desired_extra_points)
+            if remaining_budget > 0 and total_desired_extra > 0:
+                remainders: list[tuple[float, int]] = []
+                assigned = 0
+                for idx, desired in enumerate(desired_extra_points):
+                    if desired <= 0:
+                        continue
+                    quota = desired * remaining_budget / total_desired_extra
+                    base = min(desired, int(math.floor(quota)))
+                    allocated_extra_points[idx] = base
+                    assigned += base
+                    remainders.append((quota - base, idx))
+
+                leftover = remaining_budget - assigned
+                for _, idx in sorted(remainders, key=lambda item: item[0], reverse=True):
+                    if leftover <= 0:
+                        break
+                    if allocated_extra_points[idx] >= desired_extra_points[idx]:
+                        continue
+                    allocated_extra_points[idx] += 1
+                    leftover -= 1
+
+        dense: list[list[float]] = [rounded_points[0]]
+        for idx in range(len(points) - 1):
+            p1 = points[idx]
+            p2 = points[idx + 1]
+            extra_count = allocated_extra_points[idx]
+            segments = extra_count + 1
             for step in range(1, segments):
                 ratio = step / segments
                 lon = p1[0] + (p2[0] - p1[0]) * ratio
                 lat = p1[1] + (p2[1] - p1[1]) * ratio
                 dense.append([round(lon, 6), round(lat, 6)])
-                if len(dense) >= self._MAX_DENSIFY_POINTS:
-                    return dense
-            dense.append([round(p2[0], 6), round(p2[1], 6)])
-            if len(dense) >= self._MAX_DENSIFY_POINTS:
-                return dense
-        return dense
+            dense.append(rounded_points[idx + 1])
+
+        if dense[-1] != rounded_points[-1]:
+            dense.append(rounded_points[-1])
+        return dense[:max_points]
 
     def _polyline_distance_m(self, points_gcj02: list[list[float]]) -> float:
         if len(points_gcj02) < 2:

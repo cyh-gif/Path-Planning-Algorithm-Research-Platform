@@ -438,6 +438,8 @@ class RoutePlanningService:
                 strategy_name=strategy_name,
                 graph=graph,
                 solved=solved,
+                start_gcj02=start_gcj02,
+                end_gcj02=end_gcj02,
                 is_time_dependent=is_time_dependent,
                 depart_at=request.depart_at,
                 dynamic_override_count=dynamic_override_count,
@@ -1005,6 +1007,8 @@ class RoutePlanningService:
         strategy_name: str,
         graph: GraphData,
         solved: PathSolveResult,
+        start_gcj02: tuple[float, float],
+        end_gcj02: tuple[float, float],
         is_time_dependent: bool,
         depart_at: datetime,
         dynamic_override_count: int = 0,
@@ -1013,7 +1017,19 @@ class RoutePlanningService:
         transport_mode: str = "",
     ) -> RouteResult:
         points_wgs84 = self._build_polyline(graph, solved)
+        start_wgs84 = gcj02_to_wgs84(start_gcj02[0], start_gcj02[1])
+        end_wgs84 = gcj02_to_wgs84(end_gcj02[0], end_gcj02[1])
+        points_wgs84 = self._anchor_route_endpoints(
+            points=points_wgs84,
+            start_point=[start_wgs84[0], start_wgs84[1]],
+            end_point=[end_wgs84[0], end_wgs84[1]],
+        )
         points_gcj02 = batch_wgs84_to_gcj02(points_wgs84)
+        points_gcj02 = self._anchor_route_endpoints(
+            points=points_gcj02,
+            start_point=[start_gcj02[0], start_gcj02[1]],
+            end_point=[end_gcj02[0], end_gcj02[1]],
+        )
         debug_payload = self._build_graph_debug_payload(
             graph=graph,
             solved=solved,
@@ -1849,6 +1865,44 @@ class RoutePlanningService:
             for lon, lat in segment[1:]:
                 polyline.append([round(lon, 6), round(lat, 6)])
         return polyline
+
+    def _anchor_route_endpoints(
+        self,
+        points: list[list[float]],
+        start_point: list[float],
+        end_point: list[float],
+    ) -> list[list[float]]:
+        normalized_start = [round(float(start_point[0]), 6), round(float(start_point[1]), 6)]
+        normalized_end = [round(float(end_point[0]), 6), round(float(end_point[1]), 6)]
+
+        if not points:
+            return [normalized_start, normalized_end]
+
+        anchored = [
+            [round(float(point[0]), 6), round(float(point[1]), 6)]
+            for point in points
+            if isinstance(point, list | tuple) and len(point) >= 2
+        ]
+        if not anchored:
+            return [normalized_start, normalized_end]
+
+        if anchored[0] != normalized_start:
+            anchored.insert(0, normalized_start)
+        else:
+            anchored[0] = normalized_start
+
+        if anchored[-1] != normalized_end:
+            anchored.append(normalized_end)
+        else:
+            anchored[-1] = normalized_end
+
+        compacted: list[list[float]] = [anchored[0]]
+        for point in anchored[1:]:
+            if point != compacted[-1]:
+                compacted.append(point)
+        if len(compacted) == 1:
+            compacted.append(normalized_end)
+        return compacted
 
     def _sum_distance_km(self, graph: GraphData, solved: PathSolveResult) -> float:
         total_m = 0.0

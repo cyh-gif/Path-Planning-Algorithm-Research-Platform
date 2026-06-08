@@ -1635,3 +1635,83 @@
 2026-06-08 08:27:27 | INFO | src.app.controller | 路径已发送到地图。
 2026-06-08 08:27:27 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
 2026-06-08 08:27:27 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 10:03:42 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-08 10:03:42 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-08 10:03:43 | INFO | src.app.main | 应用启动完成
+2026-06-08 10:03:43 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-08 10:03:43 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-08 10:03:43 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-08 10:03:44 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-08 10:07:47 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:07:48 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:07:48 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 10:07:48 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 10:07:49 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-06-08 10:07:51 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:07:58 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:07:58 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 10:07:58 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 10:08:00 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:08:09 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:08:09 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 10:08:09 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 10:08:11 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜字典序A*算法(TF-LA*), 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:08:13 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:08:14 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜字典序A*算法(TF-LA*)，目标: 最小化(|保鲜度-100|, 时间)(TF-LA*)，数据源: 高德候选路径）
+2026-06-08 10:08:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 10:09:16 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=土豪算法, 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:09:54 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:09:54 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 土豪算法，目标: 最远路径，候选策略编码: 13）
+2026-06-08 10:09:55 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-06-08 10:10:15 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=芒果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:10:23 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:10:23 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 10:10:23 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12118
+2026-06-08 10:18:17 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-08 10:18:17 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-08 10:18:17 | INFO | src.app.main | 应用启动完成
+2026-06-08 10:18:18 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-08 10:18:18 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-08 10:18:18 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-08 10:18:19 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-08 10:18:30 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:18:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:18:31 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 10:18:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 10:19:06 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-06-08 10:19:10 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜字典序A*算法(TF-LA*), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:19:14 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:19:14 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜字典序A*算法(TF-LA*)，目标: 最小化(|保鲜度-100|, 时间)(TF-LA*)，数据源: 高德候选路径）
+2026-06-08 10:19:14 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12000
+2026-06-08 10:21:28 | INFO | src.app.controller | 开始规划: 北京站 -> 天津市, 来源=自研算法, 策略=目标保鲜字典序A*算法(TF-LA*), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:21:31 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:21:31 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜字典序A*算法(TF-LA*)，目标: 最小化(|保鲜度-100|, 时间)(TF-LA*)，数据源: 高德候选路径）
+2026-06-08 10:21:31 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1907
+2026-06-08 10:21:39 | INFO | src.app.controller | 开始规划: 北京站 -> 天津市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:21:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:21:41 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 10:21:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1907
+2026-06-08 10:21:45 | INFO | src.app.controller | 开始规划: 北京站 -> 天津市, 来源=自研算法, 策略=目标保鲜偏差算法(ATD-LS), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:21:46 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:21:46 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜偏差算法(ATD-LS)，目标: 最小化|保鲜度-100|(ATD-LS)，数据源: 高德候选路径）
+2026-06-08 10:21:46 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1907
+2026-06-08 10:21:49 | INFO | src.app.controller | 开始规划: 北京站 -> 天津市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:21:51 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:21:51 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 10:21:51 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=1907
+2026-06-08 10:23:28 | INFO | src.app.controller | 已恢复上次设置参数。
+2026-06-08 10:23:28 | INFO | src.app.controller | 界面已启动，等待输入。
+2026-06-08 10:23:28 | INFO | src.app.main | 应用启动完成
+2026-06-08 10:23:29 | INFO | src.app.controller | 地图消息: WebChannel 已连接。
+2026-06-08 10:23:30 | INFO | src.app.controller | 地图消息: 地图初始化完成。
+2026-06-08 10:23:30 | INFO | src.app.controller | 地图桥接完成，可接收路径。
+2026-06-08 10:23:30 | INFO | src.app.controller | 地图页面加载完成，等待 WebChannel 就绪。
+2026-06-08 10:23:39 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=高德策略, 策略=速度优先, 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:23:41 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:23:41 | INFO | src.app.controller | 规划成功（引擎: 高德，策略: 速度优先）
+2026-06-08 10:23:41 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=9199
+2026-06-08 10:23:46 | INFO | src.app.controller | 已切换策略来源: 自研算法
+2026-06-08 10:23:47 | INFO | src.app.controller | 开始规划: 北京市 -> 上海市, 来源=自研算法, 策略=目标保鲜K最短路算法(TF-KSP), 水果=苹果, 运输=公路冷链, 载重=5.0 吨
+2026-06-08 10:24:05 | INFO | src.app.controller | 路径已发送到地图。
+2026-06-08 10:24:05 | INFO | src.app.controller | 规划成功（引擎: 自研，算法: 目标保鲜K最短路算法(TF-KSP)，目标: 最小化|保鲜度-100|(TF-KSP)，数据源: 高德候选路径）
+2026-06-08 10:24:05 | INFO | src.app.controller | 地图消息: 地图完成渲染，点数=12002
