@@ -1,4 +1,6 @@
-"""HTTP API 主入口，负责暴露路径规划、地点联想和助手对话接口。"""
+"""HTTP API 主入口，负责暴露路径规划、地点联想和助手对话接口。
+http://101.37.116.44/planner
+"""
 
 from __future__ import annotations
 
